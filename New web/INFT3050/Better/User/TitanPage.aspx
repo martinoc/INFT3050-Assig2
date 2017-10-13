@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Titan Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="TitanPage.aspx.cs" Inherits="TitanPage" %>
+﻿<%@ Page Title="Titan Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="TitanPage.aspx.cs" Inherits="Better.User.TitanPage" %>
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">

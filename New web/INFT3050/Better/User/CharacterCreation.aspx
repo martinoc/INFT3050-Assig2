@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Character Creation" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="CharacterCreation.aspx.cs" Inherits="Account_Manage" %>
+﻿<%@ Page Title="Character Creation" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="CharacterCreation.aspx.cs" Inherits="Better.User.CharacterCreation" %>
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">

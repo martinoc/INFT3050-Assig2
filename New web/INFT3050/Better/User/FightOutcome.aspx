@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Fight Outcome" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="FightOutcome.aspx.cs" Inherits="Account_Manage" %>
+﻿<%@ Page Title="Fight Outcome" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="FightOutcome.aspx.cs" Inherits="Better.User.FightOutcome" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %>.</h2>

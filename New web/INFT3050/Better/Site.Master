@@ -57,18 +57,18 @@
 
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/User/Account/Register">Register</a></li>
-                                <li><a runat="server" href="~/User/Account/Login">Log in</a></li>
+                                <li><a runat="server" href="~/Account/Register">Register</a></li>
+                                <li><a runat="server" href="~/Account/Login">Log in</a></li>
                             </ul>
                         </AnonymousTemplate>
                         <LoggedInTemplate>
                             <ul class="nav navbar-nav">
-                              <li><a runat="server" href="~/User/Profile">Profile</a></li>
+                              <li><a runat="server" href="~/User/UserProfile">Profile</a></li>
                               <li><a runat="server" href="~/HallOfFame">Hall Of Fame</a></li>
 
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/User/Account/Manage" title="Manage your account">Manage Account</a></li>
+                                <li><a runat="server" href="~/Account/Manage" title="Manage your account">Manage Account</a></li>
                                 <li>
                                     <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
                                 </li>

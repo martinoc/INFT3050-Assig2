@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Fight History" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="FightHistory.aspx.cs" Inherits="Account_Manage" %>
+﻿<%@ Page Title="Fight History" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="FightHistory.aspx.cs" Inherits="Better.User.FightHistory" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %>.</h2>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Exercise Form" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="ExerciseForm.aspx.cs" Inherits="Account_Manage" %>
+﻿<%@ Page Title="Exercise Form" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="ExerciseForm.aspx.cs" Inherits="Better.User.ExerciseForm" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %>.</h2>
