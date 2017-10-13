@@ -83,6 +83,12 @@ b,
 strong {
   font-weight: bold;
 }
+    .green {
+        color:green;
+    }
+    .red {
+        color: red;
+    }
 
 dfn {
   font-style: italic;
@@ -778,11 +784,92 @@ pre code {
   display: table;
   content: " ";
 }
-
+.text {
+    align-content: center;
+    background-color: #999;
+    opacity: .8;
+    color: white;
+    font-size: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align:center;
+}
+.current-overlay {
+    position: absolute;
+    padding-top: 110px;
+    padding-bottom: 104px;
+    padding-left: 72px;
+    padding-right: 75px;
+    background: rgb(0, 0, 0); /* fallback color */
+    background: rgba(0, 0, 0, 0.7);
+    opacity: .8;
+    color: white;
+    font-size: 40px;
+}
 .container:after {
   clear: both;
 }
+.select-character {
+    background-color: lightgray;
+    border: 3px solid #eeeef0;
+    opacity: 1;
+    display: inline-block;
+}
+.image-hover:hover {
+    opacity: .5;
+}
+.profile-image {
+    border-bottom: 3px solid #eeeef0;
+}
+    .profile-image:hover {
+        opacity: .5;
+    }
 
+.myProgress {
+    background-color: #ddd;
+}
+
+.myBar {
+    width: 10%;
+    height: 20px;
+    background-color: #4CAF50;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    text-shadow: -.3px -.3px 0 #080707, .3px -.3px 0 #000, -.3px .3px 0 #000, .3px .3px 0 #000;
+    border-right: 1px solid #1d760d;
+}
+
+.leftContent {
+    float: left;
+    width: 30%;
+}
+.Cbox {
+    float: left;
+}
+.Cbox input {
+    width: 35px;
+    height: 35px;
+}
+.hall-of-hero-slot {
+    border: 2px solid #eeeef0;
+    width: 24%;
+    display: inline-block;
+    height: 110px;
+}
+.hall-of-hero-titan {
+    float: left;
+    margin-left: auto;
+}
+.hall-of-hero-detail {
+    height: inherit;
+    padding-left: 65px
+}
+.hall-of-hero-detail2 {
+    display: inline-block;
+    height: inherit;
+    padding-left: 65px
+}
 .row {
   margin-right: -15px;
   margin-left: -15px;
