@@ -4,26 +4,26 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 
 namespace Better.User
 {
     public partial class ExerciseForm : Page
     {
-        //userManager manager = new UserManager();
-
 
         protected void Page_Load()
         {
-            //var user = manager.FindById(User.Identity.GetUserId());
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
 
             Panel panel = (Panel)FindControlRecursive(Page, "UserDetails");
             Label Name = (Label)panel.FindControl("Name");
             Label EPBalance = (Label)panel.FindControl("EPBalance");
 
-            //Name.Text = user.FirstName + " " + user.LastName;
-            //EPBalance.Text = user.EPBalance.ToString();
+            Name.Text = user.FirstName + " " + user.LastName;
+            EPBalance.Text = user.EPBalance.ToString();
 
             Panel epAdded = (Panel)FindControlRecursive(Page, "epAdded");
             epAdded.Visible = false;
@@ -38,7 +38,9 @@ namespace Better.User
             TextBox sitUps = (TextBox)panel.FindControl("sitUps");
             TextBox ParentPin = (TextBox)panel.FindControl("ParentPin");
 
-            //var user = manager.FindById(User.Identity.GetUserId());
+            
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
 
 
             String errmsg = "";
@@ -95,18 +97,20 @@ namespace Better.User
             Label newEP = (Label)FindControlRecursive(Page, "newEP");
             Label EPBalance = (Label)FindControlRecursive(Page, "EPBalance");
 
-            //var user = manager.FindById(User.Identity.GetUserId());
+
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
 
             Random rand = new Random();
 
             int add = rand.Next(200, 800);
-            //int oldInt = Convert.ToInt32(user.EPBalance);
-            //int newInt = oldInt + add;
+            int oldInt = Convert.ToInt32(user.EPBalance);
+            int newInt = oldInt + add;
 
-            //user.EPBalance = newInt;
-            //manager.UpdateAsync(user);
+            user.EPBalance = newInt;
+            manager.Update(user);
 
-            //EPBalance.Text = user.EPBalance.ToString();
+            EPBalance.Text = user.EPBalance.ToString();
             newEP.Text = add.ToString();
             epAdded.Visible = true;
         }

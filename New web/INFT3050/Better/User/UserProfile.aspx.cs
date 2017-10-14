@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 
 
@@ -15,20 +17,17 @@ namespace Better.User
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            //UserManager manager = new UserManager();
-            //var user = manager.FindById(User.Identity.GetUserId());
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
 
             Panel panel = (Panel)FindControlRecursive(Page, "UserDetails");
             Label Name = (Label)panel.FindControl("Name");
             Label UserEmail = (Label)panel.FindControl("UserEmail");
             Label EPBalance = (Label)panel.FindControl("EPBalance");
-
-
-
-            //Name.Text = user.FirstName + " " + user.LastName;
-            //UserEmail.Text = user.UserName;
-            //EPBalance.Text = user.EPBalance.ToString();
+            
+            Name.Text = user.FirstName + " " + user.LastName;
+            UserEmail.Text = user.UserName;
+            EPBalance.Text = user.EPBalance.ToString();
 
             int NumOfTitans = rand.Next(1, 5);
             int NumOfHohs = rand.Next(1, 20);
