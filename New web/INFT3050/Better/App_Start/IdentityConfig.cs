@@ -83,6 +83,19 @@ namespace Better
             return manager;
         }
     }
+    
+    public class AspNetRoleManager : RoleManager<IdentityRole, string>
+    {
+        public AspNetRoleManager(IRoleStore<IdentityRole, string> roleStore)
+            : base(roleStore)
+        {
+        }
+
+        public static AspNetRoleManager Create(IdentityFactoryOptions<AspNetRoleManager> options, IOwinContext context)
+        {
+            return new AspNetRoleManager(new RoleStore<IdentityRole, string, IdentityUserRole>(context.Get<ApplicationDbContext>()));
+        }
+    }
 
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {

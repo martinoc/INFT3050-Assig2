@@ -20,6 +20,11 @@ namespace Better.User
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var user = manager.FindById(User.Identity.GetUserId());
 
+            var role = Context.GetOwinContext().Get<AspNetRoleManager>();
+            var Roles = role.FindById(User.Identity.GetUserId());
+            
+            
+
             Panel panel = (Panel)FindControlRecursive(Page, "UserDetails");
             Label Name = (Label)panel.FindControl("Name");
             Label UserEmail = (Label)panel.FindControl("UserEmail");
