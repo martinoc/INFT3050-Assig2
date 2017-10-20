@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
+using System.Data.SqlClient;
+
 
 
 namespace Better.User
@@ -22,15 +24,40 @@ namespace Better.User
 
             var role = Context.GetOwinContext().Get<AspNetRoleManager>();
             var Roles = role.FindById(User.Identity.GetUserId());
-            
-            
+
+            var test = string.Empty;
+            System.Configuration.Configuration rootWebConfig =
+                System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/Web");
+            System.Configuration.ConnectionStringSettings connString;
+            if (rootWebConfig.ConnectionStrings.ConnectionStrings.Count > 0)
+            {
+                connString =
+                    rootWebConfig.ConnectionStrings.ConnectionStrings["DefaultConnection"];
+                if (connString != null)
+                {
+                    using (SqlConnection conn = new SqlConnection(connString.ToString()))
+                    {
+                        SqlCommand cmd = new SqlCommand("SELECT TitanId, UserId FROM AspNetUserTitans", conn);
+                        try
+                        {
+                            conn.Open();
+                            test = (string)cmd.ExecuteScalar();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                }
+            }
+
 
             Panel panel = (Panel)FindControlRecursive(Page, "UserDetails");
             Label Name = (Label)panel.FindControl("Name");
             Label UserEmail = (Label)panel.FindControl("UserEmail");
             Label EPBalance = (Label)panel.FindControl("EPBalance");
             
-            Name.Text = user.FirstName + " " + user.LastName;
+            Name.Text = user.FirstName + " " + test + " " + user.LastName;
             UserEmail.Text = user.UserName;
             EPBalance.Text = user.EPBalance.ToString();
 

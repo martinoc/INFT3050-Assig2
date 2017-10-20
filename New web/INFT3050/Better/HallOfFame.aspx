@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Hall Of Fame" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="HallOfFame.aspx.cs" Inherits="HallOfFame" %>
+﻿<%@ Page Title="Hall Of Fame" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="HallOfFame.aspx.cs" Inherits="Better.HallOfFame" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %>.</h2>
