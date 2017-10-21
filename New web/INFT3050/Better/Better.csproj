@@ -482,6 +482,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Views\Titans\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
