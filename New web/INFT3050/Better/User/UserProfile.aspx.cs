@@ -6,9 +6,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data;
 
-using System.Data.SqlClient;
-
+using Better.Views;
 
 
 namespace Better.User
@@ -25,38 +25,22 @@ namespace Better.User
             var role = Context.GetOwinContext().Get<AspNetRoleManager>();
             var Roles = role.FindById(User.Identity.GetUserId());
 
-            var test = string.Empty;
-            System.Configuration.Configuration rootWebConfig =
-                System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/Web");
-            System.Configuration.ConnectionStringSettings connString;
-            if (rootWebConfig.ConnectionStrings.ConnectionStrings.Count > 0)
-            {
-                connString =
-                    rootWebConfig.ConnectionStrings.ConnectionStrings["DefaultConnection"];
-                if (connString != null)
-                {
-                    using (SqlConnection conn = new SqlConnection(connString.ToString()))
-                    {
-                        SqlCommand cmd = new SqlCommand("SELECT TitanId, UserId FROM AspNetUserTitans", conn);
-                        try
-                        {
-                            conn.Open();
-                            test = (string)cmd.ExecuteScalar();
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
-                    }
-                }
-            }
-
-
             Panel panel = (Panel)FindControlRecursive(Page, "UserDetails");
             Label Name = (Label)panel.FindControl("Name");
             Label UserEmail = (Label)panel.FindControl("UserEmail");
             Label EPBalance = (Label)panel.FindControl("EPBalance");
-            
+
+
+            //DS Sample of how to implement database manager (remove for final website submission...)
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+            string test = string.Empty;
+
+            foreach (App_Code.AspNetTitan tit in dbm.GetRetiredHeros())
+            {
+                test = test + tit.Id;
+            }
+
+
             Name.Text = user.FirstName + " " + test + " " + user.LastName;
             UserEmail.Text = user.UserName;
             EPBalance.Text = user.EPBalance.ToString();
