@@ -29,6 +29,7 @@ namespace Better.User
             Label Name = (Label)panel.FindControl("Name");
             Label UserEmail = (Label)panel.FindControl("UserEmail");
             Label EPBalance = (Label)panel.FindControl("EPBalance");
+<<<<<<< HEAD
 
 
             //DS Sample of how to implement database manager (remove for final website submission...)
@@ -42,6 +43,10 @@ namespace Better.User
 
 
             Name.Text = user.FirstName + " " + test + " " + user.LastName;
+=======
+            
+            Name.Text = user.FirstName + " "+user.ShowName+" "+ user.LastName;
+>>>>>>> afbd0f6946bbeeeed687afdacaf2015be51581b7
             UserEmail.Text = user.UserName;
             EPBalance.Text = user.EPBalance.ToString();
 
