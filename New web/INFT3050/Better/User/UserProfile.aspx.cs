@@ -30,7 +30,7 @@ namespace Better.User
             Label UserEmail = (Label)panel.FindControl("UserEmail");
             Label EPBalance = (Label)panel.FindControl("EPBalance");
             
-            Name.Text = user.FirstName + " " + user.LastName;
+            Name.Text = user.FirstName + " "+user.ShowName+" "+ user.LastName;
             UserEmail.Text = user.UserName;
             EPBalance.Text = user.EPBalance.ToString();
 

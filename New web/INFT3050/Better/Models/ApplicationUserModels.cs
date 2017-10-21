@@ -20,6 +20,8 @@ namespace Better.Models
         public string ScreenName { get; set; }
         public string ParentCode { get; set; }
         public int EPBalance { get; set; }
+        public bool ShowName { get; set; }
+               
 
         public ClaimsIdentity GenerateUserIdentity(ApplicationUserManager manager)
         {
