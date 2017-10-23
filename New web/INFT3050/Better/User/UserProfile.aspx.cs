@@ -7,7 +7,6 @@ using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Data;
-
 using Better.Views;
 
 
@@ -17,6 +16,9 @@ namespace Better.User
     {
         Random rand = new Random();
 
+        static string[,] hohArray = new string[20, 6];
+        static string[,] usersTitansArray = new string[4, 5];
+             
         protected void Page_Load(object sender, EventArgs e)
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -29,32 +31,64 @@ namespace Better.User
             Label Name = (Label)panel.FindControl("Name");
             Label UserEmail = (Label)panel.FindControl("UserEmail");
             Label EPBalance = (Label)panel.FindControl("EPBalance");
-<<<<<<< HEAD
-
 
             //DS Sample of how to implement database manager (remove for final website submission...)
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
-            string test = string.Empty;
 
-            foreach (App_Code.AspNetTitan tit in dbm.GetRetiredHeros())
+
+            int hohCount = 0;
+            foreach (App_Code.AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
             {
-                test = test + tit.Id;
+                if (tit.Retired == true)
+                {
+                    var titInfo = dbm.Titaninfo(tit.TitanID);
+
+                    // add date
+                    hohArray[hohCount, 0] = "Date";
+                    // add element
+                    hohArray[hohCount, 1] = titInfo.Type;
+                    // add total fights
+                    hohArray[hohCount, 2] = (Convert.ToInt32(titInfo.Wins) + Convert.ToInt32(titInfo.Losses) + Convert.ToInt32(titInfo.Draws)).ToString();
+                    // add wins
+                    hohArray[hohCount, 3] = titInfo.Wins;
+                    // add losses
+                    hohArray[hohCount, 4] = titInfo.Losses;
+                    // add name
+                    hohArray[hohCount, 5] = titInfo.TitanName;
+                    hohCount++;
+                }
+            }
+            int usersTitansCount = 0;
+            foreach (App_Code.AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+            {
+                if (tit.Retired == false && tit.Deleted == false)
+                {
+                    var titInfo = dbm.Titaninfo(tit.TitanID);
+
+                    // add lvl
+                    usersTitansArray[usersTitansCount, 0] = GetLvl(Convert.ToInt32(titInfo.Exp));
+                    // add stp
+                    usersTitansArray[usersTitansCount, 1] = GetStp(Convert.ToInt32(usersTitansArray[usersTitansCount, 0]), Convert.ToInt32(titInfo.Exp));
+                    // add remaining
+                    usersTitansArray[usersTitansCount, 2] = GetRemaing(Convert.ToInt32(usersTitansArray[usersTitansCount, 0]), Convert.ToInt32(usersTitansArray[usersTitansCount, 1]), Convert.ToInt32(titInfo.Exp));
+                    // add element
+                    usersTitansArray[usersTitansCount, 3] = titInfo.Type;
+                    // add name
+                    usersTitansArray[usersTitansCount, 4] = titInfo.TitanName;
+                    usersTitansCount++;
+
+                }
             }
 
 
-            Name.Text = user.FirstName + " " + test + " " + user.LastName;
-=======
-            
-            Name.Text = user.FirstName + " "+user.ShowName+" "+ user.LastName;
->>>>>>> afbd0f6946bbeeeed687afdacaf2015be51581b7
+            Name.Text = user.FirstName + " " + user.LastName;
+
             UserEmail.Text = user.UserName;
             EPBalance.Text = user.EPBalance.ToString();
+            
 
-            int NumOfTitans = rand.Next(1, 5);
-            int NumOfHohs = rand.Next(1, 20);
-
-            fillTitans(NumOfTitans);
-            fillHall(NumOfHohs);
+            fillTitans(usersTitansCount);
+            fillHall(hohCount);
         }
 
         //Setup The personal Titans
@@ -97,8 +131,8 @@ namespace Better.User
 
                     Table table = (Table)panel.FindControl("Table" + i);
 
-                    int element = rand.Next(1, 4);
-                    int expValue = rand.Next(1, 100);
+                    int element = Convert.ToInt32(usersTitansArray[i - 1, 3]);
+                    int expValue = Convert.ToInt32(usersTitansArray[i - 1, 2]);
 
                     Label titanName = (Label)panel.FindControl("heroName" + i);
                     Label level = (Label)panel.FindControl("heroLevel" + i);
@@ -106,11 +140,11 @@ namespace Better.User
 
                     if (titanName != null)
                     {
-                        titanName.Text = setName(i);
+                        titanName.Text = usersTitansArray[i-1, 4];
                     }
                     if (level != null)
                     {
-                        level.Text = "L:" + rand.Next(1, 3) + " S:" + rand.Next(1, 4); ;
+                        level.Text = "L:" + usersTitansArray[i - 1, 0] + " S:" + usersTitansArray[i - 1, 1];
                     }
                     if (exp != null)
                     {
@@ -126,7 +160,7 @@ namespace Better.User
 
 
                     Image image = (Image)panel.FindControl("ImageButton" + i);
-                    image.ImageUrl = TitanImage(element);
+                    image.ImageUrl = TitanImage(element.ToString());
                 }
 
 
@@ -148,33 +182,14 @@ namespace Better.User
 
                     Table table = (Table)panel.FindControl("Table" + i);
 
-                    int element = rand.Next(1, 4);
-                    int fights = rand.Next(100, 1000);
-                    int wins = rand.Next(50, fights);
-                    int losses = fights - wins;
-                    string name = setName(rand.Next(1, 11));
-                    string createdString = "";
+                    string createdString = hohArray[i-1, 0];
+                    string element = hohArray[i-1, 1];
+                    string fights = hohArray[i-1, 3];
+                    string wins = hohArray[i-1, 3];
+                    string losses = hohArray[i-1, 4];
+                    string name = hohArray[i-1, 5];
+                    
 
-
-                    //set date
-                    switch (element)
-                    {
-                        case 1:
-                            createdString = "19/12/16";
-                            break;
-                        case 2:
-                            createdString = "05/07/17";
-                            break;
-                        case 3:
-                            createdString = "11/11/11";
-                            break;
-                        case 4:
-                            createdString = "14/12/14";
-                            break;
-                        default:
-                            createdString = "";
-                            break;
-                    }
 
                     for (int rowCtr = 1; rowCtr <= 5; rowCtr++)
                     {
@@ -198,14 +213,14 @@ namespace Better.User
                                         tCell.Text = createdString;
                                         break;
                                     case 2:
-                                        tCell.Text = fights.ToString();
+                                        tCell.Text = fights;
                                         break;
                                     case 3:
-                                        tCell.Text = wins.ToString();
+                                        tCell.Text = wins;
                                         tCell.ForeColor = System.Drawing.Color.Green;
                                         break;
                                     case 4:
-                                        tCell.Text = losses.ToString();
+                                        tCell.Text = losses;
                                         tCell.ForeColor = System.Drawing.Color.Red;
                                         break;
                                     case 5:
@@ -223,6 +238,149 @@ namespace Better.User
                     image.ImageUrl = TitanImage(element);
                 }
             }
+        }
+
+        protected String GetLvl(int i)
+        {
+
+            if(i < 1001)
+            {
+                return "1";
+            }else if (i < 3001)
+            {
+                return "2";
+            }
+            else if (i < 6401)
+            {
+                return "3";
+            }
+            else if (i < 15001)
+            {
+                return "4";
+            }
+            else
+            {
+                return "Retired";
+            }
+        }
+
+        protected String GetStp(int lvl, int i)
+        {        
+           
+            if ( (lvl == 1 && i < 201) || (lvl == 2 && i < 1401) || (lvl == 3 && i < 3701) || (lvl == 4 && i < 7501))
+            {
+                return "1";
+            }
+            else if ((lvl == 1 && i < 426) || (lvl == 2 && i < 1901) || (lvl == 3 && i < 4501) || (lvl == 4 && i < 8701))
+            {
+                return "2";
+            }
+            else if ((lvl == 1 && i < 676) || (lvl == 2 && i < 2401) || (lvl == 3 && i < 5401) || (lvl == 4 && i < 10001)) 
+            {
+                return "3";
+            }
+            else if (i < 15001)
+            {
+                return "4";
+            }
+            else
+            {
+                return "Retired";
+            }
+        }
+
+        protected String GetRemaing(int lvl, int stp, int i)
+        {
+            string result;
+            double totalExp = i;
+
+            switch (lvl)
+            {
+                case 1:
+                    switch (stp)
+                    {
+                        case 1:
+                            result = Convert.ToInt32((( totalExp - 0 ) / (200 - 0)) * 100 ).ToString();
+                            break;
+                        case 2:
+                            result = Convert.ToInt32((( totalExp - 200) / (425 - 200)) * 100 ).ToString();
+                            break;
+                        case 3:
+                            result = Convert.ToInt32((( totalExp - 425) / (675 - 425)) * 100 ).ToString();
+                            break;
+                        case 4:
+                            result = Convert.ToInt32((( totalExp - 675) / (1000 - 675)) * 100 ).ToString();
+                            break;
+                        default:
+                            result = "";
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (stp)
+                    {
+                        case 1:
+                            result = Convert.ToInt32((( totalExp - 1000) / (1400 - 1000)) * 100 ).ToString();
+                            break;
+                        case 2:
+                            result = Convert.ToInt32((( totalExp - 1400) / (1900 - 1400)) * 100 ).ToString();
+                            break;
+                        case 3:
+                            result = Convert.ToInt32((( totalExp - 1900) / (2400 - 1900)) * 100 ).ToString();
+                            break;
+                        case 4:
+                            result = Convert.ToInt32((( totalExp - 2400) / (3000 - 2400)) * 100 ).ToString();
+                            break;
+                        default:
+                            result = "";
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (stp)
+                    {
+                        case 1:
+                            result = Convert.ToInt32((( totalExp - 3000) / (3700 - 3000)) * 100 ).ToString();
+                            break;
+                        case 2:
+                            result = Convert.ToInt32((( totalExp - 3700) / (4500 - 3700)) * 100 ).ToString();
+                            break;
+                        case 3:
+                            result = Convert.ToInt32((( totalExp - 4500) / (5400 - 4500)) * 100 ).ToString();
+                            break;
+                        case 4:
+                            result = Convert.ToInt32((( totalExp - 5400) / (6400 - 5400)) * 100 ).ToString();
+                            break;
+                        default:
+                            result = "";
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch (stp)
+                    {
+                        case 1:
+                            result = Convert.ToInt32((( totalExp - 6400) / (7500 - 6400)) * 100 ).ToString();
+                            break;
+                        case 2:
+                            result = Convert.ToInt32((( totalExp - 7500) / (8700 - 7500)) * 100 ).ToString();
+                            break;
+                        case 3:
+                            result = Convert.ToInt32((( totalExp - 8700) / (10000 - 8700)) * 100 ).ToString();
+                            break;
+                        case 4:
+                            result = Convert.ToInt32((( totalExp - 10000) / (11500 - 10000)) * 100 ).ToString();
+                            break;
+                        default:
+                            result = "";
+                            break;
+                    }
+                    break;
+                default:
+                    result = "";
+                    break;
+            }
+            return result;
         }
 
 
@@ -271,9 +429,9 @@ namespace Better.User
         }
 
 
-        private String TitanImage(int i)
+        private String TitanImage(string i)
         {
-            switch (i)
+            switch (Convert.ToInt32(i))
             {
                 case 1:
                     return "../Images/Air_Elemental_titans_front.png";

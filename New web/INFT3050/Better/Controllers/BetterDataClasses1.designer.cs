@@ -98,8 +98,10 @@ namespace Better.App_Code
 		private string _TitanID;
 		
 		private System.Nullable<bool> _Retired;
-		
-		private EntityRef<AspNetTitan> _AspNetTitan;
+
+		private System.Nullable<bool> _Deleted;        
+
+        private EntityRef<AspNetTitan> _AspNetTitan;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -204,8 +206,29 @@ namespace Better.App_Code
 				}
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitan", Storage="_AspNetTitan", ThisKey="TitanID", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Deleted", DbType = "Bit")]
+        public System.Nullable<bool> Deleted
+        {
+            get
+            {
+                return this._Deleted;
+            }
+            set
+            {
+                if ((this._Deleted != value))
+                {
+                    this.OnDeletedChanging(value);
+                    this.SendPropertyChanging();
+                    this._Deleted = value;
+                    this.SendPropertyChanged("Deleted");
+                    this.OnDeletedChanged();
+                }
+            }
+        }
+
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitan", Storage="_AspNetTitan", ThisKey="TitanID", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public AspNetTitan AspNetTitan
 		{
 			get
@@ -279,8 +302,8 @@ namespace Better.App_Code
 		private string _Draws;
 		
 		private System.Nullable<bool> _Retired;
-		
-		private System.Nullable<int> _Type;
+
+        private string _Type;
 		
 		private EntitySet<AspNetUserTitan> _AspNetUserTitans;
 		
@@ -302,7 +325,7 @@ namespace Better.App_Code
     partial void OnDrawsChanged();
     partial void OnRetiredChanging(System.Nullable<bool> value);
     partial void OnRetiredChanged();
-    partial void OnTypeChanging(System.Nullable<int> value);
+    partial void OnTypeChanging(string value);
     partial void OnTypeChanged();
     #endregion
 		
@@ -451,28 +474,28 @@ namespace Better.App_Code
 				}
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int")]
-		public System.Nullable<int> Type
-		{
-			get
-			{
-				return this._Type;
-			}
-			set
-			{
-				if ((this._Type != value))
-				{
-					this.OnTypeChanging(value);
-					this.SendPropertyChanging();
-					this._Type = value;
-					this.SendPropertyChanged("Type");
-					this.OnTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitan", Storage="_AspNetUserTitans", ThisKey="Id", OtherKey="TitanID")]
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Type", DbType = "NVarChar(256) NOT NULL", CanBeNull = false)]
+        public string Type
+        {
+            get
+            {
+                return this._Type;
+            }
+            set
+            {
+                if ((this._Type != value))
+                {
+                    this.OnTypeChanging(value);
+                    this.SendPropertyChanging();
+                    this._Type = value;
+                    this.SendPropertyChanged("Type");
+                    this.OnTypeChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitan", Storage="_AspNetUserTitans", ThisKey="Id", OtherKey="TitanID")]
 		public EntitySet<AspNetUserTitan> AspNetUserTitans
 		{
 			get
