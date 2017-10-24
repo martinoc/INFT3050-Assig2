@@ -7,6 +7,7 @@
 
 
     <div class="row"></div>
+            <asp:Button runat="server" Style="float: right;" ID="Button2" Text="Delete Titan" OnClientClick="return confirm('Are you sure?');" OnCommand="delete_Command" />
     <div>
         <div style="float: left; height: 230px;">
             <div>
@@ -29,6 +30,7 @@
             <asp:Button runat="server" ID="Button1" Text="Fight History" OnCommand="fsButton_Command" />
 
         </asp:Panel>
+
         <div>
             <asp:Label ID="heroLevel1" runat="server" Text="LVL: 3" Style="font-size: 15px;" />
         </div>

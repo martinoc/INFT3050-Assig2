@@ -115,9 +115,12 @@ namespace Better.App_Code
     partial void OnTitanIDChanged();
     partial void OnRetiredChanging(System.Nullable<bool> value);
     partial void OnRetiredChanged();
-    #endregion
-		
-		public AspNetUserTitan()
+    partial void OnDeletedChanging(System.Nullable<bool> value);
+    partial void OnDeletedChanged();
+
+        #endregion
+
+        public AspNetUserTitan()
 		{
 			this._AspNetTitan = default(EntityRef<AspNetTitan>);
 			OnCreated();

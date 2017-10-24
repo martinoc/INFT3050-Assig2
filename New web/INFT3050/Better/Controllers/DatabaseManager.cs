@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using System.Web;
-
+using Microsoft.AspNet.Identity.Owin;
 using Better.App_Code;
 using System.Data.SqlClient;
+using Microsoft.AspNet.Identity;
 
 namespace Better.Views
 {
@@ -15,6 +16,7 @@ namespace Better.Views
 
         System.Configuration.Configuration RootWebConfig;
         System.Configuration.ConnectionStringSettings ConnString;
+        App_Code.BetterDataClassesDataContext dc;
 
         #endregion
 
@@ -33,12 +35,22 @@ namespace Better.Views
             {
                 ConnString = RootWebConfig.ConnectionStrings.ConnectionStrings[connectionname];
             }
-            else
-            {
-            }
+
+            dc = new App_Code.BetterDataClassesDataContext();
+
         }
 
-        #endregion  
+        #endregion
+
+        #region Public Properties
+
+        public BetterDataClassesDataContext BetterDataContext
+        {
+            get { return dc; }
+            set { dc = value; }
+        }
+
+        #endregion
 
         #region Static Methods 
 
@@ -91,7 +103,7 @@ namespace Better.Views
         public List<AspNetTitan> GetRetiredHeros()
         {
             List<AspNetTitan> result = new List<AspNetTitan>();
-            App_Code.BetterDataClassesDataContext dc = new App_Code.BetterDataClassesDataContext();
+            
 
             result = dc.AspNetTitans.Where(t => t.Retired == true).ToList();
 
@@ -106,7 +118,7 @@ namespace Better.Views
         public List<AspNetUserTitan> GetUserTitans(string userid)
         {
             List<AspNetUserTitan> result = new List<AspNetUserTitan>();
-            App_Code.BetterDataClassesDataContext dc = new App_Code.BetterDataClassesDataContext();
+            
 
             result = dc.AspNetUserTitans.Where(t => t.UserId == userid).ToList();
 
@@ -120,8 +132,32 @@ namespace Better.Views
         /// <returns>Single Titan record</returns>
         public AspNetTitan Titaninfo(string titanid)
         {
-            App_Code.BetterDataClassesDataContext dc = new App_Code.BetterDataClassesDataContext();
+            
             return dc.AspNetTitans.First(t => t.Id == titanid);
+        }
+
+        /// <summary>
+        /// Gets the name of a Titans user
+        /// </summary>
+        /// <param name="titanid">Id of the Titan to find</param>
+        /// <returns>Sring of titan username/returns>
+        public string TitanUsersName(string titanid, HttpContext _context)
+        {
+            
+            AspNetUserTitan aspUserTitan = dc.AspNetUserTitans.FirstOrDefault(apt => apt.TitanID == titanid);
+
+            var manager = _context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(aspUserTitan.UserId);
+
+            if (user.Showname)
+            {
+                return user.FirstName + " " + user.LastName;
+            }
+            else
+            {
+                return user.FirstName;
+            }
+
         }
 
         #endregion

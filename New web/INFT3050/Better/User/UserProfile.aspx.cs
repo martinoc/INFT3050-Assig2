@@ -42,7 +42,7 @@ namespace Better.User
                 if (tit.Retired == true)
                 {
                     var titInfo = dbm.Titaninfo(tit.TitanID);
-
+                    
                     // add date
                     hohArray[hohCount, 0] = "Date";
                     // add element
@@ -383,52 +383,6 @@ namespace Better.User
             return result;
         }
 
-
-
-        protected String setName(int nameNum)
-        {
-            string name = "";
-
-            switch (nameNum)
-            {
-                case 1:
-                    name = "dude";
-                    break;
-                case 2:
-                    name = "titan";
-                    break;
-                case 3:
-                    name = "killer";
-                    break;
-                case 4:
-                    name = "trump";
-                    break;
-                case 5:
-                    name = "hillary";
-                    break;
-                case 6:
-                    name = "gary";
-                    break;
-                case 7:
-                    name = "steve";
-                    break;
-                case 8:
-                    name = "forest";
-                    break;
-                case 9:
-                    name = "lumpy";
-                    break;
-                case 10:
-                    name = "bumpy";
-                    break;
-                default:
-                    name = "";
-                    break;
-            }
-            return name;
-        }
-
-
         private String TitanImage(string i)
         {
             switch (Convert.ToInt32(i))
@@ -480,7 +434,7 @@ namespace Better.User
             {
                 s = s.Remove(0, str.Length);
 
-                Response.Redirect("TitanPage");
+                Response.Redirect("TitanPage?usersTitan="+s);
             }
             else
             {

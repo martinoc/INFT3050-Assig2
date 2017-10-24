@@ -4,20 +4,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
-
+using Better.Views;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Better
 {
     public partial class HallOfFame : Page
     {
         Random rand = new Random();
+        static string[,] hofArray = new string[30, 6];
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            int NumOfHeros = rand.Next(1, 30);
 
-            fillHall(NumOfHeros);
+            //DS Sample of how to implement database manager (remove for final website submission...)
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            
+
+            int hofCount = 0;
+            foreach (App_Code.AspNetTitan tit in dbm.GetRetiredHeros())
+            {
+                var titInfo = dbm.Titaninfo(tit.Id);
+
+
+                // add date
+                hofArray[hofCount, 0] = "Date";
+                // add element
+                hofArray[hofCount, 1] = titInfo.Type;
+                // add total fights
+                hofArray[hofCount, 2] = (Convert.ToInt32(titInfo.Wins) + Convert.ToInt32(titInfo.Losses) + Convert.ToInt32(titInfo.Draws)).ToString();
+                // add wins
+                hofArray[hofCount, 3] = titInfo.Wins;
+                // add losses
+                hofArray[hofCount, 4] = titInfo.Losses;
+                // add name
+                hofArray[hofCount, 5] = dbm.TitanUsersName(tit.Id, Context);
+                hofCount++;
+            }
+            
+
+            fillHall(hofCount);
         }
 
         //fill the Hall of Fame
@@ -32,50 +61,13 @@ namespace Better
 
                     Table table = (Table)panel.FindControl("Table" + i);
 
-                    int element = rand.Next(1, 4);
-                    int fights = rand.Next(100, 1000);
-                    int wins = rand.Next(50, fights);
-                    int losses = fights - wins;
-                    int nameNum = rand.Next(1, 6);
-                    string name = "";
-                    string createdString = "";
-
-                    //set date
-                    switch (element)
-                    {
-                        case 1:
-                            createdString = "19/12/16";
-                            break;
-                        case 2:
-                            createdString = "05/07/17";
-                            break;
-                        case 3:
-                            createdString = "11/11/11";
-                            break;
-                        case 4:
-                            createdString = "14/12/14";
-                            break;
-                        default:
-                            break;
-                    }
-
-                    //set name
-                    switch (nameNum)
-                    {
-                        case 3:
-                            name = "FirstName LastName";
-                            break;
-                        case 4:
-                            name = "John Doe";
-                            break;
-                        case 5:
-                            name = "Martin O'Connor";
-                            break;
-                        default:
-                            name = "Unknown";
-                            break;
-                    }
-
+                    string createdString = hofArray[i - 1, 0];
+                    string element = hofArray[i - 1, 1];
+                    string fights = hofArray[i - 1, 3];
+                    string wins = hofArray[i - 1, 3];
+                    string losses = hofArray[i - 1, 4];
+                    string name = hofArray[i - 1, 5];
+                    
                     for (int rowCtr = 1; rowCtr <= 5; rowCtr++)
                     {
                         // Create new row and add it to the table.
@@ -98,14 +90,14 @@ namespace Better
                                         tCell.Text = createdString;
                                         break;
                                     case 2:
-                                        tCell.Text = fights.ToString();
+                                        tCell.Text = fights;
                                         break;
                                     case 3:
-                                        tCell.Text = wins.ToString();
+                                        tCell.Text = wins;
                                         tCell.ForeColor = System.Drawing.Color.Green;
                                         break;
                                     case 4:
-                                        tCell.Text = losses.ToString();
+                                        tCell.Text = losses;
                                         tCell.ForeColor = System.Drawing.Color.Red;
                                         break;
                                     case 5:
@@ -120,7 +112,7 @@ namespace Better
                     }
                     //titan image
                     Image image = (Image)panel.FindControl("image" + i);
-                    image.ImageUrl = TitanImage(element);
+                    image.ImageUrl = TitanImage(Convert.ToInt32(element));
                 }
             }
         }

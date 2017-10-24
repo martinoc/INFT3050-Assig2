@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Better.Views;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -11,10 +15,64 @@ namespace Better.User
 {
     public partial class TitanPage : Page
     {
+        static string[,] usersTitansArray = new string[1, 12];
         Random rand = new Random();
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.QueryString["usersTitan"] == null)
+            {
+
+                Response.Redirect("UserProfile");
+            }
+
+            int titan = Convert.ToInt32(Request.QueryString["usersTitan"]);
+
+
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
+
+            //DS Sample of how to implement database manager (remove for final website submission...)
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+
+            int count = 1;
+            foreach (App_Code.AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+            {
+                if (tit.Retired == false && tit.Deleted == false)
+                {
+                    if (count == titan)
+                    {
+                        var titInfo = dbm.Titaninfo(tit.TitanID);
+
+                        // add date
+                        usersTitansArray[0, 0] = "DATE";
+                        // add lvl
+                        usersTitansArray[0, 1] = GetLvl(Convert.ToInt32(titInfo.Exp));
+                        // add stp
+                        usersTitansArray[0, 2] = GetStp(Convert.ToInt32(usersTitansArray[0, 1]), Convert.ToInt32(titInfo.Exp));
+                        // add remaining
+                        usersTitansArray[0, 3] = GetRemaing(Convert.ToInt32(usersTitansArray[0, 1]), Convert.ToInt32(usersTitansArray[0, 2]), Convert.ToInt32(titInfo.Exp));
+                        // add element
+                        usersTitansArray[0, 4] = titInfo.Type;
+                        // add name
+                        usersTitansArray[0, 5] = titInfo.TitanName;
+                        // add wins
+                        usersTitansArray[0, 6] = titInfo.Wins;
+                        // add losses
+                        usersTitansArray[0, 7] = titInfo.Losses;
+                        // add draws
+                        usersTitansArray[0, 8] = titInfo.Draws;
+                        // add epBalance
+                        usersTitansArray[0, 9] = user.EPBalance.ToString();
+                        // titans totalEp
+                        usersTitansArray[0, 10] = titInfo.Exp;
+                        //titans ID
+                        usersTitansArray[0, 11] = tit.TitanID;
+                    }
+                    count++;
+                }
+            }
+
             fillTitans();
             fillHall(1);
         }
@@ -30,32 +88,27 @@ namespace Better.User
                 panel.Visible = true;
 
                 Table table = (Table)panel.FindControl("Table1");
+                Label titanName = (Label)panel.FindControl("TitanName");
+                Label level = (Label)panel.FindControl("heroLevel1");
+                Label exp = (Label)panel.FindControl("heroExpText1");
+                Label epBalance = (Label)panel.FindControl("EPBalance");
+                Panel expPanel = (Panel)FindControlRecursive(Page, "HeroExp1");
 
-                int element = rand.Next(1, 4);
-                int fights = rand.Next(100, 1000);
-                int expLeft = rand.Next(900, 10000);
-                int wins = rand.Next(50, fights);
-                int losses = fights - wins;
-                string createdString = "";
 
-                //set elementString
-                switch (element)
-                {
-                    case 1:
-                        createdString = "19/12/16";
-                        break;
-                    case 2:
-                        createdString = "05/07/17";
-                        break;
-                    case 3:
-                        createdString = "11/11/11";
-                        break;
-                    case 4:
-                        createdString = "14/12/14";
-                        break;
-                    default:
-                        break;
-                }
+
+                string createdString = usersTitansArray[0, 0];
+                level.Text = "LVL: " + usersTitansArray[0, 1] + " STP: " + usersTitansArray[0, 2];
+                expPanel.Width = Unit.Percentage(Convert.ToInt32(usersTitansArray[0, 3]));
+                exp.Text = usersTitansArray[0, 3] + "%";
+                string element = usersTitansArray[0, 4];
+                titanName.Text = usersTitansArray[0, 5];
+                int wins = Convert.ToInt32(usersTitansArray[0, 6]);
+                int losses = Convert.ToInt32(usersTitansArray[0, 7]);
+                int draws = Convert.ToInt32(usersTitansArray[0, 8]);
+                epBalance.Text = usersTitansArray[0, 9];
+
+                
+                int fights = draws+wins+losses;
 
                 //fill all rows and columns
                 for (int rowCtr = 1; rowCtr <= 5; rowCtr++)
@@ -94,9 +147,8 @@ namespace Better.User
                                     tCell.ForeColor = System.Drawing.Color.Red;
                                     break;
                                 case 5:
-                                    tCell.Text = expLeft.ToString();
+                                    tCell.Text = draws.ToString();
                                     tCell.ForeColor = System.Drawing.Color.Blue;
-                                    tCell.ID = "EPleft";
                                     break;
                                 default:
                                     break;
@@ -109,7 +161,7 @@ namespace Better.User
                 }
                 // set titan image
                 Image image = (Image)panel.FindControl("image1");
-                image.ImageUrl = TitanImage(element);
+                image.ImageUrl = TitanImage(Convert.ToInt32(element));
             }
         }
 
@@ -170,6 +222,150 @@ namespace Better.User
                     image.ImageUrl = TitanImage(element);
                 }
             }
+        }
+
+        protected String GetLvl(int i)
+        {
+
+            if (i < 1001)
+            {
+                return "1";
+            }
+            else if (i < 3001)
+            {
+                return "2";
+            }
+            else if (i < 6401)
+            {
+                return "3";
+            }
+            else if (i < 15001)
+            {
+                return "4";
+            }
+            else
+            {
+                return "Retired";
+            }
+        }
+
+        protected String GetStp(int lvl, int i)
+        {
+
+            if ((lvl == 1 && i < 201) || (lvl == 2 && i < 1401) || (lvl == 3 && i < 3701) || (lvl == 4 && i < 7501))
+            {
+                return "1";
+            }
+            else if ((lvl == 1 && i < 426) || (lvl == 2 && i < 1901) || (lvl == 3 && i < 4501) || (lvl == 4 && i < 8701))
+            {
+                return "2";
+            }
+            else if ((lvl == 1 && i < 676) || (lvl == 2 && i < 2401) || (lvl == 3 && i < 5401) || (lvl == 4 && i < 10001))
+            {
+                return "3";
+            }
+            else if (i < 15001)
+            {
+                return "4";
+            }
+            else
+            {
+                return "Retired";
+            }
+        }
+
+        protected String GetRemaing(int lvl, int stp, int i)
+        {
+            string result;
+            double totalExp = i;
+
+            switch (lvl)
+            {
+                case 1:
+                    switch (stp)
+                    {
+                        case 1:
+                            result = Convert.ToInt32(((totalExp - 0) / (200 - 0)) * 100).ToString();
+                            break;
+                        case 2:
+                            result = Convert.ToInt32(((totalExp - 200) / (425 - 200)) * 100).ToString();
+                            break;
+                        case 3:
+                            result = Convert.ToInt32(((totalExp - 425) / (675 - 425)) * 100).ToString();
+                            break;
+                        case 4:
+                            result = Convert.ToInt32(((totalExp - 675) / (1000 - 675)) * 100).ToString();
+                            break;
+                        default:
+                            result = "";
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (stp)
+                    {
+                        case 1:
+                            result = Convert.ToInt32(((totalExp - 1000) / (1400 - 1000)) * 100).ToString();
+                            break;
+                        case 2:
+                            result = Convert.ToInt32(((totalExp - 1400) / (1900 - 1400)) * 100).ToString();
+                            break;
+                        case 3:
+                            result = Convert.ToInt32(((totalExp - 1900) / (2400 - 1900)) * 100).ToString();
+                            break;
+                        case 4:
+                            result = Convert.ToInt32(((totalExp - 2400) / (3000 - 2400)) * 100).ToString();
+                            break;
+                        default:
+                            result = "";
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (stp)
+                    {
+                        case 1:
+                            result = Convert.ToInt32(((totalExp - 3000) / (3700 - 3000)) * 100).ToString();
+                            break;
+                        case 2:
+                            result = Convert.ToInt32(((totalExp - 3700) / (4500 - 3700)) * 100).ToString();
+                            break;
+                        case 3:
+                            result = Convert.ToInt32(((totalExp - 4500) / (5400 - 4500)) * 100).ToString();
+                            break;
+                        case 4:
+                            result = Convert.ToInt32(((totalExp - 5400) / (6400 - 5400)) * 100).ToString();
+                            break;
+                        default:
+                            result = "";
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch (stp)
+                    {
+                        case 1:
+                            result = Convert.ToInt32(((totalExp - 6400) / (7500 - 6400)) * 100).ToString();
+                            break;
+                        case 2:
+                            result = Convert.ToInt32(((totalExp - 7500) / (8700 - 7500)) * 100).ToString();
+                            break;
+                        case 3:
+                            result = Convert.ToInt32(((totalExp - 8700) / (10000 - 8700)) * 100).ToString();
+                            break;
+                        case 4:
+                            result = Convert.ToInt32(((totalExp - 10000) / (11500 - 10000)) * 100).ToString();
+                            break;
+                        default:
+                            result = "";
+                            break;
+                    }
+                    break;
+                default:
+                    result = "";
+                    break;
+            }
+            return result;
         }
 
         protected String setName(int nameNum)
@@ -246,7 +442,7 @@ namespace Better.User
                 case 4:
                     return "Losses: ";
                 case 5:
-                    return "Ep Till LvlUp: ";
+                    return "Draws: ";
                 default:
                     return "";
             }
@@ -271,12 +467,20 @@ namespace Better.User
             Response.Redirect("FightHistory");
         }
 
+        protected void delete_Command(object sender, CommandEventArgs e)
+        {
+
+            Response.Redirect("UserProfile");
+
+        }
+
+
         protected void EPButton_Command(object sender, CommandEventArgs e)
         {
             Panel panel = (Panel)FindControlRecursive(Page, "Panel1");
             TextBox input = (TextBox)panel.FindControl("EP");
             Label balance = (Label)panel.FindControl("EPBalance");
-            TableCell tCell = (TableCell)panel.FindControl("EPleft");
+            
 
             if (panel != null)
             {
@@ -284,28 +488,55 @@ namespace Better.User
                 {
                     int value = Convert.ToInt32(input.Text);
                     int bal = Convert.ToInt32(balance.Text);
+                    int titanExp = Convert.ToInt32(usersTitansArray[0, 10]);
 
-                    if (bal > value)
+                    if (bal >= value && value > 0)
                     {
-                        if (tCell != null)
+                        var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        var user = manager.FindById(User.Identity.GetUserId());
+
+                        //DS Sample of how to implement database manager (remove for final website submission...)
+                        DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+
+                        var titan = dbm.Titaninfo(usersTitansArray[0, 11]);
+
+                        Label epBalance = (Label)panel.FindControl("EPBalance");
+                        Panel expPanel = (Panel)FindControlRecursive(Page, "HeroExp1");
+                        Label level = (Label)panel.FindControl("heroLevel1");
+                        Label exp = (Label)panel.FindControl("heroExpText1");
+
+
+                        if ((value + titanExp) > 15000)
                         {
-                            int newLeft = Convert.ToInt32(tCell.Text) - value;
-                            if (newLeft < 0)
-                            {
-                                Label level = (Label)panel.FindControl("heroLevel1");
-                                string s = level.Text;
-                                s = s.Remove(0, "LVL: ".Length);
-                                //update level
-                                level.Text = (Convert.ToInt32(s) + 1).ToString();
-
-                                newLeft = rand.Next(10000, 1000000) - newLeft;
-
-                            }
-                            //update left till level up
-                            tCell.Text = (newLeft).ToString();
+                            //retire hero
+                            int maxValue = 15001 - titanExp;
+                            bal -= maxValue;
+                            titanExp += maxValue;
+                            
+                            titan.Retired = true;
                         }
-                        // update balance
-                        balance.Text = (bal - value).ToString(); ;
+                        else
+                        {                            
+                            bal -= value;
+                            titanExp += value;
+
+                        }
+
+                        titan.Exp = titanExp.ToString();
+                        user.EPBalance = bal;
+                        epBalance.Text = bal.ToString();
+
+                        string lvl = GetLvl(Convert.ToInt32(titan.Exp));
+                        string stp = GetStp(Convert.ToInt32(lvl), Convert.ToInt32(titan.Exp));
+                        string remain = GetRemaing(Convert.ToInt32(lvl), Convert.ToInt32(stp), Convert.ToInt32(titan.Exp));
+
+                        level.Text = "LVL: " + lvl + " STP: " + stp;
+                        expPanel.Width = Unit.Percentage(Convert.ToInt32(remain));
+                        exp.Text = remain + "%";
+
+                        //update tables
+                        dbm.BetterDataContext.SubmitChanges();
+                        manager.Update(user);
                     }
                 }
             }
