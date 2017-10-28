@@ -16,6 +16,8 @@ namespace Better.User
     public partial class TitanPage : Page
     {
         static string[,] usersTitansArray = new string[1, 12];
+        static string[,] defendersTitansArray = new string[10, 7];
+
         Random rand = new Random();
 
         protected void Page_Load(object sender, EventArgs e)
@@ -184,18 +186,180 @@ namespace Better.User
             //DS Sample of how to implement database manager (remove for final website submission...)
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
             
-            int hohCount = 0;
+            int titanCount = 0;
             //here
-            /*foreach (AspNetTitan tit in dbm.Titaninfo();)
+           
+            foreach (AspNetUserTitan usrtitan in dbm.GetTitansToFight(User.Identity.GetUserId()))
             {
-                if (tit. == false)
+               
+                if (titanCount < 10)
                 {
-                    if()
-                    
+                    AspNetTitan titaninfo = usrtitan.AspNetTitan;
+
+                    int dLvl = Convert.ToInt32(CustomGlobal.GetLvl(Convert.ToInt32(titaninfo.Exp)));
+                    int dStp = Convert.ToInt32(CustomGlobal.GetLvl(Convert.ToInt32(titaninfo.Exp)));
+
+                    int aLvl = Convert.ToInt32(usersTitansArray[0, 1]);
+                    int aStp = Convert.ToInt32(usersTitansArray[0, 2]);
+
+                    bool add = false;
+
+                    switch (aLvl)
+                    {
+                        case 1:
+                            switch (aStp)
+                            {
+                                case 1:
+                                    if(dLvl == 1 && dStp < 4)
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 2:
+                                    if (dLvl == 1 && dStp < 5)
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 3:
+                                    if ((dLvl == 1 && dStp > 1 )||(dLvl == 2 && dStp < 2))
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 4:
+                                    if ((dLvl == 1 && dStp > 2) || (dLvl == 2 && dStp < 3))
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            switch (aStp)
+                            {
+                                case 1:
+                                    if ((dLvl == 1 && dStp > 3) || (dLvl == 2 && dStp < 4))
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 2:
+                                    if (dLvl == 2 && dStp < 5)
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 3:
+                                    if ((dLvl == 2 && dStp > 1) || (dLvl == 3 && dStp < 2))
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 4:
+                                    if ((dLvl == 2 && dStp > 2) || (dLvl == 3 && dStp < 3))
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case 3:
+                            switch (aStp)
+                            {
+                                case 1:
+                                    if ((dLvl == 2 && dStp > 3) || (dLvl == 3 && dStp < 4))
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 2:
+                                    if (dLvl == 3 && dStp < 5)
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 3:
+                                    if ((dLvl == 3 && dStp > 1) || (dLvl == 4 && dStp < 2))
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 4:
+                                    if ((dLvl == 3 && dStp > 2) || (dLvl == 4 && dStp < 3))
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case 4:
+                            switch (aStp)
+                            {
+                                case 1:
+                                    if ((dLvl == 3 && dStp > 3) || (dLvl == 4 && dStp < 4))
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 2:
+                                    if (dLvl == 4 && dStp < 5)
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 3:
+                                    if (dLvl == 4 && dStp > 1)
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                case 4:
+                                    if (dLvl == 4 && dStp > 2)
+                                    {
+                                        add = true;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (add)
+                    {
+                        // add element
+                        defendersTitansArray[titanCount, 0] = titaninfo.Type;
+                        // add name
+                        defendersTitansArray[titanCount, 1] = titaninfo.TitanName;
+                        //titans ID
+                        defendersTitansArray[titanCount, 2] = titaninfo.Id;
+                        // add total exp
+                        defendersTitansArray[titanCount, 3] = titaninfo.Exp;
+                        // add lvl
+                        defendersTitansArray[titanCount, 4] = CustomGlobal.GetLvl(Convert.ToInt32(defendersTitansArray[titanCount, 3]));
+                        // add stp
+                        defendersTitansArray[titanCount, 5] = CustomGlobal.GetStp(Convert.ToInt32(defendersTitansArray[titanCount, 4]), Convert.ToInt32(defendersTitansArray[titanCount, 3]));
+                        // add remaining
+                        defendersTitansArray[titanCount, 6] = CustomGlobal.GetRemaing(Convert.ToInt32(defendersTitansArray[titanCount, 4]), Convert.ToInt32(defendersTitansArray[titanCount, 5]), Convert.ToInt32(defendersTitansArray[titanCount, 3]));
+                        
+
+                        titanCount++;
+                    }
 
                 }
+
+                
             }
-            */
+            
 
 
 
@@ -210,8 +374,8 @@ namespace Better.User
 
                     Table table = (Table)panel.FindControl("Table" + i);
 
-                    int element = rand.Next(1, 4);
-                    int expValue = rand.Next(1, 100);
+                    int element = Convert.ToInt32(defendersTitansArray[i - 1, 0]);
+                    int expValue = Convert.ToInt32(defendersTitansArray[i - 1, 3]);
 
                     Label titanName = (Label)panel.FindControl("heroName" + i);
                     Label level = (Label)panel.FindControl("heroLevel" + i);
@@ -220,15 +384,15 @@ namespace Better.User
                     //set name lvl exp 
                     if (titanName != null)
                     {
-                        titanName.Text = CustomGlobal.setName(i);
+                        titanName.Text = defendersTitansArray[i-1, 1];
                     }
                     if (level != null)
                     {
-                        level.Text = "LVL: " + rand.Next(1, 3);
+                        level.Text = "LVL: " + defendersTitansArray[i - 1, 4] + " STP: " + Convert.ToInt32(defendersTitansArray[i - 1, 5]);
                     }
                     if (exp != null)
                     {
-                        exp.Text = expValue + "%";
+                        exp.Text = defendersTitansArray[i - 1, 6] + "%";
                     }
 
                     //set the exp bar width
