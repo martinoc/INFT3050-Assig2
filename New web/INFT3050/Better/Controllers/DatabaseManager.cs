@@ -4,9 +4,9 @@ using System.Linq;
 using System.Data;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
-using Better.App_Code;
 using System.Data.SqlClient;
 using Microsoft.AspNet.Identity;
+using Better.Controllers;
 
 namespace Better.Views
 {
@@ -16,12 +16,12 @@ namespace Better.Views
 
         System.Configuration.Configuration RootWebConfig;
         System.Configuration.ConnectionStringSettings ConnString;
-        App_Code.BetterDataClassesDataContext dc;
+        BetterDataClassesDataContext dc;
 
         #endregion
 
         #region Contstructors
-
+       
         /// <summary>
         /// Constructor method, takes in the web config and connection incase a standard sql command is required
         /// </summary>
@@ -36,8 +36,8 @@ namespace Better.Views
                 ConnString = RootWebConfig.ConnectionStrings.ConnectionStrings[connectionname];
             }
 
-            dc = new App_Code.BetterDataClassesDataContext();
-
+            dc = new BetterDataClassesDataContext();
+            
         }
 
         #endregion

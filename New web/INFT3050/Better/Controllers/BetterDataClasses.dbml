@@ -20,6 +20,20 @@
       <Column Name="Retired" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="AspNetTitan_AspNetUserTitan" Member="AspNetUserTitans" ThisKey="Id" OtherKey="TitanID" Type="AspNetUserTitan" />
+      <Association Name="AspNetTitan_AspNetUserTitanFight" Member="AspNetUserTitanFights" ThisKey="Id" OtherKey="AttackerTitanID" Type="AspNetUserTitanFight" />
+      <Association Name="AspNetTitan_AspNetUserTitanFight1" Member="AspNetUserTitanFights1" ThisKey="Id" OtherKey="DefenderTitanID" Type="AspNetUserTitanFight" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetUserTitanFights" Member="AspNetUserTitanFights">
+    <Type Name="AspNetUserTitanFight">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AttackerTitanID" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="DefenderTitanID" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Win" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Loss" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Draw" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="AspNetTitan_AspNetUserTitanFight" Member="AspNetTitan" ThisKey="AttackerTitanID" OtherKey="Id" Type="AspNetTitan" IsForeignKey="true" />
+      <Association Name="AspNetTitan_AspNetUserTitanFight1" Member="AspNetTitan1" ThisKey="DefenderTitanID" OtherKey="Id" Type="AspNetTitan" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
