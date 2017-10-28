@@ -111,6 +111,21 @@ namespace Better.Controllers
         }
 
         /// <summary>
+        /// Gets the Titans that are available to fight
+        /// </summary>
+        /// <param name="userid">User id to exclude</param>
+        /// <returns>List of Titan Link Records</returns>
+        public List<AspNetUserTitan> GetTitansToFight(string userid)
+        {
+            List<AspNetUserTitan> result = new List<AspNetUserTitan>();
+
+
+            result = dc.AspNetUserTitans.Where(t => t.UserId != userid && t.Retired == false).ToList();
+
+            return result;
+        }
+
+        /// <summary>
         /// Gets the Titans Linked to the current user
         /// </summary>
         /// <param name="userid">User id to search for</param>
