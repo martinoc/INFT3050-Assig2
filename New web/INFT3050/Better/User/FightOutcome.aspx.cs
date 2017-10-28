@@ -140,9 +140,6 @@ namespace Better.User
 
         protected void whoWins()
         {
-            
-
-
             Panel panel = (Panel)FindControlRecursive(Page, "vs");
             if (panel != null)
             {
@@ -153,24 +150,24 @@ namespace Better.User
 
                 if (winName != null && winnerDir != null)
                 {
-                    if (winner == 1)
-                    {
-                        winName.Text = "TitanName1";
-                        winnerDir.Text = "<<<<<<";
-                        outcome.Text = "Wins";
-                    }
-                    else if (winner == 2)
-                    {
-                        winName.Text = "TitanName2";
-                        winnerDir.Text = ">>>>>>";
-                        outcome.Text = "Wins";
-                    }
-                    else
-                    {
-                        winName.Text = "       ";
-                        winnerDir.Text = "       ";
-                        outcome.Text = "Draw";
-                    }
+                    //if (winner == 1)
+                    //{
+                    //    winName.Text = "TitanName1";
+                    //    winnerDir.Text = "<<<<<<";
+                    //    outcome.Text = "Wins";
+                    //}
+                    //else if (winner == 2)
+                    //{
+                    //    winName.Text = "TitanName2";
+                    //    winnerDir.Text = ">>>>>>";
+                    //    outcome.Text = "Wins";
+                    //}
+                    //else
+                    //{
+                    winName.Text = "       ";
+                    winnerDir.Text = "       ";
+                    outcome.Text = "Draw";
+                    //}
                 }
             }
         }

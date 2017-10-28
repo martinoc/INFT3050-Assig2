@@ -119,7 +119,6 @@ namespace Better.Controllers
         {
             List<AspNetUserTitan> result = new List<AspNetUserTitan>();
 
-
             result = dc.AspNetUserTitans.Where(t => t.UserId != userid && t.Retired == false).ToList();
 
             return result;
@@ -247,7 +246,7 @@ namespace Better.Controllers
         {
             string result = "";
             
-            result = Convert.ToString(BetterDataContext.AspNetTitans.Max(u => u.Id) + 1);
+            result = Convert.ToString(Convert.ToInt16(BetterDataContext.AspNetTitans.Max(u => u.Id)) + 1);
 
             return result;
         }
@@ -260,7 +259,7 @@ namespace Better.Controllers
         {
             string result = "";
 
-            result = Convert.ToString(BetterDataContext.AspNetUserTitans.Max(u => u.Id) + 1);
+            result = Convert.ToString(Convert.ToInt16(BetterDataContext.AspNetUserTitans.Max(u => u.Id)) + 1);
 
             return result;
         }
@@ -273,7 +272,7 @@ namespace Better.Controllers
         {
             string result = "";
 
-            result = Convert.ToString(BetterDataContext.AspNetUserTitanFights.Max(u => u.Id) + 1);
+            result = Convert.ToString(Convert.ToInt16(BetterDataContext.AspNetUserTitanFights.Max(u => u.Id)) + 1);
 
             return result;
         }

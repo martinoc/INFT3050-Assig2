@@ -189,7 +189,7 @@ namespace Better.User
             int titanCount = 0;
             //here
            
-            foreach (AspNetUserTitan usrtitan in dbm.GetTitansToFight(User.Identity.GetUserId()))
+            foreach (AspNetUserTitan usrtitan in dbm.GetTitansToFight(user.Id))
             {
                
                 if (titanCount < 10)
