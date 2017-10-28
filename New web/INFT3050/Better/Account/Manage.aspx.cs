@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using Better.Models;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Better.Account
 {
@@ -35,7 +37,19 @@ namespace Better.Account
 
         protected void Page_Load()
         {
+
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            Panel panel = (Panel)FindControlRecursive(Page, "Panel1");
+            CheckBox box = (CheckBox)panel.FindControl("CheckBox1");
+            
+            var user = manager.FindById(User.Identity.GetUserId());
+            
+
+            box.Checked = user.Showname;
+
+
+
 
             HasPhoneNumber = String.IsNullOrEmpty(manager.GetPhoneNumber(User.Identity.GetUserId()));
 
@@ -123,6 +137,48 @@ namespace Better.Account
             manager.SetTwoFactorEnabled(User.Identity.GetUserId(), true);
 
             Response.Redirect("/Account/Manage");
+        }
+
+        protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
+
+            if (user.Showname)
+            {
+                user.Showname = false;
+            }
+            else
+            {
+                user.Showname = true;
+            }
+
+            manager.Update(user);
+
+            Panel panel = (Panel)FindControlRecursive(Page, "Panel1");
+            CheckBox box = (CheckBox)panel.FindControl("CheckBox1");
+
+            box.Checked = user.Showname;
+
+        }
+
+        /*
+         * source: https://stackoverflow.com/questions/28327229/asp-net-find-control-by-id
+         * 
+         * Recursivly finds the ControlId needed to dynamicaly display titans on page depending on how many titans are in the hall
+         * 
+         */
+        private Control FindControlRecursive(Control rootControl, string controlID)
+        {
+            if (rootControl.ID == controlID) return rootControl;
+
+            foreach (Control controlToSearch in rootControl.Controls)
+            {
+                Control controlToReturn = FindControlRecursive(controlToSearch, controlID);
+                if (controlToReturn != null) return controlToReturn;
+            }
+            return null;
         }
     }
 }
