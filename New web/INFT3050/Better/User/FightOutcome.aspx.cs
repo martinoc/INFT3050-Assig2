@@ -16,7 +16,7 @@ namespace Better.User
         protected void Page_Load(object sender, EventArgs e)
         {
             fillHall(2);
-            whoWins();
+            
         }
 
         //sets up the two heros
@@ -136,120 +136,11 @@ namespace Better.User
 
         }
 
-        protected int ElementalBonus(string playerOneElement, string playerTwoElement)
-        {
-
-            //returns who should get elemental bonus if possible
-
-            if ((playerOneElement == "Water" && playerTwoElement == "Fire") || (playerOneElement == "Fire" && playerTwoElement == "Water"))
-            {
-                if (playerOneElement == "Water")
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 2;
-                }
-            }
-
-            if ((playerOneElement == "Fire" && playerTwoElement == "Air") || (playerOneElement == "Air" && playerTwoElement == "Fire"))
-            {
-                if (playerOneElement == "Fire")
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 2;
-                }
-            }
-
-            if ((playerOneElement == "Air" && playerTwoElement == "Earth") || (playerOneElement == "Earth" && playerTwoElement == "Air"))
-            {
-                if (playerOneElement == "Air")
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 2;
-                }
-            }
-
-            if ((playerOneElement == "Earth" && playerTwoElement == "Water") || (playerOneElement == "Water" && playerTwoElement == "Earth"))
-            {
-                if (playerOneElement == "Earth")
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 2;
-                }
-            }
-
-            return 3;
-        }
+       
 
         protected void whoWins()
         {
-            //player one temp stats
-            double playerOneExp = 10;
-            string playerOneType = "Water";
-            //player two temp stats
-            double playerTwoExp = 10;
-            string playerTwoType = "Fire";
-
-
-
-            double playerOne = playerOneExp;
-            double playerTwo = playerTwoExp;
-
-            switch (ElementalBonus(playerOneType, playerTwoType))
-            {
-                case 1:
-                    playerOne += playerOneExp * .15;
-                    break;
-                case 2:
-                    playerTwo += playerTwoExp * .15;
-                    break;
-                default:
-                    break;
-            }
-
-            //chalenger bonus
-            playerOne += playerOneExp * .25;
-
-            //random bonus
-            switch (rand.Next(1, 3))
-            {
-                case 1:
-                    playerOne += playerOneExp * .25;
-                    break;
-                case 2:
-                    playerTwo += playerTwoExp * .25;
-                    break;
-                default:
-                    break;
-            }
-
-            int winner;
-
-
-            if (playerOne > playerTwo)
-            {
-                winner = 1;
-            }
-            else if (playerOne < playerTwo)
-            {
-                winner = 2;
-            }
-            else
-            {
-                winner = 3;
-            }
-
+            
 
 
             Panel panel = (Panel)FindControlRecursive(Page, "vs");

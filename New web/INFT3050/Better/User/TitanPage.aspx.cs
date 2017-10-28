@@ -178,6 +178,26 @@ namespace Better.User
                     panel.Visible = false;
                 }
             }
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
+            
+            //DS Sample of how to implement database manager (remove for final website submission...)
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+            
+            int hohCount = 0;
+            //here
+            /*foreach (AspNetTitan tit in dbm.Titaninfo();)
+            {
+                if (tit. == false)
+                {
+                    if()
+                    
+
+                }
+            }
+            */
+
+
 
             //show
             for (int i = 1; i <= 10; i++)
@@ -236,7 +256,7 @@ namespace Better.User
             {
                 s = s.Remove(0, str.Length);
 
-                Response.Redirect("Fight");
+                Response.Redirect("Fight?usersTitan="+ Request.QueryString["usersTitan"]+ "&defendersTitan="+s);
             }
         }
 

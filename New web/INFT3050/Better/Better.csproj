@@ -280,9 +280,6 @@
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
     <Content Include="tinytin.ico" />
-    <Content Include="User\Account\Login.aspx" />
-    <Content Include="User\Account\Manage.aspx" />
-    <Content Include="User\Account\Web.config" />
     <Content Include="User\CharacterCreation.aspx" />
     <Content Include="User\ExerciseForm.aspx" />
     <Content Include="User\Fight.aspx" />
@@ -453,14 +450,6 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="User\Account\Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="User\Account\Manage.aspx.cs">
-      <DependentUpon>Manage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="User\CharacterCreation.aspx.cs">
       <DependentUpon>CharacterCreation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
