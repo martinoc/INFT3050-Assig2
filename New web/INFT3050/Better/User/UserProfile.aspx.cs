@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Data;
 using Better.Views;
-
+using Better.Controllers;
 
 namespace Better.User
 {
@@ -37,7 +37,7 @@ namespace Better.User
 
 
             int hohCount = 0;
-            foreach (App_Code.AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+            foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
             {
                 if (tit.Retired == true)
                 {
@@ -46,7 +46,7 @@ namespace Better.User
                     // add date
                     hohArray[hohCount, 0] = "Date";
                     // add element
-                    hohArray[hohCount, 1] = titInfo.Type;
+                    hohArray[hohCount, 1] = titInfo.Type.ToString();
                     // add total fights
                     hohArray[hohCount, 2] = (Convert.ToInt32(titInfo.Wins) + Convert.ToInt32(titInfo.Losses) + Convert.ToInt32(titInfo.Draws)).ToString();
                     // add wins
@@ -59,7 +59,7 @@ namespace Better.User
                 }
             }
             int usersTitansCount = 0;
-            foreach (App_Code.AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+            foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
             {
                 if (tit.Retired == false && tit.Deleted == false)
                 {
@@ -72,7 +72,7 @@ namespace Better.User
                     // add remaining
                     usersTitansArray[usersTitansCount, 2] = GetRemaing(Convert.ToInt32(usersTitansArray[usersTitansCount, 0]), Convert.ToInt32(usersTitansArray[usersTitansCount, 1]), Convert.ToInt32(titInfo.Exp));
                     // add element
-                    usersTitansArray[usersTitansCount, 3] = titInfo.Type;
+                    usersTitansArray[usersTitansCount, 3] = titInfo.Type.ToString();
                     // add name
                     usersTitansArray[usersTitansCount, 4] = titInfo.TitanName;
                     usersTitansCount++;

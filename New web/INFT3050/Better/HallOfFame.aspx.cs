@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Better.Views;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
+using Better.Controllers;
 
 namespace Better
 {
@@ -25,7 +26,7 @@ namespace Better
             
 
             int hofCount = 0;
-            foreach (App_Code.AspNetTitan tit in dbm.GetRetiredHeros())
+            foreach (AspNetTitan tit in dbm.GetRetiredHeros())
             {
                 var titInfo = dbm.Titaninfo(tit.Id);
 
@@ -33,7 +34,7 @@ namespace Better
                 // add date
                 hofArray[hofCount, 0] = "Date";
                 // add element
-                hofArray[hofCount, 1] = titInfo.Type;
+                hofArray[hofCount, 1] = titInfo.Type.ToString();
                 // add total fights
                 hofArray[hofCount, 2] = (Convert.ToInt32(titInfo.Wins) + Convert.ToInt32(titInfo.Losses) + Convert.ToInt32(titInfo.Draws)).ToString();
                 // add wins

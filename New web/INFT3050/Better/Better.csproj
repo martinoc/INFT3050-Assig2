@@ -408,6 +408,9 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\BetterDataClasses.cs">
+      <DependentUpon>BetterDataClasses.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\BetterDataClasses1.designer.cs">
       <DependentUpon>BetterDataClasses.dbml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -496,7 +499,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Views\Titans\" />
   </ItemGroup>
   <ItemGroup>

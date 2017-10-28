@@ -1,4 +1,5 @@
-﻿using Better.Views;
+﻿using Better.Controllers;
+using Better.Views;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -36,7 +37,7 @@ namespace Better.User
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
 
             int count = 1;
-            foreach (App_Code.AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+            foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
             {
                 if (tit.Retired == false && tit.Deleted == false)
                 {

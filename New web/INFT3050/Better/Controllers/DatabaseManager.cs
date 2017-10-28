@@ -58,7 +58,7 @@ namespace Better.Views
         /// Sample method for understanding sql command way of gathering data.
         /// </summary>
         /// <returns>a string of values</returns>
-        public static string sample()
+        public static string Sample()
         { 
             var test = string.Empty;
 
