@@ -7,7 +7,6 @@ using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Data;
-using Better.Views;
 using Better.Controllers;
 
 namespace Better.User
@@ -66,11 +65,11 @@ namespace Better.User
                     var titInfo = dbm.Titaninfo(tit.TitanID);
 
                     // add lvl
-                    usersTitansArray[usersTitansCount, 0] = GetLvl(Convert.ToInt32(titInfo.Exp));
+                    usersTitansArray[usersTitansCount, 0] = CustomGlobal.GetLvl(Convert.ToInt32(titInfo.Exp));
                     // add stp
-                    usersTitansArray[usersTitansCount, 1] = GetStp(Convert.ToInt32(usersTitansArray[usersTitansCount, 0]), Convert.ToInt32(titInfo.Exp));
+                    usersTitansArray[usersTitansCount, 1] = CustomGlobal.GetStp(Convert.ToInt32(usersTitansArray[usersTitansCount, 0]), Convert.ToInt32(titInfo.Exp));
                     // add remaining
-                    usersTitansArray[usersTitansCount, 2] = GetRemaing(Convert.ToInt32(usersTitansArray[usersTitansCount, 0]), Convert.ToInt32(usersTitansArray[usersTitansCount, 1]), Convert.ToInt32(titInfo.Exp));
+                    usersTitansArray[usersTitansCount, 2] = CustomGlobal.GetRemaing(Convert.ToInt32(usersTitansArray[usersTitansCount, 0]), Convert.ToInt32(usersTitansArray[usersTitansCount, 1]), Convert.ToInt32(titInfo.Exp));
                     // add element
                     usersTitansArray[usersTitansCount, 3] = titInfo.Type.ToString();
                     // add name
@@ -94,9 +93,9 @@ namespace Better.User
         //Setup The personal Titans
         protected void fillTitans(int numOfTitans)
         {
-            //show add panel if less the 10 personal titans
+            //show add panel if less the 4 personal titans
             Panel addPanel = (Panel)FindControlRecursive(Page, "addHero1");
-            if (numOfTitans < 10)
+            if (numOfTitans < 4)
             {
                 if (addPanel != null)
                 {
@@ -160,7 +159,7 @@ namespace Better.User
 
 
                     Image image = (Image)panel.FindControl("ImageButton" + i);
-                    image.ImageUrl = TitanImage(element.ToString());
+                    image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, element.ToString());
                 }
 
 
@@ -203,7 +202,7 @@ namespace Better.User
 
                             if (cellCtr == 1)//left column
                             {
-                                tCell.Text = CellFill(rowCtr);
+                                tCell.Text = CustomGlobal.CellFill("UserProfile", rowCtr);
                             }
                             else//right column
                             {
@@ -235,189 +234,12 @@ namespace Better.User
                     }
                     //titan image
                     Image image = (Image)panel.FindControl("image" + i);
-                    image.ImageUrl = TitanImage(element);
+                    image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, element);
                 }
             }
         }
 
-        protected String GetLvl(int i)
-        {
-
-            if(i < 1001)
-            {
-                return "1";
-            }else if (i < 3001)
-            {
-                return "2";
-            }
-            else if (i < 6401)
-            {
-                return "3";
-            }
-            else if (i < 15001)
-            {
-                return "4";
-            }
-            else
-            {
-                return "Retired";
-            }
-        }
-
-        protected String GetStp(int lvl, int i)
-        {        
-           
-            if ( (lvl == 1 && i < 201) || (lvl == 2 && i < 1401) || (lvl == 3 && i < 3701) || (lvl == 4 && i < 7501))
-            {
-                return "1";
-            }
-            else if ((lvl == 1 && i < 426) || (lvl == 2 && i < 1901) || (lvl == 3 && i < 4501) || (lvl == 4 && i < 8701))
-            {
-                return "2";
-            }
-            else if ((lvl == 1 && i < 676) || (lvl == 2 && i < 2401) || (lvl == 3 && i < 5401) || (lvl == 4 && i < 10001)) 
-            {
-                return "3";
-            }
-            else if (i < 15001)
-            {
-                return "4";
-            }
-            else
-            {
-                return "Retired";
-            }
-        }
-
-        protected String GetRemaing(int lvl, int stp, int i)
-        {
-            string result;
-            double totalExp = i;
-
-            switch (lvl)
-            {
-                case 1:
-                    switch (stp)
-                    {
-                        case 1:
-                            result = Convert.ToInt32((( totalExp - 0 ) / (200 - 0)) * 100 ).ToString();
-                            break;
-                        case 2:
-                            result = Convert.ToInt32((( totalExp - 200) / (425 - 200)) * 100 ).ToString();
-                            break;
-                        case 3:
-                            result = Convert.ToInt32((( totalExp - 425) / (675 - 425)) * 100 ).ToString();
-                            break;
-                        case 4:
-                            result = Convert.ToInt32((( totalExp - 675) / (1000 - 675)) * 100 ).ToString();
-                            break;
-                        default:
-                            result = "";
-                            break;
-                    }
-                    break;
-                case 2:
-                    switch (stp)
-                    {
-                        case 1:
-                            result = Convert.ToInt32((( totalExp - 1000) / (1400 - 1000)) * 100 ).ToString();
-                            break;
-                        case 2:
-                            result = Convert.ToInt32((( totalExp - 1400) / (1900 - 1400)) * 100 ).ToString();
-                            break;
-                        case 3:
-                            result = Convert.ToInt32((( totalExp - 1900) / (2400 - 1900)) * 100 ).ToString();
-                            break;
-                        case 4:
-                            result = Convert.ToInt32((( totalExp - 2400) / (3000 - 2400)) * 100 ).ToString();
-                            break;
-                        default:
-                            result = "";
-                            break;
-                    }
-                    break;
-                case 3:
-                    switch (stp)
-                    {
-                        case 1:
-                            result = Convert.ToInt32((( totalExp - 3000) / (3700 - 3000)) * 100 ).ToString();
-                            break;
-                        case 2:
-                            result = Convert.ToInt32((( totalExp - 3700) / (4500 - 3700)) * 100 ).ToString();
-                            break;
-                        case 3:
-                            result = Convert.ToInt32((( totalExp - 4500) / (5400 - 4500)) * 100 ).ToString();
-                            break;
-                        case 4:
-                            result = Convert.ToInt32((( totalExp - 5400) / (6400 - 5400)) * 100 ).ToString();
-                            break;
-                        default:
-                            result = "";
-                            break;
-                    }
-                    break;
-                case 4:
-                    switch (stp)
-                    {
-                        case 1:
-                            result = Convert.ToInt32((( totalExp - 6400) / (7500 - 6400)) * 100 ).ToString();
-                            break;
-                        case 2:
-                            result = Convert.ToInt32((( totalExp - 7500) / (8700 - 7500)) * 100 ).ToString();
-                            break;
-                        case 3:
-                            result = Convert.ToInt32((( totalExp - 8700) / (10000 - 8700)) * 100 ).ToString();
-                            break;
-                        case 4:
-                            result = Convert.ToInt32((( totalExp - 10000) / (11500 - 10000)) * 100 ).ToString();
-                            break;
-                        default:
-                            result = "";
-                            break;
-                    }
-                    break;
-                default:
-                    result = "";
-                    break;
-            }
-            return result;
-        }
-
-        private String TitanImage(string i)
-        {
-            switch (Convert.ToInt32(i))
-            {
-                case 1:
-                    return "../Images/Air_Elemental_titans_front.png";
-                case 2:
-                    return "../Images/Earth_Elemental_titans_front.png";
-                case 3:
-                    return "../Images/Fire_Elemental_titans_front.png";
-                case 4:
-                    return "../Images/Water_Elemental_titans_front.png";
-                default:
-                    return "";
-            }
-        }
-
-        private String CellFill(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "Created: ";
-                case 2:
-                    return "Fights: ";
-                case 3:
-                    return "Wins: ";
-                case 4:
-                    return "Losses: ";
-                case 5:
-                    return "Name: ";
-                default:
-                    return "";
-            }
-        }
+        
 
         protected void Button_Command(object sender, CommandEventArgs e)
         {

@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using Microsoft.AspNet.Identity;
 using Better.Controllers;
 
-namespace Better.Views
+namespace Better.Controllers
 {
     public class DatabaseManager
     {
@@ -158,6 +158,109 @@ namespace Better.Views
                 return user.FirstName;
             }
 
+        }
+
+        /// <summary>
+        /// Creates the data rows for a new Titan
+        /// </summary>
+        /// <param name="userid">id of the user</param>
+        /// <param name="type">type of the titan</param>
+        /// <param name="name">name of the titan</param>
+        public void CreateTitan(string userid, string type, string name)
+        {
+            AspNetTitan tit = new AspNetTitan
+            {
+                Id = GetMaxTitanId(),
+                TitanName = name,
+                Exp = "0",
+                Wins = "0",
+                Losses = "0",
+                Draws = "0",
+                Retired = false,
+                Type = type
+            };
+            
+            // Add the new object to the Orders collection.
+            BetterDataContext.AspNetTitans.InsertOnSubmit(tit);
+
+            AspNetUserTitan usrtit = new AspNetUserTitan
+            {
+                Id = GetMaxUserTitanId(),
+                UserId = userid,
+                TitanID = tit.Id,
+                Retired = false,
+                Deleted = false
+            };
+
+            // Add the new object to the Orders collection.
+            BetterDataContext.AspNetUserTitans.InsertOnSubmit(usrtit);
+
+            BetterDataContext.SubmitChanges();
+        }
+
+        /// <summary>
+        /// Creates the fight record
+        /// </summary>
+        /// <param name="attackuserid">attacking titan id</param>
+        /// <param name="defenduserid">defening titan id</param>
+        /// <param name="win">did the attacker win?</param>
+        /// <param name="loss">did the attacker lose?</param>
+        /// <param name="draw">did the attacker draw?</param>
+        public void CreateFight(string attacktitanid, string defendtitanid, bool win = false, bool loss = false, bool draw = false)
+        {
+            AspNetUserTitanFight fght = new AspNetUserTitanFight
+            {
+                Id = GetMaxFightId(),
+                AttackerTitanID = attacktitanid,
+                DefenderTitanID = defendtitanid,
+                Win = win,
+                Loss = loss, 
+                Draw = draw
+            };
+
+            // Add the new object to the Orders collection.
+            BetterDataContext.AspNetUserTitanFights.InsertOnSubmit(fght);
+
+            BetterDataContext.SubmitChanges();
+        }
+
+        /// <summary>
+        /// gets the max id for the AspNetTitans table
+        /// </summary>
+        /// <returns>string of the id</returns>
+        public string GetMaxTitanId()
+        {
+            string result = "";
+            
+            result = Convert.ToString(BetterDataContext.AspNetTitans.Max(u => u.Id) + 1);
+
+            return result;
+        }
+
+        /// <summary>
+        ///  gets the max id for the AspNetUserTitans table
+        /// </summary>
+        /// <returns>string of the id</returns>
+        public string GetMaxUserTitanId()
+        {
+            string result = "";
+
+            result = Convert.ToString(BetterDataContext.AspNetUserTitans.Max(u => u.Id) + 1);
+
+            return result;
+        }
+
+        /// <summary>
+        ///  gets the max id for the AspNetUserTitanFights table
+        /// </summary>
+        /// <returns>string of the id</returns>
+        public string GetMaxFightId()
+        {
+            string result = "";
+
+            result = Convert.ToString(BetterDataContext.AspNetUserTitanFights.Max(u => u.Id) + 1);
+
+            return result;
         }
 
         #endregion

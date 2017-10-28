@@ -8,13 +8,13 @@
    
     <div class="row"></div>
 
-    <div>
+    <asp:Panel id="PanelTitanInfo" runat="server">
+        <div>
         <asp:Image CssClass="profile-image2" id="image1" runat="server" ImageUrl="~/Images/Air_Elemental_titans_front.png" Height="200px"/>
         <asp:Button runat="server" Text="Create" style="display:inline;" OnClientClick="return confirm('Are you sure?');" OnClick="Enter_Click" CssClass="btn btn-default" />
         <asp:TextBox runat="server" ID="TitanName" Text="TitanName" CssClass="form-control"/>
-
-
-    </div>
+        </div>
+    </asp:Panel>
 
     <div class="row" style="height:5px"></div>
      <div style="height:20%;">

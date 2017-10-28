@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Better.Controllers;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 
 
@@ -34,14 +37,32 @@ namespace Better.User
             {
                 panel.Visible = true;
                 Image image = (Image)panel.FindControl("image1");
-                image.ImageUrl = TitanImage(num);
+                image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, num.ToString());
 
             }
         }
 
         protected void Enter_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Profile");
+            Panel panel;
+            string titanname = "";
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+
+            panel = (Panel)FindControlRecursive(Page, "PanelTitanInfo");
+
+            if (panel != null)
+            {
+                panel.Visible = true;
+                TextBox name = (TextBox)panel.FindControl("TitanName");
+                titanname = name.Text;
+            }
+
+            if (!string.IsNullOrEmpty(titanname))
+            {
+                dbm.CreateTitan(User.Identity.GetUserId(), "1", titanname);
+            }
+
+            Response.Redirect("UserProfile");
         }
 
 
@@ -70,24 +91,7 @@ namespace Better.User
             {
                 panel.Visible = true;
                 Image image = (Image)panel.FindControl("image1");
-                image.ImageUrl = TitanImage(Convert.ToInt32(s));
-            }
-        }
-
-        private String TitanImage(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "../Images/Air_Elemental_titans_front.png";
-                case 2:
-                    return "../Images/Earth_Elemental_titans_front.png";
-                case 3:
-                    return "../Images/Fire_Elemental_titans_front.png";
-                case 4:
-                    return "../Images/Water_Elemental_titans_front.png";
-                default:
-                    return "";
+                image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, s);
             }
         }
 

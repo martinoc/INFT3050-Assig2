@@ -1,5 +1,4 @@
 ﻿using Better.Controllers;
-using Better.Views;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -48,11 +47,11 @@ namespace Better.User
                         // add date
                         usersTitansArray[0, 0] = "DATE";
                         // add lvl
-                        usersTitansArray[0, 1] = GetLvl(Convert.ToInt32(titInfo.Exp));
+                        usersTitansArray[0, 1] = CustomGlobal.GetLvl(Convert.ToInt32(titInfo.Exp));
                         // add stp
-                        usersTitansArray[0, 2] = GetStp(Convert.ToInt32(usersTitansArray[0, 1]), Convert.ToInt32(titInfo.Exp));
+                        usersTitansArray[0, 2] = CustomGlobal.GetStp(Convert.ToInt32(usersTitansArray[0, 1]), Convert.ToInt32(titInfo.Exp));
                         // add remaining
-                        usersTitansArray[0, 3] = GetRemaing(Convert.ToInt32(usersTitansArray[0, 1]), Convert.ToInt32(usersTitansArray[0, 2]), Convert.ToInt32(titInfo.Exp));
+                        usersTitansArray[0, 3] = CustomGlobal.GetRemaing(Convert.ToInt32(usersTitansArray[0, 1]), Convert.ToInt32(usersTitansArray[0, 2]), Convert.ToInt32(titInfo.Exp));
                         // add element
                         usersTitansArray[0, 4] = titInfo.Type;
                         // add name
@@ -126,7 +125,7 @@ namespace Better.User
                         //if it is left column
                         if (cellCtr == 1)
                         {
-                            tCell.Text = CellFill(rowCtr);
+                            tCell.Text = CustomGlobal.CellFill("TitanPage", rowCtr);
                             tCell.Font.Size = 15;
                         }
                         else//it is right column
@@ -162,7 +161,7 @@ namespace Better.User
                 }
                 // set titan image
                 Image image = (Image)panel.FindControl("image1");
-                image.ImageUrl = TitanImage(Convert.ToInt32(element));
+                image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, element);
             }
         }
 
@@ -201,7 +200,7 @@ namespace Better.User
                     //set name lvl exp 
                     if (titanName != null)
                     {
-                        titanName.Text = setName(i);
+                        titanName.Text = CustomGlobal.setName(i);
                     }
                     if (level != null)
                     {
@@ -220,234 +219,12 @@ namespace Better.User
                     }
                     //set the titans image
                     Image image = (Image)panel.FindControl("ImageButton" + i);
-                    image.ImageUrl = TitanImage(element);
+                    image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, element.ToString());
                 }
             }
         }
 
-        protected String GetLvl(int i)
-        {
 
-            if (i < 1001)
-            {
-                return "1";
-            }
-            else if (i < 3001)
-            {
-                return "2";
-            }
-            else if (i < 6401)
-            {
-                return "3";
-            }
-            else if (i < 15001)
-            {
-                return "4";
-            }
-            else
-            {
-                return "Retired";
-            }
-        }
-
-        protected String GetStp(int lvl, int i)
-        {
-
-            if ((lvl == 1 && i < 201) || (lvl == 2 && i < 1401) || (lvl == 3 && i < 3701) || (lvl == 4 && i < 7501))
-            {
-                return "1";
-            }
-            else if ((lvl == 1 && i < 426) || (lvl == 2 && i < 1901) || (lvl == 3 && i < 4501) || (lvl == 4 && i < 8701))
-            {
-                return "2";
-            }
-            else if ((lvl == 1 && i < 676) || (lvl == 2 && i < 2401) || (lvl == 3 && i < 5401) || (lvl == 4 && i < 10001))
-            {
-                return "3";
-            }
-            else if (i < 15001)
-            {
-                return "4";
-            }
-            else
-            {
-                return "Retired";
-            }
-        }
-
-        protected String GetRemaing(int lvl, int stp, int i)
-        {
-            string result;
-            double totalExp = i;
-
-            switch (lvl)
-            {
-                case 1:
-                    switch (stp)
-                    {
-                        case 1:
-                            result = Convert.ToInt32(((totalExp - 0) / (200 - 0)) * 100).ToString();
-                            break;
-                        case 2:
-                            result = Convert.ToInt32(((totalExp - 200) / (425 - 200)) * 100).ToString();
-                            break;
-                        case 3:
-                            result = Convert.ToInt32(((totalExp - 425) / (675 - 425)) * 100).ToString();
-                            break;
-                        case 4:
-                            result = Convert.ToInt32(((totalExp - 675) / (1000 - 675)) * 100).ToString();
-                            break;
-                        default:
-                            result = "";
-                            break;
-                    }
-                    break;
-                case 2:
-                    switch (stp)
-                    {
-                        case 1:
-                            result = Convert.ToInt32(((totalExp - 1000) / (1400 - 1000)) * 100).ToString();
-                            break;
-                        case 2:
-                            result = Convert.ToInt32(((totalExp - 1400) / (1900 - 1400)) * 100).ToString();
-                            break;
-                        case 3:
-                            result = Convert.ToInt32(((totalExp - 1900) / (2400 - 1900)) * 100).ToString();
-                            break;
-                        case 4:
-                            result = Convert.ToInt32(((totalExp - 2400) / (3000 - 2400)) * 100).ToString();
-                            break;
-                        default:
-                            result = "";
-                            break;
-                    }
-                    break;
-                case 3:
-                    switch (stp)
-                    {
-                        case 1:
-                            result = Convert.ToInt32(((totalExp - 3000) / (3700 - 3000)) * 100).ToString();
-                            break;
-                        case 2:
-                            result = Convert.ToInt32(((totalExp - 3700) / (4500 - 3700)) * 100).ToString();
-                            break;
-                        case 3:
-                            result = Convert.ToInt32(((totalExp - 4500) / (5400 - 4500)) * 100).ToString();
-                            break;
-                        case 4:
-                            result = Convert.ToInt32(((totalExp - 5400) / (6400 - 5400)) * 100).ToString();
-                            break;
-                        default:
-                            result = "";
-                            break;
-                    }
-                    break;
-                case 4:
-                    switch (stp)
-                    {
-                        case 1:
-                            result = Convert.ToInt32(((totalExp - 6400) / (7500 - 6400)) * 100).ToString();
-                            break;
-                        case 2:
-                            result = Convert.ToInt32(((totalExp - 7500) / (8700 - 7500)) * 100).ToString();
-                            break;
-                        case 3:
-                            result = Convert.ToInt32(((totalExp - 8700) / (10000 - 8700)) * 100).ToString();
-                            break;
-                        case 4:
-                            result = Convert.ToInt32(((totalExp - 10000) / (11500 - 10000)) * 100).ToString();
-                            break;
-                        default:
-                            result = "";
-                            break;
-                    }
-                    break;
-                default:
-                    result = "";
-                    break;
-            }
-            return result;
-        }
-
-        protected String setName(int nameNum)
-        {
-            string name = "";
-
-            switch (nameNum)
-            {
-
-                case 1:
-                    name = "dude";
-                    break;
-                case 2:
-                    name = "titan";
-                    break;
-                case 3:
-                    name = "killer";
-                    break;
-                case 4:
-                    name = "trump";
-                    break;
-                case 5:
-                    name = "hillary";
-                    break;
-                case 6:
-                    name = "gary";
-                    break;
-                case 7:
-                    name = "steve";
-                    break;
-                case 8:
-                    name = "forest";
-                    break;
-                case 9:
-                    name = "lumpy";
-                    break;
-                case 10:
-                    name = "bumpy";
-                    break;
-                default:
-                    name = "";
-                    break;
-            }
-            return name;
-        }
-
-        private String TitanImage(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "../Images/Air_Elemental_titans_front.png";
-                case 2:
-                    return "../Images/Earth_Elemental_titans_front.png";
-                case 3:
-                    return "../Images/Fire_Elemental_titans_front.png";
-                case 4:
-                    return "../Images/Water_Elemental_titans_front.png";
-                default:
-                    return "";
-            }
-        }
-
-        private String CellFill(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "Created: ";
-                case 2:
-                    return "Fights: ";
-                case 3:
-                    return "Wins: ";
-                case 4:
-                    return "Losses: ";
-                case 5:
-                    return "Draws: ";
-                default:
-                    return "";
-            }
-        }
 
         protected void ImageButton_Command(object sender, EventArgs e)
         {
@@ -527,9 +304,9 @@ namespace Better.User
                         user.EPBalance = bal;
                         epBalance.Text = bal.ToString();
 
-                        string lvl = GetLvl(Convert.ToInt32(titan.Exp));
-                        string stp = GetStp(Convert.ToInt32(lvl), Convert.ToInt32(titan.Exp));
-                        string remain = GetRemaing(Convert.ToInt32(lvl), Convert.ToInt32(stp), Convert.ToInt32(titan.Exp));
+                        string lvl = CustomGlobal.GetLvl(Convert.ToInt32(titan.Exp));
+                        string stp = CustomGlobal.GetStp(Convert.ToInt32(lvl), Convert.ToInt32(titan.Exp));
+                        string remain = CustomGlobal.GetRemaing(Convert.ToInt32(lvl), Convert.ToInt32(stp), Convert.ToInt32(titan.Exp));
 
                         level.Text = "LVL: " + lvl + " STP: " + stp;
                         expPanel.Width = Unit.Percentage(Convert.ToInt32(remain));

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Better.Controllers;
 
 
 namespace Better.User
@@ -11,9 +12,23 @@ namespace Better.User
     public partial class Fight : Page
     {
         Random rand = new Random();
+        int usertitan;
+        int defendertitan;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.QueryString["usersTitan"] == null)
+            {
+                Response.Redirect("UserProfile");
+            }
+            else if (Request.QueryString["defendersTitan"] == null)
+            {
+                Response.Redirect("TitanPage ? usersTitan = " + Convert.ToInt32(Request.QueryString["usersTitan"]));
+            }
+
+            usertitan = Convert.ToInt32(Request.QueryString["usersTitan"]);
+            defendertitan = Convert.ToInt32(Request.QueryString["defendersTitan"]);
+
             fillHall(2);
         }
 
@@ -90,7 +105,7 @@ namespace Better.User
                             //left col
                             if (cellCtr == 1)
                             {
-                                tCell.Text = CellFill(rowCtr);
+                                tCell.Text = CustomGlobal.CellFill("Fight", rowCtr);
                                 tCell.Font.Size = 15;
                             }
                             else//right col
@@ -125,7 +140,7 @@ namespace Better.User
                     Image image = (Image)panel.FindControl("image" + i);
                     if (image != null)
                     {
-                        image.ImageUrl = TitanImage(element);
+                        image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, element.ToString());
                     }
                 }
             }
@@ -138,91 +153,14 @@ namespace Better.User
             {
                 if (Convert.ToInt32((clickedButton.ID).Remove(0, "Button".Length)) == 1)
                 {
+                    //insert fight creation here
+
                     Response.Redirect("FightOutcome");
                 }
                 else
                 {
                     Response.Redirect("TitanPage");
                 }
-            }
-        }
-
-        protected String setName(int nameNum)
-        {
-            string name = "";
-
-            switch (nameNum)
-            {
-                case 1:
-                    name = "dude";
-                    break;
-                case 2:
-                    name = "titan";
-                    break;
-                case 3:
-                    name = "killer";
-                    break;
-                case 4:
-                    name = "trump";
-                    break;
-                case 5:
-                    name = "hillary";
-                    break;
-                case 6:
-                    name = "gary";
-                    break;
-                case 7:
-                    name = "steve";
-                    break;
-                case 8:
-                    name = "forest";
-                    break;
-                case 9:
-                    name = "lumpy";
-                    break;
-                case 10:
-                    name = "bumpy";
-                    break;
-                default:
-                    name = "";
-                    break;
-            }
-            return name;
-        }
-
-        private String TitanImage(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "../Images/Air_Elemental_titans_front.png";
-                case 2:
-                    return "../Images/Earth_Elemental_titans_front.png";
-                case 3:
-                    return "../Images/Fire_Elemental_titans_front.png";
-                case 4:
-                    return "../Images/Water_Elemental_titans_front.png";
-                default:
-                    return "";
-            }
-        }
-
-        private String CellFill(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "Created: ";
-                case 2:
-                    return "Fights: ";
-                case 3:
-                    return "Wins: ";
-                case 4:
-                    return "Losses: ";
-                case 5:
-                    return "Coach: ";
-                default:
-                    return "";
             }
         }
 

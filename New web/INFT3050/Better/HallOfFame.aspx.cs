@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Better.Views;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using Better.Controllers;
@@ -81,7 +80,7 @@ namespace Better
                             //left column
                             if (cellCtr == 1)
                             {
-                                tCell.Text = CellFill(rowCtr);
+                                tCell.Text = CustomGlobal.CellFill("HallOfFame", rowCtr);
                             }
                             else//right column
                             {
@@ -113,44 +112,8 @@ namespace Better
                     }
                     //titan image
                     Image image = (Image)panel.FindControl("image" + i);
-                    image.ImageUrl = TitanImage(Convert.ToInt32(element));
+                    image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, element);
                 }
-            }
-        }
-
-        private String TitanImage(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "../Images/Air_Elemental_titans_front.png";
-                case 2:
-                    return "../Images/Earth_Elemental_titans_front.png";
-                case 3:
-                    return "../Images/Fire_Elemental_titans_front.png";
-                case 4:
-                    return "../Images/Water_Elemental_titans_front.png";
-                default:
-                    return "";
-            }
-        }
-
-        private String CellFill(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "Created: ";
-                case 2:
-                    return "Fights: ";
-                case 3:
-                    return "Wins: ";
-                case 4:
-                    return "Losses: ";
-                case 5:
-                    return "Coach: ";
-                default:
-                    return "";
             }
         }
 
