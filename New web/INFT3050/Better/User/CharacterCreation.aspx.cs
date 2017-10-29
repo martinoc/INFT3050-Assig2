@@ -14,6 +14,9 @@ namespace Better.User
 {
     public partial class CharacterCreation : Page
     {
+
+        int[] elementArray = new int[] { 1, 1, 1, 1 };
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Random rand = new Random();
@@ -30,12 +33,50 @@ namespace Better.User
                 }
             }
 
+
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
+
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+
+            foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+            {
+                if (tit.Retired == false && tit.Deleted == false)
+                {
+                    var titInfo = dbm.Titaninfo(tit.TitanID);
+
+                    panel = (Panel)FindControlRecursive(Page, "overLay" + titInfo.Type);
+                    if (panel != null)
+                    {
+
+                        Label label = (Label)panel.FindControl("Label" + titInfo.Type);
+                        label.Text = "-Taken-";
+                        elementArray[Convert.ToInt32(titInfo.Type)-1] = 0;
+                        panel.Visible = true;
+                    }
+
+                }
+            }
+
+
+            int num = 0;
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (elementArray[i] == 1)
+                {
+                    num = i + 1;
+                    break;
+                }
+            }
+
             //show one
-            int num = rand.Next(1, 5);
             panel = (Panel)FindControlRecursive(Page, "overLay" + num);
             if (panel != null)
             {
                 panel.Visible = true;
+                Label label = (Label)panel.FindControl("Label"+ num);
+                label.Text = "Current";
                 Image image = (Image)panel.FindControl("image1");
                 image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, num.ToString());
 
@@ -84,12 +125,40 @@ namespace Better.User
             String s = ((ImageButton)sender).ID;
             string str = "btnSubmit";
             s = s.Remove(0, str.Length);
+
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
+
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+
+            foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+            {
+                if (tit.Retired == false && tit.Deleted == false)
+                {
+                    var titInfo = dbm.Titaninfo(tit.TitanID);
+
+                    panel = (Panel)FindControlRecursive(Page, "overLay" + titInfo.Type);
+                    if (panel != null)
+                    {
+
+                        Label label = (Label)panel.FindControl("Label" + titInfo.Type);
+                        label.Text = "-Taken-";
+                        elementArray[Convert.ToInt32(titInfo.Type) - 1] = 0;
+                        panel.Visible = true;
+                    }
+
+                }
+            }
+
+            
             //show one
             panel = (Panel)FindControlRecursive(Page, "overLay" + s);
 
             if (panel != null)
             {
                 panel.Visible = true;
+                Label label = (Label)panel.FindControl("Label" + s);
+                label.Text = "Current";
                 Image image = (Image)panel.FindControl("image1");
                 image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, s);
             }

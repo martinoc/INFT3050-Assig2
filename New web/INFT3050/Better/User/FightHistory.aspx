@@ -4,10 +4,12 @@
     <h2><%: Title %>.</h2>
 
    
-    <div>
-            <asp:Button runat="server" ID="Button1" Text="TitanName1 Titan Page" OnCommand="fsButton_Command" />
+    <asp:Panel ID="PanelButton" runat="server" > 
 
-    </div>
+        <asp:Button runat="server" ID="Button1" Text="TitanName1 Titan Page" OnCommand="fsButton_Command" />
+
+    </asp:Panel>
+
 
     <div>
         <asp:Panel ID="Panel1" class="hall-of-hero-slot" Visible="false" runat="server" > 

@@ -426,7 +426,7 @@ namespace Better.User
 
         protected void fsButton_Command(object sender, CommandEventArgs e)
         {
-            Response.Redirect("FightHistory");
+            Response.Redirect("FightHistory?usersTitan=" + usersTitansArray[0, 11]);
         }
 
         protected void delete_Command(object sender, CommandEventArgs e)

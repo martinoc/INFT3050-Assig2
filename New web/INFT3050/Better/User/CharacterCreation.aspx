@@ -24,7 +24,9 @@
                     Air
                 </div>
                 <asp:Panel ID="ImageOverlay1" runat="server" >
-                    <asp:Panel id="overLay1" class="current-overlay" Visible="false" runat="server">Current</asp:Panel>
+                    <asp:Panel id="overLay1" class="current-overlay" Visible="false" runat="server">
+                    <asp:Label runat="server" ID="Label1" />
+                    </asp:Panel>
                     <asp:ImageButton ID="btnSubmit1" class="image-hover" runat="server" ImageUrl="~/Images/Air_Elemental_titans_front_half.png" Width="100%"  OnCommand="ImageButton_Command" />
                 </asp:Panel>
             </asp:Panel>
@@ -34,7 +36,9 @@
                     Earth
                 </div>
                 <asp:Panel ID="ImageOverlay2" runat="server">
-                    <asp:Panel id="overLay2" class="current-overlay" Visible="false" runat="server">Current</asp:Panel>
+                    <asp:Panel id="overLay2" class="current-overlay" Visible="false" runat="server">
+                    <asp:Label runat="server" ID="Label2" />
+                    </asp:Panel>
                     <asp:ImageButton ID="btnSubmit2" class="image-hover" runat="server" ImageUrl="~/Images/Earth_Elemental_titans_front_half.png" Width="100%" OnCommand="ImageButton_Command" />
                 </asp:Panel>
             </asp:Panel>
@@ -44,7 +48,9 @@
                     Fire
                 </div>
                 <asp:Panel ID="ImageOverlay3" runat="server">
-                    <asp:Panel id="overLay3" class="current-overlay" Visible="false" runat="server">Current</asp:Panel>
+                    <asp:Panel id="overLay3" class="current-overlay" Visible="false" runat="server">
+                    <asp:Label runat="server" ID="Label3" />
+                    </asp:Panel>
                     <asp:ImageButton ID="btnSubmit3" class="image-hover" runat="server" ImageUrl="~/Images/Fire_Elemental_titans_front_half.png" Width="100%"  OnCommand="ImageButton_Command" />
                 </asp:Panel>
              </asp:Panel>
@@ -54,7 +60,9 @@
                     Water
                 </div>
                 <asp:Panel ID="ImageOverlay4" runat="server" >
-                    <asp:Panel id="overLay4" class="current-overlay" Visible="false" runat="server">Current</asp:Panel>
+                    <asp:Panel id="overLay4" class="current-overlay" Visible="false" runat="server">
+                    <asp:Label runat="server" ID="Label4" />
+                    </asp:Panel>
                     <asp:ImageButton ID="btnSubmit4" class="image-hover" runat="server" ImageUrl="~/Images/Water_Elemental_titans_front_half.png" Width="100%" OnCommand="ImageButton_Command" />
 
 

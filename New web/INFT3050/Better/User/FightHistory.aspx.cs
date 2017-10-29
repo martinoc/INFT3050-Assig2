@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Better.Controllers;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,12 +14,68 @@ namespace Better.User
     public partial class FightHistory : Page
     {
         Random rand = new Random();
+        static string[,] hofArray = new string[30, 5];
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            int NumOfHeros = rand.Next(1, 30);
+            if (Request.QueryString["usersTitan"] == null)
+            {
 
-            fillHall(NumOfHeros);
+                Response.Redirect("UserProfile");
+            }
+
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+            Panel panel = (Panel)FindControlRecursive(Page, "PanelButton");
+            Button button = (Button)panel.FindControl("Button1");
+
+
+            var titname = dbm.Titaninfo(Request.QueryString["usersTitan"]);
+
+
+            button.Text = titname.TitanName + " Titan Page";
+
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+
+            int hofCount = 0;
+            foreach (AspNetUserTitanFight fight in dbm.GetTitansFightHistory(Request.QueryString["usersTitan"]))
+            {
+                int result=0;
+                string nonusertitanID;
+                if (fight.AttackerTitanID == Request.QueryString["usersTitan"])
+                {
+                    nonusertitanID = fight.DefenderTitanID;
+                    if (fight.Win.ToString()=="True") { result = 1; }
+                    else if (fight.Loss.ToString() == "True") { result = 2; }
+                    else if (fight.Draw.ToString() == "True") { result = 3; }
+
+                }
+                else
+                {
+                    nonusertitanID = fight.AttackerTitanID;
+                    if (fight.Win.ToString() == "True") { result = 2; }
+                    else if (fight.Loss.ToString() == "True") { result = 1; }
+                    else if (fight.Draw.ToString() == "True") { result = 3; }
+                }
+                var titInfo = dbm.Titaninfo(nonusertitanID);
+
+
+                // add date
+                hofArray[hofCount, 0] = "Date";
+                // add element
+                hofArray[hofCount, 1] = titInfo.Type.ToString();
+                // add name
+                hofArray[hofCount, 2] = titInfo.TitanName;
+                // add coach name
+                hofArray[hofCount, 3] = dbm.TitanUsersName(nonusertitanID, Context);
+                // add result
+                hofArray[hofCount, 4] = result.ToString();
+
+                hofCount++;
+            }
+
+
+            fillHall(hofCount);
         }
 
         //setup last matches
@@ -32,67 +90,37 @@ namespace Better.User
 
                     Table table = (Table)panel.FindControl("Table" + i);
 
-                    int element = rand.Next(1, 4);
-                    int fights = rand.Next(100, 1000);
-                    int wins = rand.Next(50, fights);
-                    int losses = fights - wins;
-                    int nameNum = rand.Next(1, 6);
-                    int wl = rand.Next(1, 3);
-                    string name = "";
-                    string createdString = "";
+                    string element = hofArray[i - 1, 1]; 
+                    string name = hofArray[i - 1, 2];
+                    string coach = hofArray[i - 1, 3];
+                    string createdString = hofArray[i - 1, 0];
+
 
                     //match result
                     Label result = (Label)panel.FindControl("FightResult" + i);
                     if (result != null)
                     {
-                        if (wl == 1)
+                        switch (Convert.ToInt32(hofArray[i - 1, 4]))
                         {
-                            result.Text = "W";
-                            result.BackColor = System.Drawing.Color.Green;
+                            case 1:
+                                result.Text = "W";
+                                result.BackColor = System.Drawing.Color.Green;
+                                break;
+                            case 2:
+                                result.Text = "L";
+                                result.BackColor = System.Drawing.Color.Red;
+                                break;
+                            case 3:
+                                result.Text = "D";
+                                result.BackColor = System.Drawing.Color.Blue;
+                                break;
+                            default:
+                                name = "";
+                                break;
                         }
-                        else
-                        {
-                            result.Text = "L";
-                            result.BackColor = System.Drawing.Color.Red;
-                        }
-                    }
+                    }                    
 
-                    switch (element)
-                    {
-                        case 1:
-                            createdString = "19/12/16";
-                            break;
-                        case 2:
-                            createdString = "05/07/17";
-                            break;
-                        case 3:
-                            createdString = "11/11/11";
-                            break;
-                        case 4:
-                            createdString = "14/12/14";
-                            break;
-                        default:
-                            name = "";
-                            break;
-                    }
-
-                    switch (nameNum)
-                    {
-                        case 3:
-                            name = "FirstName LastName";
-                            break;
-                        case 4:
-                            name = "John Doe";
-                            break;
-                        case 5:
-                            name = "Martin O'Connor";
-                            break;
-                        default:
-                            name = "Unknown";
-                            break;
-                    }
-
-                    for (int rowCtr = 1; rowCtr <= 5; rowCtr++)
+                    for (int rowCtr = 1; rowCtr <= 3; rowCtr++)
                     {
                         // Create new row and add it to the table.
                         TableRow tRow = new TableRow();
@@ -114,18 +142,11 @@ namespace Better.User
                                         tCell.Text = createdString;
                                         break;
                                     case 2:
-                                        tCell.Text = fights.ToString();
+                                        tCell.Text = name;
                                         break;
                                     case 3:
-                                        tCell.Text = wins.ToString();
+                                        tCell.Text = coach;
                                         tCell.ForeColor = System.Drawing.Color.Green;
-                                        break;
-                                    case 4:
-                                        tCell.Text = losses.ToString();
-                                        tCell.ForeColor = System.Drawing.Color.Red;
-                                        break;
-                                    case 5:
-                                        tCell.Text = name;
                                         break;
                                     default:
                                         name = "";
@@ -136,27 +157,11 @@ namespace Better.User
                         }
                     }
                     Image image = (Image)panel.FindControl("image" + i);
-                    image.ImageUrl = TitanImage(element);
+                    image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, element);
                 }
             }
         }
-
-        private String TitanImage(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "../Images/Air_Elemental_titans_front.png";
-                case 2:
-                    return "../Images/Earth_Elemental_titans_front.png";
-                case 3:
-                    return "../Images/Fire_Elemental_titans_front.png";
-                case 4:
-                    return "../Images/Water_Elemental_titans_front.png";
-                default:
-                    return "";
-            }
-        }
+        
 
         private String CellFill(int i)
         {
@@ -165,12 +170,8 @@ namespace Better.User
                 case 1:
                     return "Created: ";
                 case 2:
-                    return "Fights: ";
+                    return "Name: ";
                 case 3:
-                    return "Wins: ";
-                case 4:
-                    return "Losses: ";
-                case 5:
                     return "Coach: ";
                 default:
                     return "";
