@@ -30,24 +30,17 @@
                 <div>
                     <asp:Label ID="heroLevel1" runat="server" Text="LVL: 3" Style="font-size: 15px;" />
                 </div>
-                <div class="myProgress">
-
-                    <asp:Panel runat="server" ID="HeroExp1" CssClass="myBar">
-                        <p>
-                            <asp:Label ID="heroExpText1" runat="server" Text="10%"></asp:Label>
-                        </p>
-                    </asp:Panel>
-                </div>
+                
             </div>
             <div class="leftContent" style="text-align: center;">
 
                 <asp:Panel ID="vs" runat="server">
 
-                    <asp:Label ID="winName" Font-Size="50px" runat="server" Text="TitanName"></asp:Label>
-                    <asp:Label ID="winner" Font-Size="50px" runat="server" Text=">>>>>>>"></asp:Label>
+                    <asp:Label ID="winName" Font-Size="50px" runat="server" ></asp:Label>
+                    <asp:Label ID="winner" Font-Size="50px" runat="server" ></asp:Label>
 
                     <strong>
-                        <asp:Label ID="Wins" Font-Size="100px" runat="server" Text="Wins"></asp:Label></strong>
+                        <asp:Label ID="Wins" Font-Size="100px" runat="server" ></asp:Label></strong>
 
 
                 </asp:Panel>
@@ -76,14 +69,7 @@
                 <div>
                     <asp:Label ID="heroLevel2" runat="server" Text="LVL: 3" Style="font-size: 15px;" />
                 </div>
-                <div class="myProgress">
-
-                    <asp:Panel runat="server" ID="HeroExp2" CssClass="myBar">
-                        <p>
-                            <asp:Label ID="heroExpText2" runat="server" Text="10%"></asp:Label>
-                        </p>
-                    </asp:Panel>
-                </div>
+                
             </div>
 
 
@@ -94,8 +80,9 @@
 
 
     <div style="clear: both"></div>
+    <asp:Panel runat="server" ID="Panel3">
     <asp:Button runat="server" Style="padding: 20px;" ID="Button2" Text="TitanName1 Titan Page" OnCommand="leaveButton_Command" />
-
+    </asp:Panel>
 
 
     <div class="row"></div>

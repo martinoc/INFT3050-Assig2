@@ -5,7 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Better.Controllers;
-
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 
 namespace Better.User
 {
@@ -14,6 +15,7 @@ namespace Better.User
         Random rand = new Random();
         int usertitan;
         int defendertitan;
+        int result;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,11 +25,13 @@ namespace Better.User
             }
             else if (Request.QueryString["defendersTitan"] == null)
             {
-                Response.Redirect("TitanPage?usersTitan=" + Request.QueryString["usersTitan"]);
+                backToTitanPage();
             }
 
             usertitan = Convert.ToInt32(Request.QueryString["usersTitan"]);
             defendertitan = Convert.ToInt32(Request.QueryString["defendersTitan"]);
+
+            
 
             fillHall(2);
         }
@@ -44,54 +48,46 @@ namespace Better.User
                     panel.Visible = true;
 
                     Table table = (Table)panel.FindControl("Table" + i);
+                    Label titanName = (Label)panel.FindControl("TitanName" + i); 
 
-                    int element = rand.Next(1, 4);
-                    int fights = rand.Next(100, 1000);
-                    int wins = rand.Next(50, fights);
-                    int losses = fights - wins;
-                    string createdString = "";
-                    string name = "";
+                    int element;
+                    int fights;
+                    int wins;
+                    int losses;
+                    string createdString;
+                    string name;
+                    int titanID;
 
                     if (i == 1)
                     {
-                        name = "Your Name";
+                        titanID = usertitan;
                     }
                     else
                     {
-                        switch (rand.Next(1, 6))
-                        {
-                            case 3:
-                                name = "FirstName LastName";
-                                break;
-                            case 4:
-                                name = "John Doe";
-                                break;
-                            case 5:
-                                name = "Martin O'Connor";
-                                break;
-                            default:
-                                name = "Unknown";
-                                break;
-                        }
+                        titanID = defendertitan;
                     }
+                    
+                    DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+                                       
+                    var titInfo = dbm.Titaninfo(titanID.ToString());
 
-                    switch (element)
-                    {
-                        case 1:
-                            createdString = "19/12/16";
-                            break;
-                        case 2:
-                            createdString = "05/07/17";
-                            break;
-                        case 3:
-                            createdString = "11/11/11";
-                            break;
-                        case 4:
-                            createdString = "14/12/14";
-                            break;
-                        default:
-                            break;
-                    }
+                    element = Convert.ToInt32(titInfo.Type);
+                    name = dbm.TitanUsersName(titanID.ToString(), Context);
+                    wins = Convert.ToInt32(titInfo.Wins);
+                    losses = Convert.ToInt32(titInfo.Losses);
+                    fights = wins + losses + Convert.ToInt32(titInfo.Draws);
+                    createdString = "Date";
+                    titanName.Text = titInfo.TitanName;
+
+                    Label titanLvl = (Label)panel.FindControl("heroLevel" + i);
+                    Panel titanExp = (Panel)panel.FindControl("HeroExp" + i);
+                    Label titanExpText = (Label)panel.FindControl("heroExpText" + i);
+
+                    string lvl = CustomGlobal.GetLvl(Convert.ToInt32(titInfo.Exp));                    
+                    string stp = CustomGlobal.GetStp(Convert.ToInt32(lvl), Convert.ToInt32(titInfo.Exp));                    
+                    string remain = CustomGlobal.GetRemaing(Convert.ToInt32(lvl), Convert.ToInt32(stp), Convert.ToInt32(titInfo.Exp));
+
+                    titanLvl.Text = "LVL: " + lvl +" STP: " + stp;
 
                     for (int rowCtr = 1; rowCtr <= 5; rowCtr++)
                     {
@@ -154,24 +150,29 @@ namespace Better.User
                 if (Convert.ToInt32((clickedButton.ID).Remove(0, "Button".Length)) == 1)
                 {
                     //insert fight creation here
-                    whoWins();
-                    Response.Redirect("FightOutcome");
+                    whoWins();                
+                    Response.Redirect("FightOutcome?usersTitan=" + usertitan + "&defendersTitan=" + defendertitan  + "&result=" +  result);
                 }
                 else
                 {
-                    Response.Redirect("TitanPage");
+                    backToTitanPage();
                 }
             }
         }
 
         public void whoWins()
         {
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+
+            var utitInfo = dbm.Titaninfo(usertitan.ToString());
+            var dtitInfo = dbm.Titaninfo(defendertitan.ToString());
+
             //player one temp stats
-            double playerOneExp = 10;
-            string playerOneType = "Water";
+            double playerOneExp = Convert.ToInt32(utitInfo.Exp);
+            int playerOneType = Convert.ToInt32(utitInfo.Type);
             //player two temp stats
-            double playerTwoExp = 10;
-            string playerTwoType = "Fire";
+            double playerTwoExp = Convert.ToInt32(dtitInfo.Exp);
+            int playerTwoType = Convert.ToInt32(dtitInfo.Type);
 
 
 
@@ -206,32 +207,45 @@ namespace Better.User
                     break;
             }
 
-            int winner;
-
-
             if (playerOne > playerTwo)
             {
-                winner = 1;
+                dbm.CreateFight(usertitan.ToString(), defendertitan.ToString(), true, false, false);
+                result = 1;
+                utitInfo.Wins = (Convert.ToInt32(utitInfo.Wins) + 1).ToString();
+                dtitInfo.Wins = (Convert.ToInt32(dtitInfo.Losses) + 1).ToString();
             }
             else if (playerOne < playerTwo)
             {
-                winner = 2;
+                dbm.CreateFight(usertitan.ToString(), defendertitan.ToString(), false, true, false);
+                result = 2;
+                utitInfo.Wins = (Convert.ToInt32(utitInfo.Losses) + 1).ToString();
+                dtitInfo.Wins = (Convert.ToInt32(dtitInfo.Wins) + 1).ToString();
             }
             else
             {
-                winner = 3;
+                dbm.CreateFight(usertitan.ToString(), defendertitan.ToString(), false, false, true);
+                result = 3;
+                utitInfo.Wins = (Convert.ToInt32(utitInfo.Draws) + 1).ToString();
+                dtitInfo.Wins = (Convert.ToInt32(dtitInfo.Draws) + 1).ToString();
             }
 
+
+            //update tables
+            dbm.BetterDataContext.SubmitChanges();
         }
 
-        protected int ElementalBonus(string playerOneElement, string playerTwoElement)
+        protected int ElementalBonus(int playerOneElement, int playerTwoElement)
         {
 
             //returns who should get elemental bonus if possible
+            //1 = air
+            //2 = earth
+            //3 = fire
+            //4 = water
 
-            if ((playerOneElement == "Water" && playerTwoElement == "Fire") || (playerOneElement == "Fire" && playerTwoElement == "Water"))
+            if ((playerOneElement == 4 && playerTwoElement == 3) || (playerOneElement == 3 && playerTwoElement == 4))
             {
-                if (playerOneElement == "Water")
+                if (playerOneElement == 4)
                 {
                     return 1;
                 }
@@ -241,9 +255,9 @@ namespace Better.User
                 }
             }
 
-            if ((playerOneElement == "Fire" && playerTwoElement == "Air") || (playerOneElement == "Air" && playerTwoElement == "Fire"))
+            if ((playerOneElement == 3 && playerTwoElement == 1) || (playerOneElement == 1 && playerTwoElement == 3))
             {
-                if (playerOneElement == "Fire")
+                if (playerOneElement == 3)
                 {
                     return 1;
                 }
@@ -253,9 +267,9 @@ namespace Better.User
                 }
             }
 
-            if ((playerOneElement == "Air" && playerTwoElement == "Earth") || (playerOneElement == "Earth" && playerTwoElement == "Air"))
+            if ((playerOneElement == 1 && playerTwoElement == 2) || (playerOneElement == 2 && playerTwoElement == 1))
             {
-                if (playerOneElement == "Air")
+                if (playerOneElement == 1)
                 {
                     return 1;
                 }
@@ -265,9 +279,9 @@ namespace Better.User
                 }
             }
 
-            if ((playerOneElement == "Earth" && playerTwoElement == "Water") || (playerOneElement == "Water" && playerTwoElement == "Earth"))
+            if ((playerOneElement == 2 && playerTwoElement == 4) || (playerOneElement == 4 && playerTwoElement == 2))
             {
-                if (playerOneElement == "Earth")
+                if (playerOneElement == 2)
                 {
                     return 1;
                 }
@@ -278,6 +292,27 @@ namespace Better.User
             }
 
             return 3;
+        }
+
+        public void backToTitanPage()
+        {
+            int usersTitansCount = 0;
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+            foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+            {
+                if (tit.Retired == false && tit.Deleted == false)
+                {
+
+                    usersTitansCount++;
+                    if (tit.Id == Request.QueryString["usersTitan"])
+                    {
+                        Response.Redirect("TitanPage?usersTitan=" + usersTitansCount);
+                    }
+                }
+            }
+
         }
         /*
          * source: https://stackoverflow.com/questions/28327229/asp-net-find-control-by-id

@@ -32,7 +32,7 @@
         </asp:Panel>
 
         <div>
-            <asp:Label ID="heroLevel1" runat="server" Text="LVL: 3" Style="font-size: 15px;" />
+            <asp:Label ID="usersheroLevel1" runat="server" Text="LVL: 3" Style="font-size: 15px;" />
         </div>
         <div class="myProgress">
 
@@ -64,7 +64,7 @@
                             <asp:Label ID="heroName1" runat="server" Text="Titan Name"></asp:Label>
                         </div>
                         <div>
-                            <asp:Label ID="Label1" runat="server" Text="LVL: 3"></asp:Label>
+                            <asp:Label ID="heroLevel1" runat="server" Text="LVL: 3"></asp:Label>
                         </div>
                     </div>
                 </asp:Panel>

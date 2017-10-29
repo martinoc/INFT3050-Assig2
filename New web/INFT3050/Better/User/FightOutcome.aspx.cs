@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Better.Controllers;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,72 +15,117 @@ namespace Better.User
     public partial class FightOutcome : Page
     {
         Random rand = new Random();
+        int usertitan;
+        int defendertitan;
+        int result;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection"); 
+
+            if (Request.QueryString["usersTitan"] == null)
+            {
+                Response.Redirect("UserProfile");
+            }
+            else if (Request.QueryString["defendersTitan"] == null)
+            {
+                int usersTitansCount = 0;
+                var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var user = manager.FindById(User.Identity.GetUserId());
+
+
+                foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+                {
+                    if (tit.Retired == false && tit.Deleted == false)
+                    {
+
+                        usersTitansCount++;
+                        if (tit.Id == Request.QueryString["usersTitan"])
+                        {
+                            Response.Redirect("TitanPage?usersTitan=" + usersTitansCount);
+                        }
+                    }
+                }
+            }else if(Request.QueryString["result"] == null)
+            {
+                Response.Redirect("Fight?usersTitan=" + usertitan + "&defendersTitan=" + defendertitan);
+
+            }
+
+            usertitan = Convert.ToInt32(Request.QueryString["usersTitan"]);
+            defendertitan = Convert.ToInt32(Request.QueryString["defendersTitan"]);
+            result = Convert.ToInt32(Request.QueryString["result"]);
+
+            Panel panel = (Panel)FindControlRecursive(Page, "Panel3");
+            Button button = (Button)panel.FindControl("Button2");
+
+
+            var titInfo = dbm.Titaninfo(usertitan.ToString());
+
+
+            button.Text = titInfo.TitanName+" Titan Page";
+
+
+
+            whoWins();
+
+
             fillHall(2);
-            
         }
 
-        //sets up the two heros
+        //set two players up
         protected void fillHall(int numOfTitans)
         {
             for (int i = 1; i < 3; i++)
             {
+                //find panel id
                 Panel panel = (Panel)FindControlRecursive(Page, "Panel" + i);
                 if (panel != null)
                 {
                     panel.Visible = true;
 
                     Table table = (Table)panel.FindControl("Table" + i);
+                    Label titanName = (Label)panel.FindControl("TitanName" + i);
 
-                    int element = rand.Next(1, 4);
-                    int fights = rand.Next(100, 1000);
-                    int wins = rand.Next(50, fights);
-                    int losses = fights - wins;
-                    string createdString = "";
-                    string name = "";
+                    int element;
+                    int fights;
+                    int wins;
+                    int losses;
+                    string createdString;
+                    string name;
+                    int titanID;
 
                     if (i == 1)
                     {
-                        name = "Your Name";
+                        titanID = usertitan;
                     }
                     else
                     {
-                        switch (rand.Next(1, 6))
-                        {
-                            case 3:
-                                name = "FirstName LastName";
-                                break;
-                            case 4:
-                                name = "John Doe";
-                                break;
-                            case 5:
-                                name = "Martin O'Connor";
-                                break;
-                            default:
-                                name = "Unknown";
-                                break;
-                        }
+                        titanID = defendertitan;
                     }
 
-                    switch (element)
-                    {
-                        case 1:
-                            createdString = "19/12/16";
-                            break;
-                        case 2:
-                            createdString = "05/07/17";
-                            break;
-                        case 3:
-                            createdString = "11/11/11";
-                            break;
-                        case 4:
-                            createdString = "14/12/14";
-                            break;
-                        default:
-                            break;
-                    }
+                    DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+
+                    var titInfo = dbm.Titaninfo(titanID.ToString());
+
+                    element = Convert.ToInt32(titInfo.Type);
+                    name = dbm.TitanUsersName(titanID.ToString(), Context);
+                    wins = Convert.ToInt32(titInfo.Wins);
+                    losses = Convert.ToInt32(titInfo.Losses);
+                    fights = wins + losses + Convert.ToInt32(titInfo.Draws);
+                    createdString = "Date";
+                    titanName.Text = titInfo.TitanName;
+
+                    Label titanLvl = (Label)panel.FindControl("heroLevel" + i);
+                    Panel titanExp = (Panel)panel.FindControl("HeroExp" + i);
+                    Label titanExpText = (Label)panel.FindControl("heroExpText" + i);
+
+                    string lvl = CustomGlobal.GetLvl(Convert.ToInt32(titInfo.Exp));
+                    string stp = CustomGlobal.GetStp(Convert.ToInt32(lvl), Convert.ToInt32(titInfo.Exp));
+                    string remain = CustomGlobal.GetRemaing(Convert.ToInt32(lvl), Convert.ToInt32(stp), Convert.ToInt32(titInfo.Exp));
+
+                    titanLvl.Text = "LVL: " + lvl + " STP: " + stp;
 
                     for (int rowCtr = 1; rowCtr <= 5; rowCtr++)
                     {
@@ -91,7 +139,7 @@ namespace Better.User
                             //left col
                             if (cellCtr == 1)
                             {
-                                tCell.Text = CellFill(rowCtr);
+                                tCell.Text = CustomGlobal.CellFill("Fight", rowCtr);
                                 tCell.Font.Size = 15;
                             }
                             else//right col
@@ -118,25 +166,20 @@ namespace Better.User
                                     default:
                                         break;
                                 }
-
                                 tCell.Font.Size = 12;
                             }
                             tRow.Cells.Add(tCell);
                         }
                     }
-
                     Image image = (Image)panel.FindControl("image" + i);
                     if (image != null)
                     {
-                        image.ImageUrl = TitanImage(element);
+                        image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, element.ToString());
                     }
                 }
-
             }
-
         }
 
-       
 
         protected void whoWins()
         {
@@ -147,114 +190,57 @@ namespace Better.User
                 Label winnerDir = (Label)panel.FindControl("winner");
                 Label outcome = (Label)panel.FindControl("Wins");
 
+                DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+
+                var utitInfo = dbm.Titaninfo(usertitan.ToString());
+                var dtitInfo = dbm.Titaninfo(defendertitan.ToString());
 
                 if (winName != null && winnerDir != null)
                 {
-                    //if (winner == 1)
-                    //{
-                    //    winName.Text = "TitanName1";
-                    //    winnerDir.Text = "<<<<<<";
-                    //    outcome.Text = "Wins";
-                    //}
-                    //else if (winner == 2)
-                    //{
-                    //    winName.Text = "TitanName2";
-                    //    winnerDir.Text = ">>>>>>";
-                    //    outcome.Text = "Wins";
-                    //}
-                    //else
-                    //{
-                    winName.Text = "       ";
-                    winnerDir.Text = "       ";
-                    outcome.Text = "Draw";
-                    //}
+                    if (result == 1)
+                    {
+                        winName.Text = utitInfo.TitanName;
+                        winnerDir.Text = "<<<<<<<<";
+                        outcome.Text = "Wins";
+                    }
+                    else if (result == 2)
+                    {
+                        winName.Text = dtitInfo.TitanName;
+                        winnerDir.Text = ">>>>>>>>";
+                        outcome.Text = "Wins";
+                    }
+                    else
+                    {
+                        winName.Text = "       ";
+                        winnerDir.Text = "       ";
+                        outcome.Text = "Draw";
+                    }
                 }
             }
         }
 
         protected void leaveButton_Command(object sender, CommandEventArgs e)
         {
-            Response.Redirect("TitanPage");
-        }
-
-        protected String setName(int nameNum)
-        {
-            string name = "";
-
-            switch (nameNum)
+            int usersTitansCount = 0;
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+            foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
             {
-                case 1:
-                    name = "dude";
-                    break;
-                case 2:
-                    name = "titan";
-                    break;
-                case 3:
-                    name = "killer";
-                    break;
-                case 4:
-                    name = "trump";
-                    break;
-                case 5:
-                    name = "hillary";
-                    break;
-                case 6:
-                    name = "gary";
-                    break;
-                case 7:
-                    name = "steve";
-                    break;
-                case 8:
-                    name = "forest";
-                    break;
-                case 9:
-                    name = "lumpy";
-                    break;
-                case 10:
-                    name = "bumpy";
-                    break;
-                default:
-                    name = "";
-                    break;
+                if (tit.Retired == false && tit.Deleted == false)
+                {
+
+                    usersTitansCount++;
+                    if (tit.Id == Request.QueryString["usersTitan"])
+                    {
+                        Response.Redirect("TitanPage?usersTitan=" + usersTitansCount);
+                    }
+                }
             }
-            return name;
+
         }
 
-        private String TitanImage(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "../Images/Air_Elemental_titans_front.png";
-                case 2:
-                    return "../Images/Earth_Elemental_titans_front.png";
-                case 3:
-                    return "../Images/Fire_Elemental_titans_front.png";
-                case 4:
-                    return "../Images/Water_Elemental_titans_front.png";
-                default:
-                    return "";
-            }
-        }
-
-        private String CellFill(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "Created: ";
-                case 2:
-                    return "Fights: ";
-                case 3:
-                    return "Wins: ";
-                case 4:
-                    return "Losses: ";
-                case 5:
-                    return "Coach: ";
-                default:
-                    return "";
-            }
-        }
+       
 
         /*
          * source: https://stackoverflow.com/questions/28327229/asp-net-find-control-by-id

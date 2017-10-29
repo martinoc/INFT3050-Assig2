@@ -224,7 +224,7 @@ namespace Better.Controllers
         {
             AspNetUserTitanFight fght = new AspNetUserTitanFight
             {
-                Id = GetMaxFightId(),
+                Id = (Convert.ToInt32(GetMaxFightId()) + 1).ToString(),
                 AttackerTitanID = attacktitanid,
                 DefenderTitanID = defendtitanid,
                 Win = win,

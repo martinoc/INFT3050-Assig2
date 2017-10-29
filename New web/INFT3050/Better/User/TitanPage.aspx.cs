@@ -91,7 +91,7 @@ namespace Better.User
 
                 Table table = (Table)panel.FindControl("Table1");
                 Label titanName = (Label)panel.FindControl("TitanName");
-                Label level = (Label)panel.FindControl("heroLevel1");
+                Label level = (Label)panel.FindControl("usersheroLevel1");
                 Label exp = (Label)panel.FindControl("heroExpText1");
                 Label epBalance = (Label)panel.FindControl("EPBalance");
                 Panel expPanel = (Panel)FindControlRecursive(Page, "HeroExp1");
@@ -420,7 +420,7 @@ namespace Better.User
             {
                 s = s.Remove(0, str.Length);
 
-                Response.Redirect("Fight?usersTitan="+ Request.QueryString["usersTitan"]+ "&defendersTitan="+s);
+                Response.Redirect("Fight?usersTitan="+ usersTitansArray[0, 11] + "&defendersTitan="+ defendersTitansArray[Convert.ToInt32(s)-1, 2]);
             }
         }
 
@@ -431,6 +431,26 @@ namespace Better.User
 
         protected void delete_Command(object sender, CommandEventArgs e)
         {
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = manager.FindById(User.Identity.GetUserId());
+
+            //DS Sample of how to implement database manager (remove for final website submission...)
+            DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
+            
+            foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+            {
+                if (tit.Retired == false && tit.Deleted == false)
+                {
+                    if (tit.Id == usersTitansArray[0, 11])
+                    {
+                        tit.Deleted = true;
+                    }
+                }
+            }
+
+
+            //update tables
+            dbm.BetterDataContext.SubmitChanges();
 
             Response.Redirect("UserProfile");
 
@@ -464,7 +484,7 @@ namespace Better.User
 
                         Label epBalance = (Label)panel.FindControl("EPBalance");
                         Panel expPanel = (Panel)FindControlRecursive(Page, "HeroExp1");
-                        Label level = (Label)panel.FindControl("heroLevel1");
+                        Label level = (Label)panel.FindControl("usersheroLevel1");
                         Label exp = (Label)panel.FindControl("heroExpText1");
 
 
@@ -476,6 +496,17 @@ namespace Better.User
                             titanExp += maxValue;
                             
                             titan.Retired = true;
+
+                            foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
+                            {
+                                if (tit.Retired == false && tit.Deleted == false)
+                                {
+                                    if (tit.Id == usersTitansArray[0, 11])
+                                    {
+                                        tit.Retired = true;
+                                    }
+                                }
+                            }
                         }
                         else
                         {                            

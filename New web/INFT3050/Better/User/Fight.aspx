@@ -29,14 +29,6 @@
                 <div>
                     <asp:Label ID="heroLevel1" runat="server" Text="LVL: 3" Style="font-size: 15px;" />
                 </div>
-                <div class="myProgress">
-
-                    <asp:Panel runat="server" ID="HeroExp1" CssClass="myBar">
-                        <p>
-                            <asp:Label ID="heroExpText1" runat="server" Text="10%"></asp:Label>
-                        </p>
-                    </asp:Panel>
-                </div>
             </div>
             <div class="leftContent" style="text-align: center;">
 
@@ -70,14 +62,7 @@
                 <div>
                     <asp:Label ID="heroLevel2" runat="server" Text="LVL: 3" Style="font-size: 15px;" />
                 </div>
-                <div class="myProgress">
-
-                    <asp:Panel runat="server" ID="HeroExp2" CssClass="myBar">
-                        <p>
-                            <asp:Label ID="heroExpText2" runat="server" Text="10%"></asp:Label>
-                        </p>
-                    </asp:Panel>
-                </div>
+                
             </div>
 
 
