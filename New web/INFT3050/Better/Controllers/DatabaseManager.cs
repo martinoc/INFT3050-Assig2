@@ -125,6 +125,20 @@ namespace Better.Controllers
         }
 
         /// <summary>
+        /// Gets a list of fights the titan has been involved in, both defending and attacking
+        /// </summary>
+        /// <param name="titanid">Titan id to search for</param>
+        /// <returns>list of fight records</returns>
+        public List<AspNetUserTitanFight> GetTitansFightHistory(string titanid)
+        {
+            List<AspNetUserTitanFight> result = new List<AspNetUserTitanFight>();
+            
+            result = dc.AspNetUserTitanFights.Where(t => t.AttackerTitanID == titanid || t.DefenderTitanID == titanid).ToList();
+
+            return result;
+        }
+
+        /// <summary>
         /// Gets the Titans Linked to the current user
         /// </summary>
         /// <param name="userid">User id to search for</param>
@@ -224,7 +238,7 @@ namespace Better.Controllers
         {
             AspNetUserTitanFight fght = new AspNetUserTitanFight
             {
-                Id = (Convert.ToInt32(GetMaxFightId()) + 1).ToString(),
+                Id = GetMaxFightId(),
                 AttackerTitanID = attacktitanid,
                 DefenderTitanID = defendtitanid,
                 Win = win,
