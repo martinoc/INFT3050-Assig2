@@ -189,6 +189,21 @@ namespace Better.Controllers
         }
 
         /// <summary>
+        /// Gets the name of a Titans user
+        /// </summary>
+        /// <param name="titanid">Id of the Titan to find</param>
+        /// <returns>Sring of titan user Id <returns>
+        public string TitanUsersID(int titanid, HttpContext _context)
+        {
+
+            AspNetUserTitan aspUserTitan = dc.AspNetUserTitans.FirstOrDefault(apt => apt.TitanID == titanid);
+
+            return aspUserTitan.UserId;
+            
+
+        }
+
+        /// <summary>
         /// Creates the data rows for a new Titan
         /// </summary>
         /// <param name="userid">id of the user</param>

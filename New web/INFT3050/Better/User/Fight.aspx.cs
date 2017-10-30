@@ -212,22 +212,33 @@ namespace Better.User
                 dbm.CreateFight(usertitan, defendertitan, true, false, false);
                 result = 1;
                 utitInfo.Wins = (Convert.ToInt32(utitInfo.Wins) + 1).ToString();
-                dtitInfo.Wins = (Convert.ToInt32(dtitInfo.Losses) + 1).ToString();
+                dtitInfo.Losses = (Convert.ToInt32(dtitInfo.Losses) + 1).ToString();
+                
+                if(dbm.TitanUsersID(utitInfo.Id, Context) != "1513a738-2ad2-4637-bc10-7ed83cd70e0a")
+                {
+                    utitInfo.Exp = (Convert.ToInt32(utitInfo.Exp) + Convert.ToInt32(utitInfo.Exp) / 4).ToString();
+                }
             }
             else if (playerOne < playerTwo)
             {
                 dbm.CreateFight(usertitan, defendertitan, false, true, false);
                 result = 2;
-                utitInfo.Wins = (Convert.ToInt32(utitInfo.Losses) + 1).ToString();
+                utitInfo.Losses = (Convert.ToInt32(utitInfo.Losses) + 1).ToString();
                 dtitInfo.Wins = (Convert.ToInt32(dtitInfo.Wins) + 1).ToString();
+
+                if (dbm.TitanUsersID(dtitInfo.Id, Context) != "1513a738-2ad2-4637-bc10-7ed83cd70e0a")
+                {
+                    dtitInfo.Exp = (Convert.ToInt32(dtitInfo.Exp) + Convert.ToInt32(dtitInfo.Exp) / 4).ToString();
+                }
             }
             else
             {
                 dbm.CreateFight(usertitan, defendertitan, false, false, true);
                 result = 3;
-                utitInfo.Wins = (Convert.ToInt32(utitInfo.Draws) + 1).ToString();
-                dtitInfo.Wins = (Convert.ToInt32(dtitInfo.Draws) + 1).ToString();
+                utitInfo.Draws = (Convert.ToInt32(utitInfo.Draws) + 1).ToString();
+                dtitInfo.Draws = (Convert.ToInt32(dtitInfo.Draws) + 1).ToString();
             }
+
 
 
             //update tables
