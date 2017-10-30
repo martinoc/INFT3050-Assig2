@@ -69,7 +69,7 @@ namespace Better.User
                         // titans totalEp
                         usersTitansArray[0, 10] = titInfo.Exp;
                         //titans ID
-                        usersTitansArray[0, 11] = tit.TitanID.ToString();
+                        usersTitansArray[0, 11] = titInfo.Id.ToString();
                     }
                     count++;
                 }
@@ -441,7 +441,7 @@ namespace Better.User
             {
                 if (tit.Retired == false && tit.Deleted == false)
                 {
-                    if (tit.Id == Convert.ToInt32(usersTitansArray[0, 11]))
+                    if (tit.Id.ToString() == usersTitansArray[0, 11])
                     {
                         tit.Deleted = true;
                     }
