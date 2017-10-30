@@ -69,10 +69,10 @@ namespace Better.User
                     
                     DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
                                        
-                    var titInfo = dbm.Titaninfo(titanID.ToString());
+                    var titInfo = dbm.Titaninfo(titanID);
 
                     element = Convert.ToInt32(titInfo.Type);
-                    name = dbm.TitanUsersName(titanID.ToString(), Context);
+                    name = dbm.TitanUsersName(titanID, Context);
                     wins = Convert.ToInt32(titInfo.Wins);
                     losses = Convert.ToInt32(titInfo.Losses);
                     fights = wins + losses + Convert.ToInt32(titInfo.Draws);
@@ -164,8 +164,8 @@ namespace Better.User
         {
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
 
-            var utitInfo = dbm.Titaninfo(usertitan.ToString());
-            var dtitInfo = dbm.Titaninfo(defendertitan.ToString());
+            var utitInfo = dbm.Titaninfo(usertitan);
+            var dtitInfo = dbm.Titaninfo(defendertitan);
 
             //player one temp stats
             double playerOneExp = Convert.ToInt32(utitInfo.Exp);
@@ -209,21 +209,21 @@ namespace Better.User
 
             if (playerOne > playerTwo)
             {
-                dbm.CreateFight(usertitan.ToString(), defendertitan.ToString(), true, false, false);
+                dbm.CreateFight(usertitan, defendertitan, true, false, false);
                 result = 1;
                 utitInfo.Wins = (Convert.ToInt32(utitInfo.Wins) + 1).ToString();
                 dtitInfo.Wins = (Convert.ToInt32(dtitInfo.Losses) + 1).ToString();
             }
             else if (playerOne < playerTwo)
             {
-                dbm.CreateFight(usertitan.ToString(), defendertitan.ToString(), false, true, false);
+                dbm.CreateFight(usertitan, defendertitan, false, true, false);
                 result = 2;
                 utitInfo.Wins = (Convert.ToInt32(utitInfo.Losses) + 1).ToString();
                 dtitInfo.Wins = (Convert.ToInt32(dtitInfo.Wins) + 1).ToString();
             }
             else
             {
-                dbm.CreateFight(usertitan.ToString(), defendertitan.ToString(), false, false, true);
+                dbm.CreateFight(usertitan, defendertitan, false, false, true);
                 result = 3;
                 utitInfo.Wins = (Convert.ToInt32(utitInfo.Draws) + 1).ToString();
                 dtitInfo.Wins = (Convert.ToInt32(dtitInfo.Draws) + 1).ToString();
@@ -306,7 +306,7 @@ namespace Better.User
                 {
 
                     usersTitansCount++;
-                    if (tit.Id == Request.QueryString["usersTitan"])
+                    if (tit.Id == Convert.ToInt32(Request.QueryString["usersTitan"]))
                     {
                         Response.Redirect("TitanPage?usersTitan=" + usersTitansCount);
                     }

@@ -21,7 +21,8 @@ namespace Better.Models
         public string ParentCode { get; set; }
         public int EPBalance { get; set; }
         public bool Showname { get; set; }
-
+        public bool ExersiseLockoutEnabled { get; set; }
+        public DateTime? ExersiseLastEntered { get; set; }
 
         public ClaimsIdentity GenerateUserIdentity(ApplicationUserManager manager)
         {

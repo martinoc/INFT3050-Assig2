@@ -30,15 +30,15 @@ namespace Better.Controllers
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertAspNetUserTitanFight(AspNetUserTitanFight instance);
-    partial void UpdateAspNetUserTitanFight(AspNetUserTitanFight instance);
-    partial void DeleteAspNetUserTitanFight(AspNetUserTitanFight instance);
     partial void InsertAspNetTitan(AspNetTitan instance);
     partial void UpdateAspNetTitan(AspNetTitan instance);
     partial void DeleteAspNetTitan(AspNetTitan instance);
     partial void InsertAspNetUserTitan(AspNetUserTitan instance);
     partial void UpdateAspNetUserTitan(AspNetUserTitan instance);
     partial void DeleteAspNetUserTitan(AspNetUserTitan instance);
+    partial void InsertAspNetUserTitanFight(AspNetUserTitanFight instance);
+    partial void UpdateAspNetUserTitanFight(AspNetUserTitanFight instance);
+    partial void DeleteAspNetUserTitanFight(AspNetUserTitanFight instance);
     #endregion
 		
 		public BetterDataClassesDataContext() : 
@@ -71,14 +71,6 @@ namespace Better.Controllers
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<AspNetUserTitanFight> AspNetUserTitanFights
-		{
-			get
-			{
-				return this.GetTable<AspNetUserTitanFight>();
-			}
-		}
-		
 		public System.Data.Linq.Table<AspNetTitan> AspNetTitans
 		{
 			get
@@ -94,268 +86,12 @@ namespace Better.Controllers
 				return this.GetTable<AspNetUserTitan>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspNetUserTitanFights")]
-	public partial class AspNetUserTitanFight : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _Id;
-		
-		private string _AttackerTitanID;
-		
-		private string _DefenderTitanID;
-		
-		private System.Nullable<bool> _Win;
-		
-		private System.Nullable<bool> _Loss;
-		
-		private System.Nullable<bool> _Draw;
-		
-		private EntityRef<AspNetTitan> _AspNetTitan;
-		
-		private EntityRef<AspNetTitan> _AspNetTitan1;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(string value);
-    partial void OnIdChanged();
-    partial void OnAttackerTitanIDChanging(string value);
-    partial void OnAttackerTitanIDChanged();
-    partial void OnDefenderTitanIDChanging(string value);
-    partial void OnDefenderTitanIDChanged();
-    partial void OnWinChanging(System.Nullable<bool> value);
-    partial void OnWinChanged();
-    partial void OnLossChanging(System.Nullable<bool> value);
-    partial void OnLossChanged();
-    partial void OnDrawChanging(System.Nullable<bool> value);
-    partial void OnDrawChanged();
-    #endregion
-		
-		public AspNetUserTitanFight()
-		{
-			this._AspNetTitan = default(EntityRef<AspNetTitan>);
-			this._AspNetTitan1 = default(EntityRef<AspNetTitan>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="NVarChar(128) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string Id
+		public System.Data.Linq.Table<AspNetUserTitanFight> AspNetUserTitanFights
 		{
 			get
 			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttackerTitanID", DbType="NVarChar(128) NOT NULL", CanBeNull=false)]
-		public string AttackerTitanID
-		{
-			get
-			{
-				return this._AttackerTitanID;
-			}
-			set
-			{
-				if ((this._AttackerTitanID != value))
-				{
-					if (this._AspNetTitan.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnAttackerTitanIDChanging(value);
-					this.SendPropertyChanging();
-					this._AttackerTitanID = value;
-					this.SendPropertyChanged("AttackerTitanID");
-					this.OnAttackerTitanIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefenderTitanID", DbType="NVarChar(128) NOT NULL", CanBeNull=false)]
-		public string DefenderTitanID
-		{
-			get
-			{
-				return this._DefenderTitanID;
-			}
-			set
-			{
-				if ((this._DefenderTitanID != value))
-				{
-					if (this._AspNetTitan1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnDefenderTitanIDChanging(value);
-					this.SendPropertyChanging();
-					this._DefenderTitanID = value;
-					this.SendPropertyChanged("DefenderTitanID");
-					this.OnDefenderTitanIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Win", DbType="Bit")]
-		public System.Nullable<bool> Win
-		{
-			get
-			{
-				return this._Win;
-			}
-			set
-			{
-				if ((this._Win != value))
-				{
-					this.OnWinChanging(value);
-					this.SendPropertyChanging();
-					this._Win = value;
-					this.SendPropertyChanged("Win");
-					this.OnWinChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Loss", DbType="Bit")]
-		public System.Nullable<bool> Loss
-		{
-			get
-			{
-				return this._Loss;
-			}
-			set
-			{
-				if ((this._Loss != value))
-				{
-					this.OnLossChanging(value);
-					this.SendPropertyChanging();
-					this._Loss = value;
-					this.SendPropertyChanged("Loss");
-					this.OnLossChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Draw", DbType="Bit")]
-		public System.Nullable<bool> Draw
-		{
-			get
-			{
-				return this._Draw;
-			}
-			set
-			{
-				if ((this._Draw != value))
-				{
-					this.OnDrawChanging(value);
-					this.SendPropertyChanging();
-					this._Draw = value;
-					this.SendPropertyChanged("Draw");
-					this.OnDrawChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitanFight", Storage="_AspNetTitan", ThisKey="AttackerTitanID", OtherKey="Id", IsForeignKey=true)]
-		public AspNetTitan AspNetTitan
-		{
-			get
-			{
-				return this._AspNetTitan.Entity;
-			}
-			set
-			{
-				AspNetTitan previousValue = this._AspNetTitan.Entity;
-				if (((previousValue != value) 
-							|| (this._AspNetTitan.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._AspNetTitan.Entity = null;
-						previousValue.AspNetUserTitanFights.Remove(this);
-					}
-					this._AspNetTitan.Entity = value;
-					if ((value != null))
-					{
-						value.AspNetUserTitanFights.Add(this);
-						this._AttackerTitanID = value.Id;
-					}
-					else
-					{
-						this._AttackerTitanID = default(string);
-					}
-					this.SendPropertyChanged("AspNetTitan");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitanFight1", Storage="_AspNetTitan1", ThisKey="DefenderTitanID", OtherKey="Id", IsForeignKey=true)]
-		public AspNetTitan AspNetTitan1
-		{
-			get
-			{
-				return this._AspNetTitan1.Entity;
-			}
-			set
-			{
-				AspNetTitan previousValue = this._AspNetTitan1.Entity;
-				if (((previousValue != value) 
-							|| (this._AspNetTitan1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._AspNetTitan1.Entity = null;
-						previousValue.AspNetUserTitanFights1.Remove(this);
-					}
-					this._AspNetTitan1.Entity = value;
-					if ((value != null))
-					{
-						value.AspNetUserTitanFights1.Add(this);
-						this._DefenderTitanID = value.Id;
-					}
-					else
-					{
-						this._DefenderTitanID = default(string);
-					}
-					this.SendPropertyChanged("AspNetTitan1");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				return this.GetTable<AspNetUserTitanFight>();
 			}
 		}
 	}
@@ -366,7 +102,7 @@ namespace Better.Controllers
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private string _Id;
+		private int _Id;
 		
 		private string _TitanName;
 		
@@ -382,17 +118,19 @@ namespace Better.Controllers
 		
 		private string _Type;
 		
+		private System.Nullable<System.DateTime> _CreatedDate;
+		
+		private EntitySet<AspNetUserTitan> _AspNetUserTitans;
+		
 		private EntitySet<AspNetUserTitanFight> _AspNetUserTitanFights;
 		
 		private EntitySet<AspNetUserTitanFight> _AspNetUserTitanFights1;
-		
-		private EntitySet<AspNetUserTitan> _AspNetUserTitans;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(string value);
+    partial void OnIdChanging(int value);
     partial void OnIdChanged();
     partial void OnTitanNameChanging(string value);
     partial void OnTitanNameChanged();
@@ -408,18 +146,20 @@ namespace Better.Controllers
     partial void OnRetiredChanged();
     partial void OnTypeChanging(string value);
     partial void OnTypeChanged();
+    partial void OnCreatedDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnCreatedDateChanged();
     #endregion
 		
 		public AspNetTitan()
 		{
+			this._AspNetUserTitans = new EntitySet<AspNetUserTitan>(new Action<AspNetUserTitan>(this.attach_AspNetUserTitans), new Action<AspNetUserTitan>(this.detach_AspNetUserTitans));
 			this._AspNetUserTitanFights = new EntitySet<AspNetUserTitanFight>(new Action<AspNetUserTitanFight>(this.attach_AspNetUserTitanFights), new Action<AspNetUserTitanFight>(this.detach_AspNetUserTitanFights));
 			this._AspNetUserTitanFights1 = new EntitySet<AspNetUserTitanFight>(new Action<AspNetUserTitanFight>(this.attach_AspNetUserTitanFights1), new Action<AspNetUserTitanFight>(this.detach_AspNetUserTitanFights1));
-			this._AspNetUserTitans = new EntitySet<AspNetUserTitan>(new Action<AspNetUserTitan>(this.attach_AspNetUserTitans), new Action<AspNetUserTitan>(this.detach_AspNetUserTitans));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="NVarChar(128) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
 		{
 			get
 			{
@@ -578,6 +318,39 @@ namespace Better.Controllers
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="Date")]
+		public System.Nullable<System.DateTime> CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this.OnCreatedDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDate = value;
+					this.SendPropertyChanged("CreatedDate");
+					this.OnCreatedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitan", Storage="_AspNetUserTitans", ThisKey="Id", OtherKey="TitanID")]
+		public EntitySet<AspNetUserTitan> AspNetUserTitans
+		{
+			get
+			{
+				return this._AspNetUserTitans;
+			}
+			set
+			{
+				this._AspNetUserTitans.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitanFight", Storage="_AspNetUserTitanFights", ThisKey="Id", OtherKey="AttackerTitanID")]
 		public EntitySet<AspNetUserTitanFight> AspNetUserTitanFights
 		{
@@ -604,19 +377,6 @@ namespace Better.Controllers
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitan", Storage="_AspNetUserTitans", ThisKey="Id", OtherKey="TitanID")]
-		public EntitySet<AspNetUserTitan> AspNetUserTitans
-		{
-			get
-			{
-				return this._AspNetUserTitans;
-			}
-			set
-			{
-				this._AspNetUserTitans.Assign(value);
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -635,6 +395,18 @@ namespace Better.Controllers
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_AspNetUserTitans(AspNetUserTitan entity)
+		{
+			this.SendPropertyChanging();
+			entity.AspNetTitan = this;
+		}
+		
+		private void detach_AspNetUserTitans(AspNetUserTitan entity)
+		{
+			this.SendPropertyChanging();
+			entity.AspNetTitan = null;
 		}
 		
 		private void attach_AspNetUserTitanFights(AspNetUserTitanFight entity)
@@ -660,18 +432,6 @@ namespace Better.Controllers
 			this.SendPropertyChanging();
 			entity.AspNetTitan1 = null;
 		}
-		
-		private void attach_AspNetUserTitans(AspNetUserTitan entity)
-		{
-			this.SendPropertyChanging();
-			entity.AspNetTitan = this;
-		}
-		
-		private void detach_AspNetUserTitans(AspNetUserTitan entity)
-		{
-			this.SendPropertyChanging();
-			entity.AspNetTitan = null;
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspNetUserTitans")]
@@ -680,11 +440,11 @@ namespace Better.Controllers
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private string _Id;
+		private int _Id;
 		
 		private string _UserId;
 		
-		private string _TitanID;
+		private int _TitanID;
 		
 		private System.Nullable<bool> _Retired;
 		
@@ -696,11 +456,11 @@ namespace Better.Controllers
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(string value);
+    partial void OnIdChanging(int value);
     partial void OnIdChanged();
     partial void OnUserIdChanging(string value);
     partial void OnUserIdChanged();
-    partial void OnTitanIDChanging(string value);
+    partial void OnTitanIDChanging(int value);
     partial void OnTitanIDChanged();
     partial void OnRetiredChanging(System.Nullable<bool> value);
     partial void OnRetiredChanged();
@@ -714,8 +474,8 @@ namespace Better.Controllers
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="NVarChar(128) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
 		{
 			get
 			{
@@ -754,8 +514,8 @@ namespace Better.Controllers
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TitanID", DbType="NVarChar(128) NOT NULL", CanBeNull=false)]
-		public string TitanID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TitanID", DbType="Int NOT NULL")]
+		public int TitanID
 		{
 			get
 			{
@@ -845,9 +605,297 @@ namespace Better.Controllers
 					}
 					else
 					{
-						this._TitanID = default(string);
+						this._TitanID = default(int);
 					}
 					this.SendPropertyChanged("AspNetTitan");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspNetUserTitanFights")]
+	public partial class AspNetUserTitanFight : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _AttackerTitanID;
+		
+		private int _DefenderTitanID;
+		
+		private System.Nullable<bool> _Win;
+		
+		private System.Nullable<bool> _Loss;
+		
+		private System.Nullable<bool> _Draw;
+		
+		private System.Nullable<System.DateTime> _CreatedDate;
+		
+		private EntityRef<AspNetTitan> _AspNetTitan;
+		
+		private EntityRef<AspNetTitan> _AspNetTitan1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnAttackerTitanIDChanging(int value);
+    partial void OnAttackerTitanIDChanged();
+    partial void OnDefenderTitanIDChanging(int value);
+    partial void OnDefenderTitanIDChanged();
+    partial void OnWinChanging(System.Nullable<bool> value);
+    partial void OnWinChanged();
+    partial void OnLossChanging(System.Nullable<bool> value);
+    partial void OnLossChanged();
+    partial void OnDrawChanging(System.Nullable<bool> value);
+    partial void OnDrawChanged();
+    partial void OnCreatedDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnCreatedDateChanged();
+    #endregion
+		
+		public AspNetUserTitanFight()
+		{
+			this._AspNetTitan = default(EntityRef<AspNetTitan>);
+			this._AspNetTitan1 = default(EntityRef<AspNetTitan>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttackerTitanID", DbType="Int NOT NULL")]
+		public int AttackerTitanID
+		{
+			get
+			{
+				return this._AttackerTitanID;
+			}
+			set
+			{
+				if ((this._AttackerTitanID != value))
+				{
+					if (this._AspNetTitan.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAttackerTitanIDChanging(value);
+					this.SendPropertyChanging();
+					this._AttackerTitanID = value;
+					this.SendPropertyChanged("AttackerTitanID");
+					this.OnAttackerTitanIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefenderTitanID", DbType="Int NOT NULL")]
+		public int DefenderTitanID
+		{
+			get
+			{
+				return this._DefenderTitanID;
+			}
+			set
+			{
+				if ((this._DefenderTitanID != value))
+				{
+					if (this._AspNetTitan1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDefenderTitanIDChanging(value);
+					this.SendPropertyChanging();
+					this._DefenderTitanID = value;
+					this.SendPropertyChanged("DefenderTitanID");
+					this.OnDefenderTitanIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Win", DbType="Bit")]
+		public System.Nullable<bool> Win
+		{
+			get
+			{
+				return this._Win;
+			}
+			set
+			{
+				if ((this._Win != value))
+				{
+					this.OnWinChanging(value);
+					this.SendPropertyChanging();
+					this._Win = value;
+					this.SendPropertyChanged("Win");
+					this.OnWinChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Loss", DbType="Bit")]
+		public System.Nullable<bool> Loss
+		{
+			get
+			{
+				return this._Loss;
+			}
+			set
+			{
+				if ((this._Loss != value))
+				{
+					this.OnLossChanging(value);
+					this.SendPropertyChanging();
+					this._Loss = value;
+					this.SendPropertyChanged("Loss");
+					this.OnLossChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Draw", DbType="Bit")]
+		public System.Nullable<bool> Draw
+		{
+			get
+			{
+				return this._Draw;
+			}
+			set
+			{
+				if ((this._Draw != value))
+				{
+					this.OnDrawChanging(value);
+					this.SendPropertyChanging();
+					this._Draw = value;
+					this.SendPropertyChanged("Draw");
+					this.OnDrawChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="Date")]
+		public System.Nullable<System.DateTime> CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this.OnCreatedDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDate = value;
+					this.SendPropertyChanged("CreatedDate");
+					this.OnCreatedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitanFight", Storage="_AspNetTitan", ThisKey="AttackerTitanID", OtherKey="Id", IsForeignKey=true)]
+		public AspNetTitan AspNetTitan
+		{
+			get
+			{
+				return this._AspNetTitan.Entity;
+			}
+			set
+			{
+				AspNetTitan previousValue = this._AspNetTitan.Entity;
+				if (((previousValue != value) 
+							|| (this._AspNetTitan.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AspNetTitan.Entity = null;
+						previousValue.AspNetUserTitanFights.Remove(this);
+					}
+					this._AspNetTitan.Entity = value;
+					if ((value != null))
+					{
+						value.AspNetUserTitanFights.Add(this);
+						this._AttackerTitanID = value.Id;
+					}
+					else
+					{
+						this._AttackerTitanID = default(int);
+					}
+					this.SendPropertyChanged("AspNetTitan");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetTitan_AspNetUserTitanFight1", Storage="_AspNetTitan1", ThisKey="DefenderTitanID", OtherKey="Id", IsForeignKey=true)]
+		public AspNetTitan AspNetTitan1
+		{
+			get
+			{
+				return this._AspNetTitan1.Entity;
+			}
+			set
+			{
+				AspNetTitan previousValue = this._AspNetTitan1.Entity;
+				if (((previousValue != value) 
+							|| (this._AspNetTitan1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AspNetTitan1.Entity = null;
+						previousValue.AspNetUserTitanFights1.Remove(this);
+					}
+					this._AspNetTitan1.Entity = value;
+					if ((value != null))
+					{
+						value.AspNetUserTitanFights1.Add(this);
+						this._DefenderTitanID = value.Id;
+					}
+					else
+					{
+						this._DefenderTitanID = default(int);
+					}
+					this.SendPropertyChanged("AspNetTitan1");
 				}
 			}
 		}

@@ -2,43 +2,43 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="BetterDataClasses">
   <DataContextMoniker Name="/BetterDataClassesDataContext" />
   <nestedChildShapes>
-    <classShape Id="2e280641-ee27-4c11-a0b6-5d5b6944ff11" absoluteBounds="3.625, 2.5, 2, 1.9631982421875">
-      <DataClassMoniker Name="/BetterDataClassesDataContext/AspNetUserTitanFight" />
-      <nestedChildShapes>
-        <elementListCompartment Id="c7f2af20-75f3-4661-9203-f977ab2a3a76" absoluteBounds="3.6399999999999997, 2.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="c947cd5b-174d-4e65-a288-256351225707" absoluteBounds="0.875, 1, 2, 2.3478011067708335">
+    <classShape Id="6383e009-00b6-4961-a64a-30f77f2f038f" absoluteBounds="5.625, 0.75, 2, 2.5401025390625">
       <DataClassMoniker Name="/BetterDataClassesDataContext/AspNetTitan" />
       <nestedChildShapes>
-        <elementListCompartment Id="d51ab34c-a7e5-446b-a90a-84ba7f3168a6" absoluteBounds="0.89000000000000012, 1.46, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="3422b513-480e-4920-9948-1be8e1cc72fe" absoluteBounds="5.64, 1.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.875 : 2.92390055338542); (3.625 : 2.92390055338542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/BetterDataClassesDataContext/AspNetTitan/AspNetTitan_AspNetUserTitanFight" />
-      <nodes>
-        <classShapeMoniker Id="c947cd5b-174d-4e65-a288-256351225707" />
-        <classShapeMoniker Id="2e280641-ee27-4c11-a0b6-5d5b6944ff11" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(2.875 : 2.64945027669271); (3.625 : 2.64945027669271)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/BetterDataClassesDataContext/AspNetTitan/AspNetTitan_AspNetUserTitanFight1" />
-      <nodes>
-        <classShapeMoniker Id="c947cd5b-174d-4e65-a288-256351225707" />
-        <classShapeMoniker Id="2e280641-ee27-4c11-a0b6-5d5b6944ff11" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="3fed0e1f-adda-4690-856b-296836688ef5" absoluteBounds="3.75, 0.5, 2, 1.7708968098958331">
+    <classShape Id="a2e29e17-f9aa-474d-9281-b603dd274dfc" absoluteBounds="3.25, 0.5, 2, 1.7708968098958331">
       <DataClassMoniker Name="/BetterDataClassesDataContext/AspNetUserTitan" />
       <nestedChildShapes>
-        <elementListCompartment Id="d21fc7a6-551f-40ba-8fca-d8e9a2963c11" absoluteBounds="3.7649999999999997, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="41efdd63-c23a-48f1-b5b5-34cdbcb6101b" absoluteBounds="3.2649999999999997, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.875 : 1.63544840494792); (3.75 : 1.63544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.625 : 1.51044840494792); (5.25 : 1.51044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/BetterDataClassesDataContext/AspNetTitan/AspNetTitan_AspNetUserTitan" />
       <nodes>
-        <classShapeMoniker Id="c947cd5b-174d-4e65-a288-256351225707" />
-        <classShapeMoniker Id="3fed0e1f-adda-4690-856b-296836688ef5" />
+        <classShapeMoniker Id="6383e009-00b6-4961-a64a-30f77f2f038f" />
+        <classShapeMoniker Id="a2e29e17-f9aa-474d-9281-b603dd274dfc" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="bc813903-701e-4ab4-9159-53bbb1a31800" absoluteBounds="0.75, 1.625, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/BetterDataClassesDataContext/AspNetUserTitanFight" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3117c0cd-f31b-4da9-b5c2-d0ee5dce03dd" absoluteBounds="0.76500000000000012, 2.085, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5.625 : 2.81174967447917); (2.75 : 2.81174967447917)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BetterDataClassesDataContext/AspNetTitan/AspNetTitan_AspNetUserTitanFight" />
+      <nodes>
+        <classShapeMoniker Id="6383e009-00b6-4961-a64a-30f77f2f038f" />
+        <classShapeMoniker Id="bc813903-701e-4ab4-9159-53bbb1a31800" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.625 : 2.5100732421875); (2.75 : 2.5100732421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BetterDataClassesDataContext/AspNetTitan/AspNetTitan_AspNetUserTitanFight1" />
+      <nodes>
+        <classShapeMoniker Id="6383e009-00b6-4961-a64a-30f77f2f038f" />
+        <classShapeMoniker Id="bc813903-701e-4ab4-9159-53bbb1a31800" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

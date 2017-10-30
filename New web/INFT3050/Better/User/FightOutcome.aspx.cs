@@ -41,7 +41,7 @@ namespace Better.User
                     {
 
                         usersTitansCount++;
-                        if (tit.Id == Request.QueryString["usersTitan"])
+                        if (tit.Id == Convert.ToInt32(Request.QueryString["usersTitan"]))
                         {
                             Response.Redirect("TitanPage?usersTitan=" + usersTitansCount);
                         }
@@ -61,7 +61,7 @@ namespace Better.User
             Button button = (Button)panel.FindControl("Button2");
 
 
-            var titInfo = dbm.Titaninfo(usertitan.ToString());
+            var titInfo = dbm.Titaninfo(usertitan);
 
 
             button.Text = titInfo.TitanName+" Titan Page";
@@ -107,10 +107,10 @@ namespace Better.User
 
                     DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
 
-                    var titInfo = dbm.Titaninfo(titanID.ToString());
+                    var titInfo = dbm.Titaninfo(titanID);
 
                     element = Convert.ToInt32(titInfo.Type);
-                    name = dbm.TitanUsersName(titanID.ToString(), Context);
+                    name = dbm.TitanUsersName(titanID, Context);
                     wins = Convert.ToInt32(titInfo.Wins);
                     losses = Convert.ToInt32(titInfo.Losses);
                     fights = wins + losses + Convert.ToInt32(titInfo.Draws);
@@ -192,8 +192,8 @@ namespace Better.User
 
                 DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
 
-                var utitInfo = dbm.Titaninfo(usertitan.ToString());
-                var dtitInfo = dbm.Titaninfo(defendertitan.ToString());
+                var utitInfo = dbm.Titaninfo(usertitan);
+                var dtitInfo = dbm.Titaninfo(defendertitan);
 
                 if (winName != null && winnerDir != null)
                 {
@@ -231,7 +231,7 @@ namespace Better.User
                 {
 
                     usersTitansCount++;
-                    if (tit.Id == Request.QueryString["usersTitan"])
+                    if (tit.Id == Convert.ToInt32(Request.QueryString["usersTitan"]))
                     {
                         Response.Redirect("TitanPage?usersTitan=" + usersTitansCount);
                     }

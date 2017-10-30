@@ -29,7 +29,7 @@ namespace Better.User
             Button button = (Button)panel.FindControl("Button1");
 
 
-            var titname = dbm.Titaninfo(Request.QueryString["usersTitan"]);
+            var titname = dbm.Titaninfo(Convert.ToInt32(Request.QueryString["usersTitan"]));
 
 
             button.Text = titname.TitanName + " Titan Page";
@@ -38,11 +38,11 @@ namespace Better.User
 
 
             int hofCount = 0;
-            foreach (AspNetUserTitanFight fight in dbm.GetTitansFightHistory(Request.QueryString["usersTitan"]))
+            foreach (AspNetUserTitanFight fight in dbm.GetTitansFightHistory(Convert.ToInt32(Request.QueryString["usersTitan"])))
             {
                 int result=0;
-                string nonusertitanID;
-                if (fight.AttackerTitanID == Request.QueryString["usersTitan"])
+                int nonusertitanID;
+                if (fight.AttackerTitanID == Convert.ToInt32(Request.QueryString["usersTitan"]))
                 {
                     nonusertitanID = fight.DefenderTitanID;
                     if (fight.Win.ToString()=="True") { result = 1; }

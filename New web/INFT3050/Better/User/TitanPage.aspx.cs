@@ -69,7 +69,7 @@ namespace Better.User
                         // titans totalEp
                         usersTitansArray[0, 10] = titInfo.Exp;
                         //titans ID
-                        usersTitansArray[0, 11] = tit.TitanID;
+                        usersTitansArray[0, 11] = tit.TitanID.ToString();
                     }
                     count++;
                 }
@@ -341,7 +341,7 @@ namespace Better.User
                         // add name
                         defendersTitansArray[titanCount, 1] = titaninfo.TitanName;
                         //titans ID
-                        defendersTitansArray[titanCount, 2] = titaninfo.Id;
+                        defendersTitansArray[titanCount, 2] = titaninfo.Id.ToString();
                         // add total exp
                         defendersTitansArray[titanCount, 3] = titaninfo.Exp;
                         // add lvl
@@ -441,7 +441,7 @@ namespace Better.User
             {
                 if (tit.Retired == false && tit.Deleted == false)
                 {
-                    if (tit.Id == usersTitansArray[0, 11])
+                    if (tit.Id == Convert.ToInt32(usersTitansArray[0, 11]))
                     {
                         tit.Deleted = true;
                     }
@@ -480,7 +480,7 @@ namespace Better.User
                         //DS Sample of how to implement database manager (remove for final website submission...)
                         DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
 
-                        var titan = dbm.Titaninfo(usersTitansArray[0, 11]);
+                        var titan = dbm.Titaninfo(Convert.ToInt32(usersTitansArray[0, 11]));
 
                         Label epBalance = (Label)panel.FindControl("EPBalance");
                         Panel expPanel = (Panel)FindControlRecursive(Page, "HeroExp1");
@@ -501,7 +501,7 @@ namespace Better.User
                             {
                                 if (tit.Retired == false && tit.Deleted == false)
                                 {
-                                    if (tit.Id == usersTitansArray[0, 11])
+                                    if (tit.Id == Convert.ToInt32(usersTitansArray[0, 11]))
                                     {
                                         tit.Retired = true;
                                     }

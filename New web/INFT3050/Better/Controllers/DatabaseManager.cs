@@ -129,7 +129,7 @@ namespace Better.Controllers
         /// </summary>
         /// <param name="titanid">Titan id to search for</param>
         /// <returns>list of fight records</returns>
-        public List<AspNetUserTitanFight> GetTitansFightHistory(string titanid)
+        public List<AspNetUserTitanFight> GetTitansFightHistory(int titanid)
         {
             List<AspNetUserTitanFight> result = new List<AspNetUserTitanFight>();
             
@@ -158,7 +158,7 @@ namespace Better.Controllers
         /// </summary>
         /// <param name="titanid">Id of the Titan to find</param>
         /// <returns>Single Titan record</returns>
-        public AspNetTitan Titaninfo(string titanid)
+        public AspNetTitan Titaninfo(int titanid)
         {
             
             return dc.AspNetTitans.First(t => t.Id == titanid);
@@ -169,7 +169,7 @@ namespace Better.Controllers
         /// </summary>
         /// <param name="titanid">Id of the Titan to find</param>
         /// <returns>Sring of titan username/returns>
-        public string TitanUsersName(string titanid, HttpContext _context)
+        public string TitanUsersName(int titanid, HttpContext _context)
         {
             
             AspNetUserTitan aspUserTitan = dc.AspNetUserTitans.FirstOrDefault(apt => apt.TitanID == titanid);
@@ -234,11 +234,11 @@ namespace Better.Controllers
         /// <param name="win">did the attacker win?</param>
         /// <param name="loss">did the attacker lose?</param>
         /// <param name="draw">did the attacker draw?</param>
-        public void CreateFight(string attacktitanid, string defendtitanid, bool win = false, bool loss = false, bool draw = false)
+        public void CreateFight(int attacktitanid, int defendtitanid, bool win = false, bool loss = false, bool draw = false)
         {
             AspNetUserTitanFight fght = new AspNetUserTitanFight
             {
-                Id = GetMaxFightId(),
+                Id = Convert.ToInt32(GetMaxFightId()),
                 AttackerTitanID = attacktitanid,
                 DefenderTitanID = defendtitanid,
                 Win = win,
@@ -256,11 +256,11 @@ namespace Better.Controllers
         /// gets the max id for the AspNetTitans table
         /// </summary>
         /// <returns>string of the id</returns>
-        public string GetMaxTitanId()
+        public int GetMaxTitanId()
         {
-            string result = "";
+            int result = 0;
             
-            result = Convert.ToString(Convert.ToInt16(BetterDataContext.AspNetTitans.Max(u => u.Id)) + 1);
+            result = BetterDataContext.AspNetTitans.Max(u => u.Id) + 1;
 
             return result;
         }
@@ -269,11 +269,11 @@ namespace Better.Controllers
         ///  gets the max id for the AspNetUserTitans table
         /// </summary>
         /// <returns>string of the id</returns>
-        public string GetMaxUserTitanId()
+        public int GetMaxUserTitanId()
         {
-            string result = "";
+            int result = 0;
 
-            result = Convert.ToString(Convert.ToInt16(BetterDataContext.AspNetUserTitans.Max(u => u.Id)) + 1);
+            result = BetterDataContext.AspNetUserTitans.Max(u => u.Id) + 1;
 
             return result;
         }
@@ -282,11 +282,11 @@ namespace Better.Controllers
         ///  gets the max id for the AspNetUserTitanFights table
         /// </summary>
         /// <returns>string of the id</returns>
-        public string GetMaxFightId()
+        public int GetMaxFightId()
         {
-            string result = "";
+            int result = 0;
 
-            result = Convert.ToString(Convert.ToInt16(BetterDataContext.AspNetUserTitanFights.Max(u => u.Id)) + 1);
+            result = BetterDataContext.AspNetUserTitanFights.Max(u => u.Id) + 1;
 
             return result;
         }
