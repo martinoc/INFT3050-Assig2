@@ -14,7 +14,7 @@ namespace Better.User
 {
     public partial class CharacterCreation : Page
     {
-
+        string picked;
         int[] elementArray = new int[] { 1, 1, 1, 1 };
 
         protected void Page_Load(object sender, EventArgs e)
@@ -77,6 +77,7 @@ namespace Better.User
                 panel.Visible = true;
                 Label label = (Label)panel.FindControl("Label"+ num);
                 label.Text = "Current";
+                picked = num.ToString();
                 Image image = (Image)panel.FindControl("image1");
                 image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, num.ToString());
 
@@ -100,7 +101,7 @@ namespace Better.User
 
             if (!string.IsNullOrEmpty(titanname))
             {
-                dbm.CreateTitan(User.Identity.GetUserId(), "1", titanname);
+                dbm.CreateTitan(User.Identity.GetUserId(), picked, titanname);
             }
 
             Response.Redirect("UserProfile");
@@ -159,6 +160,7 @@ namespace Better.User
                 panel.Visible = true;
                 Label label = (Label)panel.FindControl("Label" + s);
                 label.Text = "Current";
+                picked = s;
                 Image image = (Image)panel.FindControl("image1");
                 image.ImageUrl = CustomGlobal.TitanImage(CustomGlobal.viewtype.Front, s);
             }
