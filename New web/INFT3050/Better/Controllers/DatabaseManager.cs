@@ -259,8 +259,15 @@ namespace Better.Controllers
         public int GetMaxTitanId()
         {
             int result = 0;
-            
-            result = BetterDataContext.AspNetTitans.Max(u => u.Id) + 1;
+            ;
+            if (BetterDataContext.AspNetUserTitanFights.Count() > 0)
+            {
+                result = BetterDataContext.AspNetTitans.Max(u => u.Id) + 1;
+            }
+            else
+            {
+                result = 1;
+            }
 
             return result;
         }
@@ -273,7 +280,14 @@ namespace Better.Controllers
         {
             int result = 0;
 
-            result = BetterDataContext.AspNetUserTitans.Max(u => u.Id) + 1;
+            if (BetterDataContext.AspNetUserTitanFights.Count() > 0)
+            {
+                result = BetterDataContext.AspNetUserTitans.Max(u => u.Id) + 1;
+            }
+            else
+            {
+                result = 1;
+            }
 
             return result;
         }
@@ -286,8 +300,15 @@ namespace Better.Controllers
         {
             int result = 0;
 
-            result = BetterDataContext.AspNetUserTitanFights.Max(u => u.Id) + 1;
-
+            if(BetterDataContext.AspNetUserTitanFights.Count() > 0)
+            {
+                result = BetterDataContext.AspNetUserTitanFights.Max(u => u.Id) + 1;
+            }
+            else
+            {
+                result = 1;
+            }
+            
             return result;
         }
 
