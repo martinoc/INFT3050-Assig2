@@ -17,6 +17,19 @@ namespace Better.User
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var user = manager.FindById(User.Identity.GetUserId());
+            
+            if (user.ExersiseLockoutEnabled)
+            {
+                if (user.ExersiseLastEntered.Value.Date.CompareTo(DateTime.Today.Date) != -1)
+                {
+                    Response.Redirect("UserProfile");
+
+                }
+                else
+                {
+                    user.ExersiseLockoutEnabled = false;
+                }
+            }
 
             Panel panel = (Panel)FindControlRecursive(Page, "UserDetails");
             Label Name = (Label)panel.FindControl("Name");
@@ -48,9 +61,12 @@ namespace Better.User
             //check if all boxs have vaild inputs 
             if (distanceWalked.Text.All(Char.IsDigit) && distanceRan.Text.All(Char.IsDigit) && pushUps.Text.All(Char.IsDigit) && sitUps.Text.All(Char.IsDigit) && ParentPin.Text.All(Char.IsDigit))
             {
-                if (ParentPin.Text.Equals("1234"))
+                if (ParentPin.Text.Equals(user.ParentCode))
                 {
-                    Show();
+                    if (!user.ExersiseLockoutEnabled)
+                    {
+                        Show();
+                    }
                 }
                 else
                 {
@@ -100,19 +116,33 @@ namespace Better.User
 
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var user = manager.FindById(User.Identity.GetUserId());
+            
+            TextBox distanceWalked = (TextBox)panel.FindControl("distanceWalked");
+            TextBox distanceRan = (TextBox)panel.FindControl("distanceRan");
+            TextBox pushUps = (TextBox)panel.FindControl("pushUps");
+            TextBox sitUps = (TextBox)panel.FindControl("sitUps");
 
-            Random rand = new Random();
+            float walk = Convert.ToInt32(distanceWalked.Text);
+            float ran = Convert.ToInt32(distanceRan.Text);
+            float push = Convert.ToInt32(pushUps.Text);
+            float sit = Convert.ToInt32(sitUps.Text);
+            float total = (walk / 25) * 10 + (ran / 25) * 10 + (push / 25) * 10 + (sit / 25) * 10;
 
-            int add = rand.Next(200, 800);
+            int add = Convert.ToInt32(total);
             int oldInt = Convert.ToInt32(user.EPBalance);
             int newInt = oldInt + add;
 
+
+            user.ExersiseLastEntered = DateTime.Today;
+            user.ExersiseLockoutEnabled = true;
             user.EPBalance = newInt;
             manager.Update(user);
 
             EPBalance.Text = user.EPBalance.ToString();
             newEP.Text = add.ToString();
             epAdded.Visible = true;
+
+            Response.Redirect("UserProfile");
         }
 
         /*

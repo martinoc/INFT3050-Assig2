@@ -47,7 +47,7 @@ namespace Better.User
                         var titInfo = dbm.Titaninfo(tit.TitanID);
 
                         // add date
-                        usersTitansArray[0, 0] = "DATE";
+                        usersTitansArray[0, 0] = titInfo.CreatedDate.Value.ToShortDateString();
                         // add lvl
                         usersTitansArray[0, 1] = CustomGlobal.GetLvl(Convert.ToInt32(titInfo.Exp));
                         // add stp

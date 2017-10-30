@@ -22,14 +22,25 @@ namespace Better.User
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var user = manager.FindById(User.Identity.GetUserId());
-
-            var role = Context.GetOwinContext().Get<AspNetRoleManager>();
-            var Roles = role.FindById(User.Identity.GetUserId());
-
+            
             Panel panel = (Panel)FindControlRecursive(Page, "UserDetails");
             Label Name = (Label)panel.FindControl("Name");
             Label UserEmail = (Label)panel.FindControl("UserEmail");
             Label EPBalance = (Label)panel.FindControl("EPBalance");
+            Button exersises = (Button)panel.FindControl("Button1");
+
+
+            if (user.ExersiseLockoutEnabled)
+            {
+                if (user.ExersiseLastEntered.Value.Date.CompareTo(DateTime.Today.Date) != -1)
+                {
+                    exersises.Visible = false;
+                }
+                else
+                {
+                    exersises.Visible = true;
+                }
+            }
 
             //DS Sample of how to implement database manager (remove for final website submission...)
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
@@ -43,7 +54,7 @@ namespace Better.User
                     var titInfo = dbm.Titaninfo(tit.TitanID);
                     
                     // add date
-                    hohArray[hohCount, 0] = "Date";
+                    hohArray[hohCount, 0] = titInfo.CreatedDate.Value.ToShortDateString();
                     // add element
                     hohArray[hohCount, 1] = titInfo.Type.ToString();
                     // add total fights

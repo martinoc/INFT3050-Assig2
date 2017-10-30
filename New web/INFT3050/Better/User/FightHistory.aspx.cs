@@ -61,7 +61,7 @@ namespace Better.User
 
 
                 // add date
-                hofArray[hofCount, 0] = "Date";
+                hofArray[hofCount, 0] = fight.CreatedDate.Value.ToShortDateString();
                 // add element
                 hofArray[hofCount, 1] = titInfo.Type.ToString();
                 // add name
@@ -168,7 +168,7 @@ namespace Better.User
             switch (i)
             {
                 case 1:
-                    return "Created: ";
+                    return "Date: ";
                 case 2:
                     return "Name: ";
                 case 3:

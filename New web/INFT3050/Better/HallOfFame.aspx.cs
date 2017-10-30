@@ -31,7 +31,7 @@ namespace Better
 
 
                 // add date
-                hofArray[hofCount, 0] = "Date";
+                hofArray[hofCount, 0] = titInfo.CreatedDate.Value.ToShortDateString();
                 // add element
                 hofArray[hofCount, 1] = titInfo.Type.ToString();
                 // add total fights

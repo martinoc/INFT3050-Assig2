@@ -114,7 +114,7 @@ namespace Better.User
                     wins = Convert.ToInt32(titInfo.Wins);
                     losses = Convert.ToInt32(titInfo.Losses);
                     fights = wins + losses + Convert.ToInt32(titInfo.Draws);
-                    createdString = "Date";
+                    createdString = titInfo.CreatedDate.Value.ToShortDateString();
                     titanName.Text = titInfo.TitanName;
 
                     Label titanLvl = (Label)panel.FindControl("heroLevel" + i);

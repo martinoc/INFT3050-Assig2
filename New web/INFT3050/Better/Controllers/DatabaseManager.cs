@@ -205,7 +205,8 @@ namespace Better.Controllers
                 Losses = "0",
                 Draws = "0",
                 Retired = false,
-                Type = type
+                Type = type,
+                CreatedDate = DateTime.Today
             };
             
             // Add the new object to the Orders collection.
@@ -243,7 +244,8 @@ namespace Better.Controllers
                 DefenderTitanID = defendtitanid,
                 Win = win,
                 Loss = loss, 
-                Draw = draw
+                Draw = draw,
+                CreatedDate = DateTime.Today
             };
 
             // Add the new object to the Orders collection.
