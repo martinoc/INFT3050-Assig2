@@ -131,7 +131,7 @@ namespace Better.User
             var user = manager.FindById(User.Identity.GetUserId());
 
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
-
+            int count=0;
             foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
             {
                 if (tit.Retired == false && tit.Deleted == false)
@@ -146,12 +146,18 @@ namespace Better.User
                         label.Text = "-Taken-";
                         elementArray[Convert.ToInt32(titInfo.Type) - 1] = 0;
                         panel.Visible = true;
+                        count++;
                     }
 
                 }
             }
 
-            
+            if (count == 4)
+            {
+                Response.Redirect("UserProfile");
+
+            }
+
             //show one
             panel = (Panel)FindControlRecursive(Page, "overLay" + s);
 
