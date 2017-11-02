@@ -16,7 +16,7 @@ namespace Better.User
         int usertitan;
         int defendertitan;
         int result;
-
+        //Checks to see whether user has titans otherwise redirects to user profile
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Request.QueryString["usersTitan"] == null)
@@ -60,6 +60,7 @@ namespace Better.User
 
                     if (i == 1)
                     {
+
                         titanID = usertitan;
                     }
                     else
@@ -70,7 +71,7 @@ namespace Better.User
                     DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
                                        
                     var titInfo = dbm.Titaninfo(titanID);
-
+                    //shows titan information
                     element = Convert.ToInt32(titInfo.Type);
                     name = dbm.TitanUsersName(titanID, Context);
                     wins = Convert.ToInt32(titInfo.Wins);
@@ -141,7 +142,7 @@ namespace Better.User
                 }
             }
         }
-
+        //Starts fight
         protected void fightButton_Command(object sender, CommandEventArgs e)
         {
             Button clickedButton = (Button)sender;
@@ -155,11 +156,12 @@ namespace Better.User
                 }
                 else
                 {
+                    //redirects to titan page
                     backToTitanPage();
                 }
             }
         }
-
+        //Determines who wins the fight
         public void whoWins()
         {
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
@@ -206,7 +208,7 @@ namespace Better.User
                 default:
                     break;
             }
-
+            //Outcome if the user beats the defending Titan
             if (playerOne > playerTwo)
             {
                 dbm.CreateFight(usertitan, defendertitan, true, false, false);
@@ -219,6 +221,7 @@ namespace Better.User
                     utitInfo.Exp = (Convert.ToInt32(utitInfo.Exp) + Convert.ToInt32(utitInfo.Exp) / 4).ToString();
                 }
             }
+            //Outcome if the defending titan beats the user
             else if (playerOne < playerTwo)
             {
                 dbm.CreateFight(usertitan, defendertitan, false, true, false);
@@ -233,6 +236,7 @@ namespace Better.User
             }
             else
             {
+                //Outcome of a draw
                 dbm.CreateFight(usertitan, defendertitan, false, false, true);
                 result = 3;
                 utitInfo.Draws = (Convert.ToInt32(utitInfo.Draws) + 1).ToString();
@@ -244,11 +248,10 @@ namespace Better.User
             //update tables
             dbm.BetterDataContext.SubmitChanges();
         }
-
+        //returns who should get elemental bonus if possible
         protected int ElementalBonus(int playerOneElement, int playerTwoElement)
         {
 
-            //returns who should get elemental bonus if possible
             //1 = air
             //2 = earth
             //3 = fire
@@ -304,7 +307,7 @@ namespace Better.User
 
             return 3;
         }
-
+        //redirects back to the titan page
         public void backToTitanPage()
         {
             int usersTitansCount = 0;

@@ -23,7 +23,7 @@ namespace Better
 
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             
-
+            //Gets retired Titans
             int hofCount = 0;
             foreach (AspNetTitan tit in dbm.GetRetiredHeros())
             {
@@ -49,7 +49,7 @@ namespace Better
             fillHall(hofCount);
         }
 
-        //fill the Hall of Fame
+        //fill the Hall of Fame with Titans
         protected void fillHall(int numOfTitans)
         {
             for (int i = 1; i <= numOfTitans; i++)

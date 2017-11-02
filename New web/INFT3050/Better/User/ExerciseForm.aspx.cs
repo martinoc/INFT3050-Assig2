@@ -17,7 +17,7 @@ namespace Better.User
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var user = manager.FindById(User.Identity.GetUserId());
-            
+            //checks if user is locked out from exercise
             if (user.ExersiseLockoutEnabled)
             {
                 if (user.ExersiseLastEntered.Value.Date.CompareTo(DateTime.Today.Date) != -1)
@@ -30,7 +30,7 @@ namespace Better.User
                     user.ExersiseLockoutEnabled = false;
                 }
             }
-
+            //Shows details of user
             Panel panel = (Panel)FindControlRecursive(Page, "UserDetails");
             Label Name = (Label)panel.FindControl("Name");
             Label EPBalance = (Label)panel.FindControl("EPBalance");
@@ -41,7 +41,7 @@ namespace Better.User
             Panel epAdded = (Panel)FindControlRecursive(Page, "epAdded");
             epAdded.Visible = false;
         }
-
+        //user exercise input is taken 
         protected void Enter_Click(object sender, EventArgs e)
         {
             Panel panel = (Panel)FindControlRecursive(Page, "Panel1");
@@ -61,6 +61,7 @@ namespace Better.User
             //check if all boxs have vaild inputs 
             if (distanceWalked.Text.All(Char.IsDigit) && distanceRan.Text.All(Char.IsDigit) && pushUps.Text.All(Char.IsDigit) && sitUps.Text.All(Char.IsDigit) && ParentPin.Text.All(Char.IsDigit))
             {
+                //checks if parent pin is correct
                 if (ParentPin.Text.Equals(user.ParentCode))
                 {
                     if (!user.ExersiseLockoutEnabled)
@@ -73,6 +74,7 @@ namespace Better.User
                     errmsg = errmsg + "ParentPin is wrong";
                 }
             }
+            //If a field is wrong a message will be returned
             else
             {
 
@@ -103,7 +105,7 @@ namespace Better.User
             error.Visible = true;
             error.Text = errmsg;
         }
-
+        //shows experience points added and the new experience points gained
         protected void Show()
         {
             Panel panel = (Panel)FindControlRecursive(Page, "Panel1");

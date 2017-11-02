@@ -22,6 +22,7 @@ namespace Better.User
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //If user has no Titans
             if (Request.QueryString["usersTitan"] == null)
             {
 
@@ -423,12 +424,12 @@ namespace Better.User
                 Response.Redirect("Fight?usersTitan="+ usersTitansArray[0, 11] + "&defendersTitan="+ defendersTitansArray[Convert.ToInt32(s)-1, 2]);
             }
         }
-
+        //Takes user to a Titans fight gistory
         protected void fsButton_Command(object sender, CommandEventArgs e)
         {
             Response.Redirect("FightHistory?usersTitan=" + usersTitansArray[0, 11]);
         }
-
+        //Deletes a Titan
         protected void delete_Command(object sender, CommandEventArgs e)
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -456,7 +457,7 @@ namespace Better.User
 
         }
 
-
+        //Experience points Balance
         protected void EPButton_Command(object sender, CommandEventArgs e)
         {
             Panel panel = (Panel)FindControlRecursive(Page, "Panel1");
@@ -518,7 +519,7 @@ namespace Better.User
                         titan.Exp = titanExp.ToString();
                         user.EPBalance = bal;
                         epBalance.Text = bal.ToString();
-
+                        //update Titan details
                         string lvl = CustomGlobal.GetLvl(Convert.ToInt32(titan.Exp));
                         string stp = CustomGlobal.GetStp(Convert.ToInt32(lvl), Convert.ToInt32(titan.Exp));
                         string remain = CustomGlobal.GetRemaing(Convert.ToInt32(lvl), Convert.ToInt32(stp), Convert.ToInt32(titan.Exp));

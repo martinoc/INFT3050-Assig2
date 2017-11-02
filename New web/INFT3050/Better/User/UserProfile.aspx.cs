@@ -20,6 +20,7 @@ namespace Better.User
              
         protected void Page_Load(object sender, EventArgs e)
         {
+            //User details
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var user = manager.FindById(User.Identity.GetUserId());
             
@@ -68,6 +69,7 @@ namespace Better.User
                     hohCount++;
                 }
             }
+            //User Titan details
             int usersTitansCount = 0;
             foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
             {
@@ -131,7 +133,7 @@ namespace Better.User
                 }
             }
 
-            //show
+            //show Titans
             for (int i = 1; i <= numOfTitans; i++)
             {
                 Panel panel = (Panel)FindControlRecursive(Page, "hero" + i);
@@ -251,24 +253,25 @@ namespace Better.User
         }
 
         
-
+        //Redirects to the exercise form for the user
         protected void Button_Command(object sender, CommandEventArgs e)
         {
             Response.Redirect("ExerciseForm");
         }
-
+        //Take user to either Titan or create new Titan
         protected void ImageButton_Command(object sender, EventArgs e)
         {
             String s = ((ImageButton)sender).ID;
             string str = "ImageButton";
             string add = "AddButton";
-
+            //Takes user to owned Titan
             if (s.Contains(str))
             {
                 s = s.Remove(0, str.Length);
-
+                
                 Response.Redirect("TitanPage?usersTitan="+s);
             }
+            //takes user to create a Titan
             else
             {
                 s = s.Remove(0, add.Length);

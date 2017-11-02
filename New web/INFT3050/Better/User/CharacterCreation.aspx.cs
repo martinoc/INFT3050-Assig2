@@ -56,6 +56,7 @@ namespace Better.User
                         elementArray[Convert.ToInt32(titInfo.Type)-1] = 0;
                         panel.Visible = true;
                         count++;
+                        //if user has more than 4 Titans they will be redirected back to user profile
                         if (count == 4)
                         {
                             Response.Redirect("UserProfile");
@@ -78,7 +79,7 @@ namespace Better.User
                 }
             }
 
-            //show one
+            //show one Titan
             panel = (Panel)FindControlRecursive(Page, "overLay" + num);
             if (panel != null)
             {
@@ -139,7 +140,7 @@ namespace Better.User
             var user = manager.FindById(User.Identity.GetUserId());
 
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
-            
+            //checks to see if Titan is retired or deleted to make room for new titan
             foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
             {
                 if (tit.Retired == false && tit.Deleted == false)
@@ -162,7 +163,7 @@ namespace Better.User
 
             
 
-            //show one
+            //show a titan that has been picked
             panel = (Panel)FindControlRecursive(Page, "overLay" + s);
 
             if (panel != null)

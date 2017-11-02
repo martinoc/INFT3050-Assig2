@@ -23,7 +23,7 @@ namespace Better.User
         {
 
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection"); 
-
+            //Checks to see if user has Titans. If not, user is taken back to profile
             if (Request.QueryString["usersTitan"] == null)
             {
                 Response.Redirect("UserProfile");
@@ -34,12 +34,12 @@ namespace Better.User
                 var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var user = manager.FindById(User.Identity.GetUserId());
 
-
+                //checks Titans details whether they are retired or not after outcome
                 foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
                 {
                     if (tit.Retired == false && tit.Deleted == false)
                     {
-
+                        //Redirects to active Titan page
                         usersTitansCount++;
                         if (tit.Id == Convert.ToInt32(Request.QueryString["usersTitan"]))
                         {
@@ -49,10 +49,11 @@ namespace Better.User
                 }
             }else if(Request.QueryString["result"] == null)
             {
+                //Takes to fight Titan
                 Response.Redirect("Fight?usersTitan=" + usertitan + "&defendersTitan=" + defendertitan);
 
             }
-
+            //declares Titans
             usertitan = Convert.ToInt32(Request.QueryString["usersTitan"]);
             defendertitan = Convert.ToInt32(Request.QueryString["defendersTitan"]);
             result = Convert.ToInt32(Request.QueryString["result"]);
@@ -108,7 +109,7 @@ namespace Better.User
                     DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
 
                     var titInfo = dbm.Titaninfo(titanID);
-
+                    //Shows Titan details and adds post fight experience
                     element = Convert.ToInt32(titInfo.Type);
                     name = dbm.TitanUsersName(titanID, Context);
                     wins = Convert.ToInt32(titInfo.Wins);
@@ -180,7 +181,7 @@ namespace Better.User
             }
         }
 
-
+        //Checks tio see which Titan will win
         protected void whoWins()
         {
             Panel panel = (Panel)FindControlRecursive(Page, "vs");
@@ -199,18 +200,21 @@ namespace Better.User
                 {
                     if (result == 1)
                     {
+                        //User Titan wins
                         winName.Text = utitInfo.TitanName;
                         winnerDir.Text = "<<<<<<<<";
                         outcome.Text = "Wins";
                     }
                     else if (result == 2)
                     {
+                        //defender Titan wins
                         winName.Text = dtitInfo.TitanName;
                         winnerDir.Text = ">>>>>>>>";
                         outcome.Text = "Wins";
                     }
                     else
                     {
+                        //Draw
                         winName.Text = "       ";
                         winnerDir.Text = "       ";
                         outcome.Text = "Draw";
@@ -218,7 +222,7 @@ namespace Better.User
                 }
             }
         }
-
+        //Returns to Titan page
         protected void leaveButton_Command(object sender, CommandEventArgs e)
         {
             int usersTitansCount = 0;

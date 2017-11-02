@@ -18,6 +18,7 @@ namespace Better.User
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Checks to see if user has Titans otherwise redirects to user profile
             if (Request.QueryString["usersTitan"] == null)
             {
 
@@ -31,12 +32,12 @@ namespace Better.User
 
             var titname = dbm.Titaninfo(Convert.ToInt32(Request.QueryString["usersTitan"]));
 
-
+            //Name of Titan 
             button.Text = titname.TitanName + " Titan Page";
 
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-
+            //Shows the record of a Titan as both defender and attacker
             int hofCount = 0;
             foreach (AspNetUserTitanFight fight in dbm.GetTitansFightHistory(Convert.ToInt32(Request.QueryString["usersTitan"])))
             {
@@ -44,6 +45,7 @@ namespace Better.User
                 int nonusertitanID;
                 if (fight.AttackerTitanID == Convert.ToInt32(Request.QueryString["usersTitan"]))
                 {
+                    //Shows record of the titan defending
                     nonusertitanID = fight.DefenderTitanID;
                     if (fight.Win.ToString()=="True") { result = 1; }
                     else if (fight.Loss.ToString() == "True") { result = 2; }
@@ -52,6 +54,7 @@ namespace Better.User
                 }
                 else
                 {
+                    //Shows record of the titan attacking
                     nonusertitanID = fight.AttackerTitanID;
                     if (fight.Win.ToString() == "True") { result = 2; }
                     else if (fight.Loss.ToString() == "True") { result = 1; }
@@ -177,7 +180,7 @@ namespace Better.User
                     return "";
             }
         }
-
+        //redirects to Titan Page
         protected void fsButton_Command(object sender, CommandEventArgs e)
         {
             Response.Redirect("TitanPage");

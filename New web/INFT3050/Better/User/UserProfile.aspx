@@ -9,8 +9,11 @@
 
         <div style="float: left; ">
             <asp:Panel ID="UserDetails" class="select-character" runat="server">
+                <%--User name--%>
                 <h3><asp:Label runat="server" ID="Name" /></h3>
+                <%--User email--%>
                 <h4><asp:Label runat="server" ID="UserEmail" /></h4>
+                <%--Current exercise points--%>
                 <h5>Exercise Points Balance:  <strong><asp:Label runat="server" ID="EPBalance" Text="1400EP"  /></strong></h5>
                 <asp:Button runat="server" ID="Button1" Text="Enter Exercises" OnCommand="Button_Command" />
             </asp:Panel>
@@ -26,11 +29,12 @@
     <div style="width: 100%;">
 
         <div>
+            <%--Current Titans the user has--%>
             <h3>Your Current Titans </h3>
 
         </div>
         <div>
-
+            <%--User Titan--%>
             <asp:Panel ID="hero1" class="select-character" runat="server">
 
                 <asp:ImageButton CssClass="profile-image" ID="ImageButton1" runat="server" ImageUrl="~/Images/Air_Elemental_titans_front.png" OnCommand="ImageButton_Command" Height="200px" />
@@ -51,7 +55,7 @@
                     </div>
                 </div>
             </asp:Panel>
-
+            <%--User Titan--%>
             <asp:Panel ID="hero2" class="select-character" runat="server">
 
                 <asp:ImageButton CssClass="profile-image" ID="ImageButton2" runat="server" ImageUrl="~/Images/Air_Elemental_titans_front.png" OnCommand="ImageButton_Command" Height="200px" />
@@ -72,6 +76,7 @@
                     </div>
 
             </asp:Panel>
+            <%--User Titan--%>
             <asp:Panel ID="hero3" class="select-character" runat="server">
 
                 <asp:ImageButton CssClass="profile-image" ID="ImageButton3" runat="server" ImageUrl="~/Images/Air_Elemental_titans_front.png" OnCommand="ImageButton_Command" Height="200px" />
@@ -92,7 +97,7 @@
                     </div>
 
             </asp:Panel>
-
+            <%--User Titan--%>
             <asp:Panel ID="hero4" class="select-character" runat="server">
 
                 <asp:ImageButton CssClass="profile-image" ID="ImageButton4" runat="server" ImageUrl="~/Images/Air_Elemental_titans_front.png" OnCommand="ImageButton_Command" Height="200px" />
@@ -113,7 +118,7 @@
                     </div>
 
             </asp:Panel>
-            
+            <%--Add User Titan--%>
             <asp:Panel ID="addHero1" class="select-character" runat="server">
 
                 <asp:ImageButton CssClass="profile-image" ID="AddButton10" runat="server" ImageUrl="~/Images/Add_Elemental_titans_front.png" OnCommand="ImageButton_Command" Height="200px" />
@@ -138,6 +143,7 @@
     <div style="width: 100%;">
 
         <div>
+            <%--User Titans in hall of heroes--%>
             <h3>Your Titans in your Hall Of Heros </h3>
 
         </div>
