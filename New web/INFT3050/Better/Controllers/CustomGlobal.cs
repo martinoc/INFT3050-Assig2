@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.NetworkInformation;
 using System.Web;
 
 namespace Better.Controllers
 {
     public static class CustomGlobal
     {
+        public static object Response { get; private set; }
         #region constants
 
         public enum viewtype
@@ -413,6 +417,55 @@ namespace Better.Controllers
                     break;
             }
             return name;
+        }
+
+        //Source: http://asp.net-tutorials.com/misc/sending-mails/
+        /// <summary>
+        /// Creates a Email and if the SmptClient is set sends it.
+        /// </summary>
+        /// <param name="EmailTo"></param>
+        /// <param name="EmailFrom"></param>
+        /// <param name="Subject"></param>
+        /// <param name="Body"></param>
+        /// <returns> String to display </returns>
+        public static String email(string EmailTo, string EmailFrom, string Subject, string Body)
+        {
+            try
+            {
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.To.Add(EmailTo);
+                mailMessage.From = new MailAddress(EmailFrom);
+                mailMessage.Subject = Subject;
+                mailMessage.Body = Body;
+
+
+                string SmptClient = "smtp.newcastle.edu.au";
+
+                //If you are not recieving Emails Please change the following string to your ISP supplier e.g "smtp.telstra.com" or "smtp.newcastle.edu.au"
+                NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
+                foreach (NetworkInterface adapter in adapters)
+                {
+                    IPInterfaceProperties properties = adapter.GetIPProperties();
+                    if (!string.IsNullOrEmpty(properties.DnsSuffix))
+                    {
+                        SmptClient = "smtp." + properties.DnsSuffix;
+                        break;
+                    }
+                }
+
+                if (SmptClient == null)
+                {
+                    return "SmptClient not set, Contact Techsuport@better.com";
+                }
+
+                SmtpClient smtpClient = new SmtpClient(SmptClient);
+                smtpClient.Send(mailMessage);
+                return "E-mail sent! Please check your email.";
+            }
+            catch (Exception ex)
+            {
+                return "Could not send the e-mail - Contact Techsuport@better.com and quote error: " + ex.Message;
+            }
         }
 
         #endregion 

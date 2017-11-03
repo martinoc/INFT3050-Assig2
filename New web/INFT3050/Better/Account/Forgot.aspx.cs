@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Owin;
 using Better.Models;
+using Better.Controllers;
 
 namespace Better.Account
 {
@@ -33,9 +34,11 @@ namespace Better.Account
                 }
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send email with the code and the redirect to reset password page
-                //string code = manager.GeneratePasswordResetToken(user.Id);
-                //string callbackUrl = IdentityHelper.GetResetPasswordRedirectUrl(code, Request);
-                //manager.SendEmail(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>.");
+                string code = manager.GeneratePasswordResetToken(user.Id);
+                string callbackUrl = IdentityHelper.GetResetPasswordRedirectUrl(code, Request);
+
+                string emailOutcome = CustomGlobal.email(user.Email, "NoReply@Better.com", "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                
                 loginForm.Visible = false;
                 DisplayEmail.Visible = true;
             }
