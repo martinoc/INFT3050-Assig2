@@ -374,49 +374,101 @@ namespace Better.Controllers
         /// name population method for autofilling
         /// </summary>
         /// <param name="nameNum"> an id to select from the names in the method list</param>
-        /// <returns>name to use</returns>
-        public static String setName(int nameNum)
+        /// <returns>names to use</returns>
+        public static string[] setName(int id)
         {
-            string name = "";
+            //string name = "";
+            //string otherName = "";
+            string[] strary = { "", "" };
 
-            switch (nameNum)
+            switch (id % 12)
             {
 
                 case 1:
-                    name = "dude";
+                    strary[0] = "dude";
                     break;
                 case 2:
-                    name = "titan";
+                    strary[0] = "titan";
                     break;
                 case 3:
-                    name = "killer";
+                    strary[0] = "killer";
                     break;
                 case 4:
-                    name = "trump";
+                    strary[0] = "trump";
                     break;
                 case 5:
-                    name = "hillary";
+                    strary[0] = "hillary";
                     break;
                 case 6:
-                    name = "gary";
+                    strary[0] = "gary";
                     break;
                 case 7:
-                    name = "steve";
+                    strary[0] = "steve";
                     break;
                 case 8:
-                    name = "forest";
+                    strary[0] = "forest";
                     break;
                 case 9:
-                    name = "lumpy";
+                    strary[0] = "lumpy";
                     break;
                 case 10:
-                    name = "bumpy";
+                    strary[0] = "bumpy";
+                    break;
+                case 11:
+                    strary[0] = "kurb";
+                    break;
+                case 12:
+                    strary[0] = "ferb";
                     break;
                 default:
-                    name = "";
+                    strary[0] = "lewis";
                     break;
             }
-            return name;
+            switch (id % 12)
+            {
+
+                case 1:
+                    strary[1] = "Susan";
+                    break;
+                case 2:
+                    strary[1] = "Corey Haris";
+                    break;
+                case 3:
+                    strary[1] = "Bobby";
+                    break;
+                case 4:
+                    strary[1] = "Lewie";
+                    break;
+                case 5:
+                    strary[1] = "Keven";
+                    break;
+                case 6:
+                    strary[1] = "Kelvin";
+                    break;
+                case 7:
+                    strary[1] = "sarah";
+                    break;
+                case 8:
+                    strary[1] = "john";
+                    break;
+                case 9:
+                    strary[1] = "joe";
+                    break;
+                case 10:
+                    strary[1] = "Shiba";
+                    break;
+                case 11:
+                    strary[1] = "Goku";
+                    break;
+                case 12:
+                    strary[1] = "Vageta";
+                    break;
+                default:
+                    strary[1] = "Cell";
+                    break;
+            }
+
+            return strary;
         }
 
         //Source: http://asp.net-tutorials.com/misc/sending-mails/
