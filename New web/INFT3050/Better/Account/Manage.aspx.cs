@@ -48,7 +48,11 @@ namespace Better.Account
 
             box.Checked = user.Showname;
 
-
+            if (!user.EmailConfirmed)
+            {
+                Panel confirm = (Panel)FindControlRecursive(Page, "Panel2");
+                confirm.Visible = true;
+            }
 
 
             HasPhoneNumber = String.IsNullOrEmpty(manager.GetPhoneNumber(User.Identity.GetUserId()));
