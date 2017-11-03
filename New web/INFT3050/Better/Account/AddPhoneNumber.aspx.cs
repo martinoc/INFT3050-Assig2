@@ -13,6 +13,11 @@ namespace Better.Account
 {
     public partial class AddPhoneNumber : System.Web.UI.Page
     {
+        /// <summary>
+        /// Adds phone number to user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void PhoneNumber_Click(object sender, EventArgs e)
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();

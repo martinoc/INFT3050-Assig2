@@ -16,12 +16,15 @@ namespace Better.Account
             get;
             private set;
         }
-
+        /// <summary>
+        /// checks password
+        /// </summary>
+        /// <param name="manager"> User</param>
+        /// <returns></returns>
         private bool HasPassword(ApplicationUserManager manager)
         {
             return manager.HasPassword(User.Identity.GetUserId());
         }
-
         protected void Page_Load(object sender, EventArgs e)
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -48,7 +51,11 @@ namespace Better.Account
                 }
             }
         }
-
+        /// <summary>
+        /// Allows change of passwords
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void ChangePassword_Click(object sender, EventArgs e)
         {
             if (IsValid)
@@ -68,7 +75,11 @@ namespace Better.Account
                 }
             }
         }
-
+        /// <summary>
+        /// sets the new password
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void SetPassword_Click(object sender, EventArgs e)
         {
             if (IsValid)
@@ -86,7 +97,10 @@ namespace Better.Account
                 }
             }
         }
-
+        /// <summary>
+        /// error in password
+        /// </summary>
+        /// <param name="result">Resulting errors</param>
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)

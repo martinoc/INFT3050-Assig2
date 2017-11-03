@@ -16,7 +16,11 @@ namespace Better.User
     {
         string picked;
         int[] elementArray = new int[] { 1, 1, 1, 1 };
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Argumenst of the event</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             Random rand = new Random();
@@ -92,7 +96,11 @@ namespace Better.User
 
             }
         }
-
+        /// <summary>
+        /// Chooses the selected Titan
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">arguments of the event</param>
         protected void Enter_Click(object sender, EventArgs e)
         {
             Panel panel;
@@ -117,7 +125,11 @@ namespace Better.User
         }
 
 
-
+        /// <summary>
+        /// submits the Titan with name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">arguments of the events</param>
         protected void ImageButton_Command(object sender, EventArgs e)
         {
             Panel panel;
@@ -138,7 +150,7 @@ namespace Better.User
 
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var user = manager.FindById(User.Identity.GetUserId());
-
+            
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
             //checks to see if Titan is retired or deleted to make room for new titan
             foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))

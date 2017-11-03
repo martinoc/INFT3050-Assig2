@@ -11,6 +11,9 @@ namespace Better.Account
 {
     public partial class ManageLogins : System.Web.UI.Page
     {
+        /// <summary>
+        /// successful login
+        /// </summary>
         protected string SuccessMessage
         {
             get;
@@ -21,7 +24,11 @@ namespace Better.Account
             get;
             private set;
         }
-
+        /// <summary>
+        /// password accepted
+        /// </summary>
+        /// <param name="manager"> User </param>
+        /// <returns></returns>
         private bool HasPassword(ApplicationUserManager manager)
         {
             return manager.HasPassword(User.Identity.GetUserId());
@@ -35,7 +42,10 @@ namespace Better.Account
             SuccessMessage = String.Empty;
             successMessage.Visible = !String.IsNullOrEmpty(SuccessMessage);
         }
-
+        /// <summary>
+        /// gets all user logins
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<UserLoginInfo> GetLogins()
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -43,7 +53,11 @@ namespace Better.Account
             CanRemoveExternalLogins = accounts.Count() > 1 || HasPassword(manager);
             return accounts;
         }
-
+        /// <summary>
+        /// remove a login
+        /// </summary>
+        /// <param name="loginProvider">External login</param>
+        /// <param name="providerKey">External login key</param>
         public void RemoveLogin(string loginProvider, string providerKey)
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();

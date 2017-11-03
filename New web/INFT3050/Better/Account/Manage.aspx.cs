@@ -16,12 +16,19 @@ namespace Better.Account
 {
     public partial class Manage : System.Web.UI.Page
     {
+        /// <summary>
+        /// Successfully logged in
+        /// </summary>
         protected string SuccessMessage
         {
             get;
             private set;
         }
-
+        /// <summary>
+        /// password accepted
+        /// </summary>
+        /// <param name="manager"> User </param>
+        /// <returns></returns>
         private bool HasPassword(ApplicationUserManager manager)
         {
             return manager.HasPassword(User.Identity.GetUserId());

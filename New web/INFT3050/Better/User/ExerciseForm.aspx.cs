@@ -12,7 +12,9 @@ namespace Better.User
 {
     public partial class ExerciseForm : Page
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
         protected void Page_Load()
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -41,7 +43,11 @@ namespace Better.User
             Panel epAdded = (Panel)FindControlRecursive(Page, "epAdded");
             epAdded.Visible = false;
         }
-        //user exercise input is taken 
+        /// <summary>
+        /// user exercise input is taken 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">arguments of the event</param>
         protected void Enter_Click(object sender, EventArgs e)
         {
             Panel panel = (Panel)FindControlRecursive(Page, "Panel1");
@@ -105,7 +111,9 @@ namespace Better.User
             error.Visible = true;
             error.Text = errmsg;
         }
-        //shows experience points added and the new experience points gained
+        /// <summary>
+        /// shows experience points added and the new experience points gained
+        /// </summary>
         protected void Show()
         {
             Panel panel = (Panel)FindControlRecursive(Page, "Panel1");

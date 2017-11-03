@@ -18,7 +18,11 @@ namespace Better.User
         int usertitan;
         int defendertitan;
         int result;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Arguments of the event</param>
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -75,7 +79,10 @@ namespace Better.User
             fillHall(2);
         }
 
-        //set two players up
+        /// <summary>
+        /// Outcome of the fight between two players
+        /// </summary>
+        /// <param name="numOfTitans">Number of available titans</param>
         protected void fillHall(int numOfTitans)
         {
             for (int i = 1; i < 3; i++)
@@ -181,7 +188,9 @@ namespace Better.User
             }
         }
 
-        //Checks tio see which Titan will win
+        /// <summary>
+        /// Checks to see which Titan will win
+        /// </summary>
         protected void whoWins()
         {
             Panel panel = (Panel)FindControlRecursive(Page, "vs");
@@ -222,7 +231,11 @@ namespace Better.User
                 }
             }
         }
-        //Returns to Titan page
+        /// <summary>
+        /// Returns to Titan page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Arguments of the event</param>
         protected void leaveButton_Command(object sender, CommandEventArgs e)
         {
             int usersTitansCount = 0;

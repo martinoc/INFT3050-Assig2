@@ -103,7 +103,10 @@ namespace Better.User
             fillHall(hohCount);
         }
 
-        //Setup The personal Titans
+        /// <summary>
+        /// Setup The personal Titans
+        /// </summary>
+        /// <param name="numOfTitans">Number of titans the user has</param>
         protected void fillTitans(int numOfTitans)
         {
             //show add panel if less the 4 personal titans
@@ -181,7 +184,10 @@ namespace Better.User
         }
 
 
-        //Setup The personal Hall of Heros
+        /// <summary>
+        /// Setup The personal Hall of Heros
+        /// </summary>
+        /// <param name="numOfTitans">Number of titans the user has</param>
         protected void fillHall(int numOfTitans)
         {
             for (int i = 1; i <= numOfTitans; i++)
@@ -252,8 +258,12 @@ namespace Better.User
             }
         }
 
-        
-        //Redirects to the exercise form for the user
+
+        /// <summary>
+        /// Redirects to the exercise form for the user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Button_Command(object sender, CommandEventArgs e)
         {
             Response.Redirect("ExerciseForm");

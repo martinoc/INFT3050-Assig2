@@ -13,12 +13,16 @@ namespace Better.Account
         protected void Page_Load(object sender, EventArgs e)
         {
         }
-
+        /// <summary>
+        /// Validate the user's email address
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Forgot(object sender, EventArgs e)
         {
             if (IsValid)
             {
-                // Validate the user's email address
+                
                 var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 ApplicationUser user = manager.FindByName(Email.Text);
                 if (user == null || !manager.IsEmailConfirmed(user.Id))

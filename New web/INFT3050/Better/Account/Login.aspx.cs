@@ -22,7 +22,11 @@ namespace Better.Account
                 RegisterHyperLink.NavigateUrl += "?ReturnUrl=" + returnUrl;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void LogIn(object sender, EventArgs e)
         {
             if (IsValid)

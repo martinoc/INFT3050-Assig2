@@ -7,6 +7,9 @@ using System.Web.UI.WebControls;
 
 namespace Better.Account
 {
+    /// <summary>
+    /// Locks out User
+    /// </summary>
     public partial class Lockout : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

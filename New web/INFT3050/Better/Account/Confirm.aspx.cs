@@ -15,7 +15,11 @@ namespace Better.Account
             get;
             private set;
         }
-
+        /// <summary>
+        /// Loads confirmation page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             string code = IdentityHelper.GetCodeFromRequest(Request);

@@ -168,7 +168,9 @@ namespace Better.User
             }
         }
 
-        //setup of chalangers
+        /// <summary>
+        /// setup of chalangers
+        /// </summary>
         protected void fillTitans()
         {
 
@@ -410,7 +412,11 @@ namespace Better.User
         }
 
 
-
+        /// <summary>
+        /// The titan that is chosen to fight
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Arguments of the event</param>
         protected void ImageButton_Command(object sender, EventArgs e)
         {
             //get image number
@@ -424,12 +430,20 @@ namespace Better.User
                 Response.Redirect("Fight?usersTitan="+ usersTitansArray[0, 11] + "&defendersTitan="+ defendersTitansArray[Convert.ToInt32(s)-1, 2]);
             }
         }
-        //Takes user to a Titans fight gistory
+        /// <summary>
+        /// Takes user to a Titans fight history
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void fsButton_Command(object sender, CommandEventArgs e)
         {
             Response.Redirect("FightHistory?usersTitan=" + usersTitansArray[0, 11]);
         }
-        //Deletes a Titan
+        /// <summary>
+        /// Deletes a Titan
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void delete_Command(object sender, CommandEventArgs e)
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -457,7 +471,11 @@ namespace Better.User
 
         }
 
-        //Experience points Balance
+        /// <summary>
+        /// Experience points Balance
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void EPButton_Command(object sender, CommandEventArgs e)
         {
             Panel panel = (Panel)FindControlRecursive(Page, "Panel1");

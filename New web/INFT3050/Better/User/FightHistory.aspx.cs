@@ -15,7 +15,11 @@ namespace Better.User
     {
         Random rand = new Random();
         static string[,] hofArray = new string[30, 5];
-
+        /// <summary>
+        /// Loads fight history
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Arguments of the event</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             //Checks to see if user has Titans otherwise redirects to user profile
@@ -81,7 +85,10 @@ namespace Better.User
             fillHall(hofCount);
         }
 
-        //setup last matches
+        /// <summary>
+        /// setup last matches
+        /// </summary>
+        /// <param name="numOfTitans">Numkber of titans a user has</param>
         protected void fillHall(int numOfTitans)
         {
             for (int i = 1; i <= numOfTitans; i++)
@@ -165,7 +172,11 @@ namespace Better.User
             }
         }
         
-
+        /// <summary>
+        /// Fills cells
+        /// </summary>
+        /// <param name="i">Titans</param>
+        /// <returns></returns>
         private String CellFill(int i)
         {
             switch (i)

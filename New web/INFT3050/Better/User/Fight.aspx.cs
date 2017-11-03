@@ -16,7 +16,11 @@ namespace Better.User
         int usertitan;
         int defendertitan;
         int result;
-        //Checks to see whether user has titans otherwise redirects to user profile
+        /// <summary>
+        /// Checks to see whether user has titans otherwise redirects to user profile
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"> Arguments of the event</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Request.QueryString["usersTitan"] == null)
@@ -36,7 +40,10 @@ namespace Better.User
             fillHall(2);
         }
 
-        //set two players up
+        /// <summary>
+        /// Set two players up
+        /// </summary>
+        /// <param name="numOfTitans"></param>
         protected void fillHall(int numOfTitans)
         {
             for (int i = 1; i < 3; i++)
@@ -142,7 +149,11 @@ namespace Better.User
                 }
             }
         }
-        //Starts fight
+        /// <summary>
+        /// Starts fight
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Arguments of the event</param>
         protected void fightButton_Command(object sender, CommandEventArgs e)
         {
             Button clickedButton = (Button)sender;
@@ -161,7 +172,9 @@ namespace Better.User
                 }
             }
         }
-        //Determines who wins the fight
+        /// <summary>
+        /// Determines who wins the fight
+        /// </summary>
         public void whoWins()
         {
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
@@ -248,7 +261,12 @@ namespace Better.User
             //update tables
             dbm.BetterDataContext.SubmitChanges();
         }
-        //returns who should get elemental bonus if possible
+        /// <summary>
+        /// returns who should get elemental bonus if possible
+        /// </summary>
+        /// <param name="playerOneElement">The users Titan element</param>
+        /// <param name="playerTwoElement">The defenders Titan element</param>
+        /// <returns></returns>
         protected int ElementalBonus(int playerOneElement, int playerTwoElement)
         {
 
@@ -307,7 +325,9 @@ namespace Better.User
 
             return 3;
         }
-        //redirects back to the titan page
+        /// <summary>
+        /// redirects back to the titan page
+        /// </summary>
         public void backToTitanPage()
         {
             int usersTitansCount = 0;
@@ -316,6 +336,7 @@ namespace Better.User
             DatabaseManager dbm = new DatabaseManager("Web", "DefaultConnection");
             foreach (AspNetUserTitan tit in dbm.GetUserTitans(user.Id))
             {
+
                 if (tit.Retired == false && tit.Deleted == false)
                 {
 
@@ -336,6 +357,7 @@ namespace Better.User
          */
         private Control FindControlRecursive(Control rootControl, string controlID)
         {
+            
             if (rootControl.ID == controlID) return rootControl;
 
             foreach (Control controlToSearch in rootControl.Controls)

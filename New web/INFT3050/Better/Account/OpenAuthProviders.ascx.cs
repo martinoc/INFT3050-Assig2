@@ -10,6 +10,7 @@ namespace Better.Account
 {
     public partial class OpenAuthProviders : System.Web.UI.UserControl
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack)
